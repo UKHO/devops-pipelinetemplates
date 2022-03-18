@@ -4,18 +4,15 @@ parameters:
   - name: outputDirectory
     type: string
     default: $(System.DefaultWorkingDirectory)
-  - name: outputName
-    type: string
-    default: Checkov-Report.xml
 steps:
   - checkout: self
   - bash: docker pull bridgecrew/checkov
     displayName: Pull Checkov Container
-  - bash: docker run --volume ${{ parameters.scanDirectory }}:/workingDir --workdir /workingDir bridgecrew/checkov --directory /workingDir --soft-fail --output junitxml > ${{ parameters.outputDirectory }}/${{ parameters.outputName }}
+  - bash: docker run --volume ${{ parameters.scanDirectory }}:/workingDir --workdir /workingDir bridgecrew/checkov --directory /workingDir --output junitxml --output cli --output-file-path ${{ parameters.outputDirectory }}
     displayName: Check Terraform
   - task: PublishTestResults@2
     condition: always()
     inputs:
-      testResultsFiles: '${{ parameters.outputDirectory }}/${{ parameters.outputName }}'
+      testResultsFiles: '${{ parameters.outputDirectory }}/results_junitxml.xml'
       failTaskOnFailedTests: true
       publishRunAttachments: true
