@@ -1,3 +1,5 @@
+Reference the repository in your yaml pipeline
+
 resources:
   repositories: 
     - repository: UKHOTemplates
@@ -5,7 +7,10 @@ resources:
       endpoint: GitHub_Service_Connection_Name
       name: UKHO/devops-pipelinestemplates
 
-steps: 
+Steps to add your job      
+
+- job: tfsec
+  steps: 
     - template: tfsec/tfsec-pipelines.yml@UKHOTemplates
       parameters: 
         WorkingDirectory: "$(System.DefaultWorkingDirectory)/Terraform_Folder"
