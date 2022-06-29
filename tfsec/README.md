@@ -25,6 +25,15 @@ Steps to add your job
         WorkingDirectory: "$(System.DefaultWorkingDirectory)/Terraform_Folder"
 ```
 
+## Parameters
+
+|-------------------|------------------------------------------------------------------------------------------|-----------|
+| Name              | Description                                                                              | Required? |
+|-------------------|------------------------------------------------------------------------------------------|-----------|
+| `excluded`        | Checks that have been excluded                                                           | true      |
+|-------------------|------------------------------------------------------------------------------------------|-----------|
+
+
  ## Results
 
  TFSEC will output the published results into the build pipeline under Test and Coverage, from there you can see a detailed summary of failures and passes. 
