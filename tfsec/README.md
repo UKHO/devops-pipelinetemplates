@@ -25,6 +25,7 @@ Steps to add your job
         WorkingDirectory: "$(System.DefaultWorkingDirectory)/Terraform_Folder"
 ```
 
+
 ## Parameters
 
 
@@ -34,10 +35,10 @@ Steps to add your job
 | `WorkingDirectory`   | Override with desired path - $(System.DefaultWorkingDirectory)                                 | False     |
 
 
-## Disable checks
+## Exclude checks
 
 There may be occasions when you wish to exclude certain checks but its not required. To do this allow parameters for exclusions. 
-NSG: (azure-network-no-public-ingress,azure-network-no-public-egress) to exclude these options use a comma separated list. 
+NSG: [azure-network-no-public-ingress,azure-network-no-public-egress] to exclude these options use a comma separated list. 
 WorkingDirectory: Sets directory to scan, to use this parameter with your own desired path.
 
 
