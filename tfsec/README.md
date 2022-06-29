@@ -35,10 +35,10 @@ Steps to add your job
 | `WorkingDirectory`   | Override with desired path - $(System.DefaultWorkingDirectory)                                 | False     |
 
 
-## Exclude checks
+## Exclude checks [azure-network-no-public-ingress,azure-network-no-public-egress]
 
 There may be occasions when you wish to exclude certain checks but its not required. To do this allow parameters for exclusions. 
-NSG: [azure-network-no-public-ingress,azure-network-no-public-egress] to exclude these options use a comma separated list. 
+To exclude these options use a comma separated list. 
 WorkingDirectory: Sets directory to scan, to use this parameter with your own desired path.
 
 
