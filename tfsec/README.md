@@ -28,15 +28,23 @@ Steps to add your job
 ## Parameters
 
 
-| Name              | Description                                                                              | Required? |
-|-------------------|------------------------------------------------------------------------------------------|-----------|
-| `excluded`        | Checks that have been excluded                                                           | true      |
+| Name                 | Description                                                                                    | Required? |
+|----------------------|------------------------------------------------------------------------------------------------|-----------|
+| `excluded`           | Checks that have been excluded                                                                 | False     |
+| `WorkingDirectory`   | Override with desired path - $(System.DefaultWorkingDirectory)                                 | False     |
 
 
- ## Results
+## Disable checks
 
- TFSEC will output the published results into the build pipeline under Test and Coverage, from there you can see a detailed summary of failures and passes. 
- Use the filter to switch between the two. In addition the results are displayed inside the docker console.
+There may be occasions when you wish to exclude certain checks but its not required. To do this allow parameters for exclusions. 
+NSG: (azure-network-no-public-ingress,azure-network-no-public-egress) to exclude these options use a comma separated list. 
+WorkingDirectory: Sets directory to scan, to use this parameter with your own desired path.
+
+
+## Results
+
+TFSEC will output the published results into the build pipeline under Test and Coverage, from there you can see a detailed summary of failures and passes. 
+Use the filter to switch between the two. In addition the results are displayed inside the docker console.
 
 
 
