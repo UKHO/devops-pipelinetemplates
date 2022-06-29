@@ -12,7 +12,7 @@ resources:
     - repository: UKHOTemplates
       type: github
       endpoint: GitHub_Service_Connection_Name
-      name: UKHO/devops-pipelinestemplates
+      name: UKHO/devops-pipelinetemplates
 ```
 
 Steps to add your job
