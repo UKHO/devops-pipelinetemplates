@@ -1,0 +1,25 @@
+parameters: 
+- name: WorkingDirectory
+  default: $(System.DefaultWorkingDirectory)
+- name: Exclusions
+  default: azure-network-no-public-ingress,azure-network-no-public-egress   
+  
+
+steps:
+- checkout: self
+- bash: mkdir ${{parameters.WorkingDirectory}}/TFSecReport
+- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/tfsec /src --exclude ${{parameters.Exclusions}} --include-passed
+- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/tfsec /src --exclude ${{parameters.Exclusions}} --include-passed --format JUnit > ${{parameters.WorkingDirectory}}/TFSecReport/TFSec-Report.xml
+  condition: always()
+ # Publish the results of the TFSec analysis as Test Results to the pipeline
+- task: PublishTestResults@2
+  displayName: Publish TFSecReport Test Results
+  condition: succeededOrFailed()
+  inputs:
+    testResultsFormat: 'JUnit' # Options JUnit, NUnit, VSTest, xUnit, cTest
+    testResultsFiles: '${{parameters.WorkingDirectory}}/TFSecReport/TFSec-Report.xml'
+    searchFolder: '${{parameters.WorkingDirectory}}/TFSecReport'
+    testRunTitle: TFSec Scan
+    mergeTestResults: false
+    failTaskOnFailedTests: true
+    publishRunAttachments: true
