@@ -1,0 +1,8 @@
+parameters:
+-name: ProjectPath
+
+- jobs:
+  - job:
+    steps:
+    - script: dotnet tool install --global security-scan
+    - script: security-scan ${{parameters.ProjectPath}}
