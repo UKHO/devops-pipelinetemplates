@@ -1,0 +1,20 @@
+parameters:
+name: BuildId
+default: $(Build.BuildId)
+name: SourceVersion
+default: $(Build.SourceVersion)
+
+- job:
+    displayName: "Version Tagging"
+    pool: NautilusBuild
+    steps:
+      - checkout: self
+        persistCredentials: true
+
+      - task: PowerShell@2
+        displayName: "Create and publish tag"
+        inputs:
+          targetType: 'filePath'
+          filePath: '.\create-tag.ps1'
+          arguments: '-buildId ${{parameters.BuildId}}" -commitId "${{parameters.SourceVersion}}"'
+
