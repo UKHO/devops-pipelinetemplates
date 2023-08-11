@@ -1,8 +1,8 @@
 parameters:
 - name: BuildId
-  default: $(Build.BuildId)
+  type: string
 - name: CommitId
-  default: $(Build.SourceVersion)
+  type: string
 
 steps:
   - checkout: self
