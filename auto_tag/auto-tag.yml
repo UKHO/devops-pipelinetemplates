@@ -14,7 +14,7 @@ steps:
       targetType: 'inline'
       script: |
           $timestamp = Get-Date -format 'dd-MM-yyyy-hh.mm.ss'
-          $tagName = ${{parameters.BuildId}} + "-" + $timestamp
+          $tagName = "${{parameters.BuildId}}" + "-" + $timestamp
 
           Write-Host "Creating tag $tagName"
           git tag $tagName ${{parameters.CommitId}}
