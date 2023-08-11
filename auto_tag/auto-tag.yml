@@ -1,8 +1,8 @@
 parameters:
-name: BuildId
-default: $(Build.BuildId)
-name: SourceVersion
-default: $(Build.SourceVersion)
+- name: BuildId
+  default: $(Build.BuildId)
+- name: SourceVersion
+  default: $(Build.SourceVersion)
 
 steps:
   - checkout: self
