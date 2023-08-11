@@ -11,7 +11,15 @@ steps:
   - task: PowerShell@2
     displayName: "Create and publish tag"
     inputs:
-      targetType: 'filePath'
-      filePath: '$(Build.SourcesDirectory)/auto_tag/create-tag.ps1'
-      arguments: '-buildId ${{parameters.BuildId}}" -commitId "${{parameters.SourceVersion}}"'
+      targetType: 'inline'
+      script: |
+          $timestamp = Get-Date -format 'dd-MM-yyyy-hh.mm.ss'
+          $tagName = "$buildId" + "-" + $timestamp
 
+          Write-Host "Creating tag $tagName"
+          git tag $tagName $commitId
+          Write-Host "Tag created"
+
+          Write-Host "Pushing Tag $tagName"
+          git push origin $tagName
+          Write-Host "Tag pushed"
