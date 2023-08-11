@@ -1,8 +1,8 @@
 parameters:
-- name: BuildId
-  type: string
-- name: CommitId
-  type: string
+  - name: BuildId
+    type: string
+  - name: CommitId
+    type: string
 
 steps:
   - checkout: self
