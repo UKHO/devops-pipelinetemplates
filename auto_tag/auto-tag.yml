@@ -1,7 +1,7 @@
 parameters:
 - name: BuildId
   default: $(Build.BuildId)
-- name: SourceVersion
+- name: CommitId
   default: $(Build.SourceVersion)
 
 steps:
@@ -14,10 +14,10 @@ steps:
       targetType: 'inline'
       script: |
           $timestamp = Get-Date -format 'dd-MM-yyyy-hh.mm.ss'
-          $tagName = "$buildId" + "-" + $timestamp
+          $tagName = ${{parameters.BuildId}} + "-" + $timestamp
 
           Write-Host "Creating tag $tagName"
-          git tag $tagName $commitId
+          git tag $tagName ${{parameters.CommitId}}
           Write-Host "Tag created"
 
           Write-Host "Pushing Tag $tagName"
