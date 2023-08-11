@@ -12,6 +12,6 @@ steps:
     displayName: "Create and publish tag"
     inputs:
       targetType: 'filePath'
-      filePath: '.\create-tag.ps1'
+      filePath: '$(System.DefaultWorkingDirectory)/auto_tag/create-tag.ps1'
       arguments: '-buildId ${{parameters.BuildId}}" -commitId "${{parameters.SourceVersion}}"'
 
