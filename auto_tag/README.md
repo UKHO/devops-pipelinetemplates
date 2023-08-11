@@ -22,7 +22,7 @@ Steps to add tagging template to your pipeline as job
   dependsOn: "<DEPENDS ON JOB>"
     conditional: "succeeded('<CONDITIONAL JOB>')"
   steps: 
-    - template: tfsec/auto-tag.yml@UKHOTemplates
+    - template: auto_tag/auto-tag.yml@UKHOTemplates
       parameters: 
         BuildId: "$(Build.BuildId)"
         SourceVersion: "$(Build.SourceVersion)"
