@@ -1,8 +1,10 @@
 parameters:
   - name: BuildId
     type: string
+    default: "testBuildId"
   - name: CommitId
     type: string
+    default: "testcommitId"
 
 steps:
   - checkout: self
