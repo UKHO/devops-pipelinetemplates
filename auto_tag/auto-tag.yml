@@ -15,7 +15,7 @@ steps:
       script: |
           $timestamp = Get-Date -format 'dd-MM-yyyy-hh.mm.ss'
           Write-Host "Creating tag ${{parameters.BuildId}} $timestamp"
-          $tagName = [String]${{parameters.BuildId}} $timestamp
+          $tagName = "${{parameters.BuildId}} $timestamp"
 
           Write-Host "Creating tag $tagName"
           git tag $tagName ${{parameters.CommitId}}
