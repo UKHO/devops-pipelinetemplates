@@ -13,7 +13,7 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-          $timestamp = Get-Date -format 'dd-MM-yyyy-hh.mm.ss'       
+          $timestamp = Get-Date -format 'yyyy-MM-ddTHHmmss'       
           $tagName = "${{parameters.BuildId}}-$timestamp"
 
           Write-Host "Creating tag $tagName"

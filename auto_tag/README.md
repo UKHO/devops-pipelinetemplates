@@ -1,7 +1,7 @@
-# Template for adding tag in an Azure Pipelines 
+# Template for adding a GitHub tag from an Azure Pipeline 
 
 Tags are references that point to specific points in Git history. Tagging is generally used to capture a point in history that is used for a marked version release (i.e. v1.0.1).
-With this template, tags created are of the format `<BuildId>-<Timestamp>` on top of the git commit, which is used for the main pipeline build. BuildId and CommitId paramters are sent from the main pipeline which is using this template.  
+With this template, tags created are of the format `<BuildId>-<Timestamp>` on top of the git commit, which is used for the main pipeline build. BuildId and CommitId parameters are sent from the main pipeline which is using this template.  
 
 ## Usage
 
