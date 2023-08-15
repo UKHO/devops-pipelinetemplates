@@ -18,6 +18,7 @@ steps:
           git tag $tagName ${{parameters.CommitId}}
 
           Write-Host "Pushing Tag $tagName"
-          git push origin $tagName
+          git push origin HEAD:origin/add-tag-template $tagName
+   
           Write-Host "Tag pushed" 
       pwsh: true
