@@ -20,5 +20,5 @@ steps:
           Write-Host "Pushing Tag $tagName"
           git push origin HEAD:origin/add-tag-template $tagName
    
-          Write-Host "Tag pushed" 
-      pwsh: true
+          Write-Host "Tag pushed"
+
