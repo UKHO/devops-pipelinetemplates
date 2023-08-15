@@ -14,6 +14,7 @@ steps:
       targetType: 'inline'
       script: |
           Write-Host "Creating tag ${{parameters.TagName}}"
+          Write-Host "Received commit Id ${{parameters.CommitId}}"
           git tag $tagName ${{parameters.CommitId}}
 
           Write-Host "Pushing Tag $tagName"
