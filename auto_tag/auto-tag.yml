@@ -13,11 +13,12 @@ steps:
     inputs:
       targetType: 'inline'
       script: |
-          Write-Host "Creating tag ${{parameters.TagName}}"
-          Write-Host "Received commit Id ${{parameters.CommitId}}"
+         $timestamp = Get-Date -format 'dd-MM-yyyy-hh.mm.ss'
+          Write-Host "Creating tag ${{parameters.TagName}} $timestamp"
+          $tagName = "${{parameters.TagName}}-$timestamp"
+          Write-Host "Creating tag $tagName"
           git tag $tagName ${{parameters.CommitId}}
-
+          Write-Host "Tag created"
           Write-Host "Pushing Tag $tagName"
           git push origin $tagName
-   
-          Write-Host "Tag pushed"
+          Write-Host "Tag pushed" 
