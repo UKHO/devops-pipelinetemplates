@@ -19,3 +19,4 @@ steps:
           Write-Host "Pushing Tag $tagName"
           git push origin $tagName
           Write-Host "Tag pushed" 
+      pwsh: true
