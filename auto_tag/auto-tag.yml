@@ -12,10 +12,7 @@ steps:
     displayName: "Create and publish tag"
     inputs:
       targetType: 'inline'
-      script: |
-         $timestamp = Get-Date -format 'dd-MM-yyyy-hh.mm.ss'
-          Write-Host "Creating tag ${{parameters.TagName}} $timestamp"
-          $tagName = "${{parameters.TagName}}-$timestamp"
+      script: | 
           Write-Host "Creating tag $tagName"
           git tag $tagName ${{parameters.CommitId}}
           Write-Host "Tag created"
