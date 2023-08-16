@@ -5,7 +5,7 @@ The tag name and commit Id on which the tag needs to attached are sent from the 
 
 ## Usage
 
-Reference this repository inside the yaml pipeline
+1. Reference this repository in your pipeline YAML
 
 ```yaml
 resources:
@@ -16,9 +16,9 @@ resources:
       name: UKHO/devops-pipelinetemplates
 ```
 
-Steps to add tagging template to your pipeline as job
+2. Add a job to your pipeline with the required parameters to create the tag
 
-**Note** : This job should be added at sensible stage in the pipeline, ideally, at the end of the live deployment stage where we can easily see in GitHub what the last commit that got released to production.
+**Note**: This job should be added at a sensible stage in the pipeline to avoid the proliferation of tags. For example, the initial use case in Calypso is after the live deployment stage so we can easily see in GitHub the last commit that was released to production.
 
 ```yaml
 - job: autotag
