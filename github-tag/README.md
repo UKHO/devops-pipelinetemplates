@@ -34,4 +34,3 @@ resources:
       parameters:
         TagName: "$(Build.BuildId)-$(timeStamp)"
         CommitId: "$(Build.SourceVersion)"
-```
