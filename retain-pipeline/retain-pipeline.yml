@@ -1,0 +1,34 @@
+parameters: 
+- name: DaysValid
+  type: number
+  default: 365
+- name: AccessToken
+  type: string
+- name: DefinitionId
+  type: number
+- name: OwnerId
+  type: string
+- name: BuildId
+  type: number
+- name: CollectionUri
+  type: string
+- name: TeamProject
+  type: string
+
+steps:
+  - checkout: self
+    persistCredentials: true
+
+  - task: PowerShell@2
+    condition: and(succeeded(), not(canceled()))
+    displayName: Retain Live Release
+    inputs:
+      targetType: filePath
+      filePath: "$(Build.SourcesDirectory)/retain-pipeline/add-lease.ps1"
+      arguments: "-daysValid ${{parameters.DaysValid}}
+                  -accessToken 'Bearer ${{parameters.AccessToken}}'
+                  -definitionId ${{parameters.DefinitionId}}
+                  -ownerId 'User:${{parameters.OwnerId}}'
+                  -buildId ${{parameters.BuildId}}
+                  -collectionUri '${{parameters.CollectionUri}}'
+                  -teamProject '${{parameters.TeamProject}}'"
