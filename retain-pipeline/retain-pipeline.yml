@@ -5,11 +5,11 @@ parameters:
 - name: AccessToken
   type: string
 - name: DefinitionId
-  type: number
+  type: string
 - name: OwnerId
   type: string
 - name: BuildId
-  type: number
+  type: string
 - name: CollectionUri
   type: string
 - name: TeamProject
