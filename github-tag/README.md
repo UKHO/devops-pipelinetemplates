@@ -34,3 +34,17 @@ resources:
       parameters:
         TagName: "$(Build.BuildId)-$(timeStamp)"
         CommitId: "$(Build.SourceVersion)"
+```
+
+alternative example using build id with controlled version semantics, without timestamp
+
+```yaml
+- job: githubtag
+  dependsOn: "<DEPENDS ON JOB>"
+    conditional: "succeeded('<CONDITIONAL JOB>')"
+  steps: 
+    - template: github-tag/github-tag.yml@UKHOTemplates
+      parameters:
+        TagName: "v1.2.$(Build.BuildId)"
+        CommitId: "$(Build.SourceVersion)"
+```
