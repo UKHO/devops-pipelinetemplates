@@ -1,0 +1,24 @@
+parameters:
+  - name: TagName
+    type: string 
+  - name: CommitId
+    type: string 
+
+steps:
+  - checkout: self
+    persistCredentials: true
+
+  - task: PowerShell@2
+    displayName: "Create and publish tag"
+    inputs:
+      targetType: 'inline'
+      script: |
+          Write-Host "Creating tag ${{parameters.TagName}}"  
+          git tag ${{parameters.TagName}} ${{parameters.CommitId}}
+
+          Write-Host "Pushing Tag ${{parameters.TagName}}"
+          git push origin ${{parameters.TagName}}
+   
+          Write-Host "Tag pushed"
+      pwsh: true
+
