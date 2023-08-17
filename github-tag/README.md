@@ -16,7 +16,8 @@ resources:
       name: UKHO/devops-pipelinetemplates
 ```
 
-2. Add a job to your pipeline with the required parameters to create the tag
+2. Add a job to your pipeline with the required parameters to create the tag.
+   Below is an example where tag name is sent in the format `buildId`-`timestamp`
 
 **Note**: This job should be added at a sensible stage in the pipeline to avoid the proliferation of tags. For example, the initial use case in Calypso is after the live deployment stage so we can easily see in GitHub the last commit that was released to production.
 
@@ -25,8 +26,12 @@ resources:
   dependsOn: "<DEPENDS ON JOB>"
     conditional: "succeeded('<CONDITIONAL JOB>')"
   steps: 
+    - pwsh: |
+          $currentDateTime = (Get-Date).tostring("yyyyMMddTHHmmss")                    
+          Write-Host "##vso[task.setvariable variable=timeStamp;]$currentDateTime"
+
     - template: github-tag/github-tag.yml@UKHOTemplates
-      parameters: 
-        TagName: "$(Build.BuildId)"
-        SourceVersion: "$(Build.SourceVersion)"
+      parameters:
+        TagName: "$(Build.BuildId)-$(timeStamp)"
+        CommitId: "$(Build.SourceVersion)"
 ```
