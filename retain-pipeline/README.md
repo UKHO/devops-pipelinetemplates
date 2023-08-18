@@ -25,6 +25,7 @@ resources:
   dependsOn: "<DEPENDS ON JOB>"
     conditional: "succeeded('<CONDITIONAL JOB>')"
   steps: 
+     - checkout: UKHOTemplates
      - template: retain-pipeline/retain-pipeline.yml@UKHOTemplates
              parameters:
                 DaysValid: 365
