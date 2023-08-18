@@ -25,14 +25,8 @@ resources:
         condition: succeeded('<CONDITIONAL JOB>')
         steps:  
            - checkout: UKHOTemplates
-           - template: retain-pipeline/retain-pipeline.yml@UKHOTemplates
+           - template: retain-pipelinerun/retain-pipelinerun.yml@UKHOTemplates
              parameters:
-                DaysValid: 365
-                AccessToken: "$(System.AccessToken)"
-                DefinitionId: '$(System.DefinitionId)'
-                OwnerId: '$(Build.RequestedForId)'
-                BuildId: '$(Build.BuildId)'
-                CollectionUri: '$(System.CollectionUri)'
-                TeamProject: '$(System.TeamProject)'
+                DaysValid: 365 # change this value as required
 ```
 

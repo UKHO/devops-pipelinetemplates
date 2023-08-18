@@ -13,7 +13,7 @@ steps:
     displayName: Retain Live Release
     inputs:
       targetType: filePath
-      filePath: ./devops-pipelinetemplates/retain-pipeline/add-lease.ps1
+      filePath: ./devops-pipelinetemplates/retain-pipelinerun/add-lease.ps1
       arguments: "-daysValid ${{parameters.DaysValid}}
                   -accessToken 'Bearer $(System.AccessToken)'
                   -definitionId '$(System.DefinitionId)'
