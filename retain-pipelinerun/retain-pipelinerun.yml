@@ -1,7 +1,7 @@
 parameters: 
 - name: DaysValid
   type: number
-  default: 365
+  default: 30
 
 
 steps:
