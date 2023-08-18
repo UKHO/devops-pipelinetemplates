@@ -2,18 +2,7 @@ parameters:
 - name: DaysValid
   type: number
   default: 365
-- name: AccessToken
-  type: string
-- name: DefinitionId
-  type: string
-- name: OwnerId
-  type: string
-- name: BuildId
-  type: string
-- name: CollectionUri
-  type: string
-- name: TeamProject
-  type: string
+
 
 steps:
   - checkout: self
@@ -26,9 +15,9 @@ steps:
       targetType: filePath
       filePath: ./devops-pipelinetemplates/retain-pipeline/add-lease.ps1
       arguments: "-daysValid ${{parameters.DaysValid}}
-                  -accessToken 'Bearer ${{parameters.AccessToken}}'
-                  -definitionId ${{parameters.DefinitionId}}
-                  -ownerId 'User:${{parameters.OwnerId}}'
-                  -buildId ${{parameters.BuildId}}
-                  -collectionUri '${{parameters.CollectionUri}}'
-                  -teamProject '${{parameters.TeamProject}}'"
+                  -accessToken 'Bearer $(System.AccessToken)'
+                  -definitionId '$(System.DefinitionId)'
+                  -ownerId 'User:$(Build.RequestedForId)'
+                  -buildId '$(Build.BuildId)'
+                  -collectionUri '$(System.CollectionUri)'
+                  -teamProject '$(System.TeamProject)'"
