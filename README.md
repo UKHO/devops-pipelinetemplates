@@ -9,3 +9,6 @@ Below is a summary of the templates we have available
 | Name                   | Description                                                                                     |
 |------------------------|-------------------------------------------------------------------------------------------------|
 | [`Checkov`](./checkov) | Terraform scanning to ensure that there is no security misconfiguration in your terraform files |
+| [`Github Tag`](./github-tag) | Github tags to your commits for marking significant points in a project's development  |
+| [`SAST`](./sast) | SAST scan of the dotnet projects  |
+| [`tfsec`](./tfsec) | Static analysis security scanner against your Terraform   |
