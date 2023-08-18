@@ -21,7 +21,7 @@ resources:
 
 
 ```yaml
-- job: githubtag
+- job:
   dependsOn: "<DEPENDS ON JOB>"
     conditional: "succeeded('<CONDITIONAL JOB>')"
   steps: 
