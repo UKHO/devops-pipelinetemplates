@@ -19,14 +19,13 @@ resources:
 2. Add a job to your pipeline with the required parameters to create retention lease.
    Below is an example 
 
-
 ```yaml
-- job: githubtag
-  dependsOn: "<DEPENDS ON JOB>"
-    conditional: "succeeded('<CONDITIONAL JOB>')"
-  steps: 
-     - checkout: UKHOTemplates
-     - template: retain-pipeline/retain-pipeline.yml@UKHOTemplates
+- job:
+        dependsOn: "<DEPENDS ON JOB>"
+        condition: succeeded('<CONDITIONAL JOB>')
+        steps:  
+           - checkout: UKHOTemplates
+           - template: retain-pipeline/retain-pipeline.yml@UKHOTemplates
              parameters:
                 DaysValid: 365
                 AccessToken: "$(System.AccessToken)"
