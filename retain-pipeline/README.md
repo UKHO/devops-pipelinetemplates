@@ -19,7 +19,6 @@ resources:
 2. Add a job to your pipeline with the required parameters to create retention lease.
    Below is an example 
 
-
 ```yaml
 - job:
         dependsOn: "<DEPENDS ON JOB>"
