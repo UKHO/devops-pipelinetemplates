@@ -1,18 +1,20 @@
 parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
+- name: Exclusions
+  default: azure-network-no-public-ingress,azure-network-no-public-egress
 
 steps:
 - checkout: self
 - script: |
     mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy:latest --ignore-unfixed /src
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy:latest --ignore-unfixed --output /src/TrivyReport/trivy-results.json
   displayName: 'Run Trivy Vulnerability Scan'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy:latest --ignore-unfixed --format json -o /src/TrivyReport/trivy-results.json /src
-  displayName: 'Generate Trivy Report in JSON'
-- task: PublishPipelineArtifact@1
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy:latest --ignore-unfixed --format junit -o /src/TrivyReport/trivy-results.xml
+  displayName: 'Generate Trivy JUnit Report'
+- task: PublishTestResults@2
+  displayName: Publish Trivy JUnit Test Results
   inputs:
-    targetPath: '${{parameters.WorkingDirectory}}/TrivyReport'
-    artifact: 'TrivyReport'
-  displayName: 'Publish Trivy Report'
+    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/trivy-results.xml'
+    testResultsFormat: 'JUnit'
