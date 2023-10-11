@@ -9,11 +9,9 @@ steps:
 - checkout: self
 - bash: mkdir ${{parameters.WorkingDirectory}}/TFSecReport
   displayName: 'Create TFSec output folder'
-- bash: docker pull aquasec/tfsec:latest
-  displayName: 'Pull latest TFSec image'
-- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/tfsec:latest /src --exclude ${{parameters.Exclusions}} --include-passed
+- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/tfsec /src --exclude ${{parameters.Exclusions}} --include-passed
   displayName: 'Run Tests for visual in build'
-- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/tfsec:latest /src --exclude ${{parameters.Exclusions}} --include-passed --format JUnit > ${{parameters.WorkingDirectory}}/TFSecReport/TFSec-Report.xml
+- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/tfsec /src --exclude ${{parameters.Exclusions}} --include-passed --format JUnit > ${{parameters.WorkingDirectory}}/TFSecReport/TFSec-Report.xml
   displayName: 'Run Tests for report file output'
   condition: always()
  # Publish the results of the TFSec analysis as Test Results to the pipeline
