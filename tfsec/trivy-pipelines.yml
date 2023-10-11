@@ -1,29 +1,18 @@
-parameters: 
+parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
-#- name: Exclusions
-#  default: azure-network-no-public-ingress,azure-network-no-public-egress   
-  
 
 steps:
 - checkout: self
-- bash: mkdir ${{parameters.WorkingDirectory}}/TFSecReport
-  displayName: 'Create TFSec output folder'
-#- bash: docker pull aquasec/tfsec:latest
-#  displayName: 'Pull latest TFSec image'
-- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy:latest /src 
-- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy:latest /src --format JUnit > ${{parameters.WorkingDirectory}}/TFSecReport/TFSec-Report.xml
-  displayName: 'Run Tests for report file output'
-  condition: always()
- # Publish the results of the TFSec analysis as Test Results to the pipeline
-- task: PublishTestResults@2
-  displayName: Publish TFSecReport Test Results
-  condition: succeededOrFailed()
+- script: |
+    mkdir ${{parameters.WorkingDirectory}}/TrivyReport
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy:latest --ignore-unfixed /src
+  displayName: 'Run Trivy Vulnerability Scan'
+- script: |
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy:latest --ignore-unfixed --format json -o /src/TrivyReport/trivy-results.json /src
+  displayName: 'Generate Trivy Report in JSON'
+- task: PublishPipelineArtifact@1
   inputs:
-    testResultsFormat: 'JUnit' # Options JUnit, NUnit, VSTest, xUnit, cTest
-    testResultsFiles: '${{parameters.WorkingDirectory}}/TFSecReport/TFSec-Report.xml'
-    searchFolder: '${{parameters.WorkingDirectory}}/TFSecReport'
-    testRunTitle: TFSec Scan
-    mergeTestResults: false
-    failTaskOnFailedTests: true
-    publishRunAttachments: true
+    targetPath: '${{parameters.WorkingDirectory}}/TrivyReport'
+    artifact: 'TrivyReport'
+  displayName: 'Publish Trivy Report'
