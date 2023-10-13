@@ -6,15 +6,22 @@ parameters:
 
 steps:
 - checkout: self
-- script: |
-    mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy:latest --ignore-unfixed --output /src/TrivyReport/trivy-results.json
-  displayName: 'Run Trivy Vulnerability Scan'
-- script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy:latest --ignore-unfixed --format junit -o /src/TrivyReport/trivy-results.xml
-  displayName: 'Generate Trivy JUnit Report'
+- bash: mkdir ${{parameters.WorkingDirectory}}/TrivyReport
+  displayName: 'Create Trivy output folder'
+- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy --ignorefile /src/.trivyignore -o ${{parameters.WorkingDirectory}}/TrivyReport/report.json /src
+  displayName: 'Run Trivy scan'
+- bash: trivy2junit -o ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml ${{parameters.WorkingDirectory}}/TrivyReport/report.json
+  displayName: 'Convert Trivy report to JUnit format'
+  condition: always()
+# Publish the results of the Trivy analysis as Test Results to the pipeline
 - task: PublishTestResults@2
-  displayName: Publish Trivy JUnit Test Results
+  displayName: Publish TrivyReport Test Results
+  condition: succeededOrFailed()
   inputs:
-    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/trivy-results.xml'
-    testResultsFormat: 'JUnit'
+    testResultsFormat: 'JUnit' # Options JUnit, NUnit, VSTest, xUnit, cTest
+    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml'
+    searchFolder: '${{parameters.WorkingDirectory}}/TrivyReport'
+    testRunTitle: Trivy Scan
+    mergeTestResults: false
+    failTaskOnFailedTests: true
+    publishRunAttachments: true
