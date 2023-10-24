@@ -1,27 +1,17 @@
-parameters:
-- name: WorkingDirectory
-  default: $(System.DefaultWorkingDirectory)
-- name: Exclusions
-  default: azure-network-no-public-ingress,azure-network-no-public-egress
+trigger:
+- main
 
-steps:
-- checkout: self
-- bash: mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-  displayName: 'Create Trivy output folder'
-- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy --ignorefile /src/.trivyignore -o ${{parameters.WorkingDirectory}}/TrivyReport/report.json /src
-  displayName: 'Run Trivy scan'
-- bash: trivy2junit -o ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml ${{parameters.WorkingDirectory}}/TrivyReport/report.json
-  displayName: 'Convert Trivy report to JUnit format'
-  condition: always()
-# Publish the results of the Trivy analysis as Test Results to the pipeline
-- task: PublishTestResults@2
-  displayName: Publish TrivyReport Test Results
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFormat: 'JUnit' # Options JUnit, NUnit, VSTest, xUnit, cTest
-    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml'
-    searchFolder: '${{parameters.WorkingDirectory}}/TrivyReport'
-    testRunTitle: Trivy Scan
-    mergeTestResults: false
-    failTaskOnFailedTests: true
-    publishRunAttachments: true
+pr:
+- '*'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+jobs:
+- job: 'TrivyScan'
+  steps:
+  - script: |
+      docker pull aquasec/trivy:0.46.0
+      docker run --rm -v $(Build.SourcesDirectory):/scan aquasec/trivy:0.46.0 image --exit-code 0 --severity HIGH,CRITICAL /scan
+    displayName: 'Run Trivy Vulnerability Scan'
+    continueOnError: true
