@@ -1,28 +1,34 @@
-parameters: 
+parameters:
 - name: WorkingDirectory
+  type: string
   default: $(System.DefaultWorkingDirectory)
 - name: Exclusions
-  default: azure-network-no-public-ingress,azure-network-no-public-egress   
-  
+  type: string
+  default: "azure-network-no-public-ingress,azure-network-no-public-egress"
 
-steps:
-- checkout: self
-- bash: mkdir ${{parameters.WorkingDirectory}}/TFSecReport
-  displayName: 'Create TFSec output folder'
-- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy /src --exclude ${{parameters.Exclusions}} --include-passed
-  displayName: 'Run Tests for visual in build'
-- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy /src --exclude ${{parameters.Exclusions}} --include-passed --format JUnit > ${{parameters.WorkingDirectory}}/TFSecReport/TFSec-Report.xml
-  displayName: 'Run Tests for report file output'
-  condition: always()
- # Publish the results of the TFSec analysis as Test Results to the pipeline
-- task: PublishTestResults@2
-  displayName: Publish TFSecReport Test Results
-  condition: succeededOrFailed()
-  inputs:
-    testResultsFormat: 'JUnit' # Options JUnit, NUnit, VSTest, xUnit, cTest
-    testResultsFiles: '${{parameters.WorkingDirectory}}/TFSecReport/TFSec-Report.xml'
-    searchFolder: '${{parameters.WorkingDirectory}}/TFSecReport'
-    testRunTitle: TFSec Scan
-    mergeTestResults: false
-    failTaskOnFailedTests: true
-    publishRunAttachments: true
+jobs:
+- job: 'TrivyScan'
+  steps:
+  - checkout: self
+
+  - script: |
+      docker pull aquasec/trivy:0.46.0
+      docker run --rm -v $(WorkingDirectory):/scan aquasec/trivy:0.46.0 image --exit-code 0 --severity HIGH,CRITICAL --ignorefile /scan/trivy-ignore.yml
+    displayName: 'Run Trivy Vulnerability Scan'
+    continueOnError: true
+
+  - script: echo "ignore:" > $(WorkingDirectory)/trivy-ignore.yml
+    displayName: 'Create Trivy Ignore File'
+
+  - script: echo "  - " >> $(WorkingDirectory)/trivy-ignore.yml
+    displayName: 'Add Exclusions to Trivy Ignore File'
+    env:
+      EXCLUSIONS: $(Exclusions)
+
+  - script: cat $(WorkingDirectory)/trivy-ignore.yml
+    displayName: 'Show Trivy Ignore File'
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: $(WorkingDirectory)/trivy-ignore.yml
+      artifact: 'trivy-ignore'
