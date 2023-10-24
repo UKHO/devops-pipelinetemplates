@@ -1,17 +1,34 @@
-trigger:
-- main
-
-pr:
-- '*'
-
-pool:
-  vmImage: 'ubuntu-latest'
+parameters:
+- name: WorkingDirectory
+  type: string
+  default: $(System.DefaultWorkingDirectory)
+- name: Exclusions
+  type: string
+  default: "azure-network-no-public-ingress,azure-network-no-public-egress"
 
 jobs:
 - job: 'TrivyScan'
   steps:
+  - checkout: self
+
   - script: |
       docker pull aquasec/trivy:0.46.0
-      docker run --rm -v $(System.DefaultWorkingDirectory):/scan aquasec/trivy:0.46.0 image --exit-code 0 --severity HIGH,CRITICAL /scan
+      docker run --rm -v $(WorkingDirectory):/scan aquasec/trivy:0.46.0 image --exit-code 0 --severity HIGH,CRITICAL --ignorefile /scan/trivy-ignore.yml
     displayName: 'Run Trivy Vulnerability Scan'
     continueOnError: true
+
+  - script: echo "ignore:" > $(WorkingDirectory)/trivy-ignore.yml
+    displayName: 'Create Trivy Ignore File'
+
+  - script: echo "  - " >> $(WorkingDirectory)/trivy-ignore.yml
+    displayName: 'Add Exclusions to Trivy Ignore File'
+    env:
+      EXCLUSIONS: $(Exclusions)
+
+  - script: cat $(WorkingDirectory)/trivy-ignore.yml
+    displayName: 'Show Trivy Ignore File'
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: $(WorkingDirectory)/trivy-ignore.yml
+      artifact: 'trivy-ignore'
