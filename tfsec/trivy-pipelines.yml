@@ -12,6 +12,6 @@ jobs:
   steps:
   - script: |
       docker pull aquasec/trivy:0.46.0
-      docker run --rm -v $(Build.SourcesDirectory):/scan aquasec/trivy:0.46.0 image --exit-code 0 --severity HIGH,CRITICAL /scan
+      docker run --rm -v $(System.DefaultWorkingDirectory):/scan aquasec/trivy:0.46.0 image --exit-code 0 --severity HIGH,CRITICAL /scan
     displayName: 'Run Trivy Vulnerability Scan'
     continueOnError: true
