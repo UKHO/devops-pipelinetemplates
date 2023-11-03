@@ -12,14 +12,9 @@ steps:
   displayName: 'Run Trivy Vulnerability Scan'
 - script: |
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
-  displayName: 'Generate Trivy JUnit Report'
-- task: PublishTestResults@2
-  displayName: Publish Trivy JUnit Test Results
+  displayName: 'Generate Trivy JSON Report'
+- task: PublishBuildArtifacts@1
+  displayName: Publish Trivy JSON Report
   inputs:
-    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json'
-    testResultsFormat: 'json'
-    searchFolder: '${{parameters.WorkingDirectory}}/TrivyReport'
-    testRunTitle: Trivy Scan
-    mergeTestResults: false
-    failTaskOnFailedTests: true
-    publishRunAttachments: true
+    PathtoPublish: '${{parameters.WorkingDirectory}}/TrivyReport'
+    ArtifactName: 'TrivyReport'
