@@ -1,6 +1,7 @@
+
 parameters:
 - name: WorkingDirectory
-  default: $(System.DefaultWorkingDirectory)
+  default: $(System.DefaultWorkingDirectory)Terraform
 - name: Exclusions
   default: azure-network-no-public-ingress,azure-network-no-public-egress
 
@@ -8,10 +9,10 @@ steps:
 - checkout: self
 - script: |
     mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-    docker run --rm -v --cache-dir /tmp/trivy:/root/.cache/ ${{parameters.WorkingDirectory}}:/src aquasec/trivy
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy
   displayName: 'Run Trivy Vulnerability Scan'
 - script: |
-    docker run --rm -v --cache-dir /tmp/trivy:/root/.cache/ ${{parameters.WorkingDirectory}}:/src aquasec/trivy
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy
   displayName: 'Generate Trivy JUnit Report'
 - task: PublishTestResults@2
   displayName: Publish Trivy JUnit Test Results
