@@ -13,13 +13,40 @@ steps:
 - script: |
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
   displayName: 'Generate Trivy JSON Report'
-- task: PublishBuildArtifacts@1
-  displayName: Publish Trivy JSON Report
+- script: |
+    docker run --rm -v ${{parameters.WorkingDirectory}}/TrivyReport:/output -w /output aquasec/trivy2junit
+  displayName: 'Convert Trivy JSON to JUnit'
+- task: PublishTestResults@2
+  displayName: Publish Trivy JUnit Test Results
   inputs:
-    PathtoPublish: '${{parameters.WorkingDirectory}}/TrivyReport'
-    ArtifactName: 'TrivyReport'
+    testResultsFiles: '**/trivy-results.xml'
+    testResultsFormat: 'JUnit'
+    testRunTitle: 'Trivy Scan'
 
 
+
+    
+
+#parameters:
+#- name: WorkingDirectory
+#  default: $(System.DefaultWorkingDirectory)
+#- name: Exclusions
+#  default: azure-network-no-public-ingress,azure-network-no-public-egress
+#
+#steps:
+#- checkout: self
+#- script: |
+#    mkdir ${{parameters.WorkingDirectory}}/TrivyReport
+#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
+#  displayName: 'Run Trivy Vulnerability Scan'
+#- script: |
+#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
+#  displayName: 'Generate Trivy JSON Report'
+#- task: PublishBuildArtifacts@1
+#  displayName: Publish Trivy JSON Report
+#  inputs:
+#    PathtoPublish: '${{parameters.WorkingDirectory}}/TrivyReport'
+#    ArtifactName: 'TrivyReport'
 
 
 #parameters:
