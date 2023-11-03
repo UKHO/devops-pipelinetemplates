@@ -18,3 +18,8 @@ steps:
   inputs:
     testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/trivy-results.xml'
     testResultsFormat: 'JUnit'
+    searchFolder: '${{parameters.WorkingDirectory}}/TrivyReport'
+    testRunTitle: Trivy Scan
+    mergeTestResults: false
+    failTaskOnFailedTests: true
+    publishRunAttachments: true
