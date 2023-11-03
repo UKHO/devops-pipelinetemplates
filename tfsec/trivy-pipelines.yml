@@ -11,13 +11,13 @@ steps:
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
   displayName: 'Run Trivy Vulnerability Scan'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format JUnit > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
   displayName: 'Generate Trivy JUnit Report'
 - task: PublishTestResults@2
   displayName: Publish Trivy JUnit Test Results
   inputs:
-    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml'
-    testResultsFormat: 'JUnit'
+    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json'
+    testResultsFormat: 'json'
     searchFolder: '${{parameters.WorkingDirectory}}/TrivyReport'
     testRunTitle: Trivy Scan
     mergeTestResults: false
