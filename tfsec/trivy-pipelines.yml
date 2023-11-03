@@ -1,7 +1,7 @@
 
 parameters:
 - name: WorkingDirectory
-  default: $(System.DefaultWorkingDirectory)Terraform
+  default: $(System.DefaultWorkingDirectory)
 - name: Exclusions
   default: azure-network-no-public-ingress,azure-network-no-public-egress
 
