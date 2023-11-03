@@ -17,7 +17,7 @@ steps:
   displayName: Publish Trivy JUnit Test Results
   inputs:
     testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml'
-    testResultsFormat: 'JUnit'
+    #testResultsFormat: 'JUnit'
     searchFolder: '${{parameters.WorkingDirectory}}/TrivyReport'
     testRunTitle: Trivy Scan
     mergeTestResults: false
