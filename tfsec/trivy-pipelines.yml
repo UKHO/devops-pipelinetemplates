@@ -11,22 +11,23 @@ steps:
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
   displayName: 'Run Trivy Vulnerability Scan'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
-  displayName: 'Generate Trivy JSON Report'
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
+  displayName: 'Generate Trivy Report'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}/TrivyReport:/output -w /output aquasec/trivy2junit
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy report -f junit > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
   displayName: 'Convert Trivy JSON to JUnit'
 - task: PublishTestResults@2
   displayName: Publish Trivy JUnit Test Results
   inputs:
-    testResultsFiles: '**/trivy-results.xml'
+    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml'
     testResultsFormat: 'JUnit'
     testRunTitle: 'Trivy Scan'
 
 
 
-    
 
+    
+###WORKING###
 #parameters:
 #- name: WorkingDirectory
 #  default: $(System.DefaultWorkingDirectory)
@@ -48,7 +49,7 @@ steps:
 #    PathtoPublish: '${{parameters.WorkingDirectory}}/TrivyReport'
 #    ArtifactName: 'TrivyReport'
 
-
+###ORIGINAL####
 #parameters:
 #- name: WorkingDirectory
 #  default: $(System.DefaultWorkingDirectory)
