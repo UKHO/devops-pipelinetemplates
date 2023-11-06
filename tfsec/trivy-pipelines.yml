@@ -24,6 +24,7 @@ steps:
     testRunTitle: 'Trivy Scan'
     failTaskOnFailedTests: true
     publishRunAttachments: true
+    condition: always()
 
 
 
