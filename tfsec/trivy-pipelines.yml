@@ -22,6 +22,8 @@ steps:
     testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml'
     testResultsFormat: 'JUnit'
     testRunTitle: 'Trivy Scan'
+    failTaskOnFailedTests: true
+    publishRunAttachments: true
 
 
 
