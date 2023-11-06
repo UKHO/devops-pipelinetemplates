@@ -14,7 +14,7 @@ steps:
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
   displayName: 'Generate Trivy Report'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy -f junit > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy --severity HIGH,CRITICAL --format template --template "@templates/junit.tpl" -o Trivy-Report.xml
   displayName: 'Convert Trivy JSON to JUnit'
 - task: PublishTestResults@2
   displayName: Publish Trivy JUnit Test Results
