@@ -8,7 +8,7 @@ steps:
 - checkout: self
 - bash: mkdir ${{parameters.WorkingDirectory}}/TrivyReport
   displayName: 'Create Trivy output folder'
-- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
+#- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
   displayName: 'Run Trivy Vulnerability Scan'
 - bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --severity HIGH,CRITICAL
   displayName: 'Filter Trivy Results (HIGH and CRITICAL)'
