@@ -6,20 +6,21 @@ parameters:
 
 steps:
 - checkout: self
-- bash: mkdir -p ${{parameters.WorkingDirectory}}/TrivyReport
+- bash: mkdir ${{parameters.WorkingDirectory}}/TrivyReport
   displayName: 'Create Trivy output folder & Filter Trivy Results (HIGH and CRITICAL)'
-- bash: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy --quiet --severity HIGH,CRITICAL -f json -o /src/TrivyReport/trivy-results.json
-    curl -sL https://github.com/bitsbeats/trivy2junit/releases/latest/download/trivy2junit-linux-amd64 --output /src/TrivyReport/trivy2junit
-    chmod +x /src/TrivyReport/trivy2junit
-    /src/TrivyReport/trivy2junit < /src/TrivyReport/trivy-results.json > /src/TrivyReport/Trivy-Report.xml
+- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --severity HIGH,CRITICAL
+  displayName: 'Run Trivy Vulnerability Scan'
+#- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --severity HIGH,CRITICAL
+  #displayName: 'Filter Trivy Results (HIGH and CRITICAL)'
+- script: |
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
   displayName: 'Generate Trivy JUnit Report'
   condition: always()
 - task: PublishTestResults@2
   displayName: Publish Trivy JUnit Test Results
   condition: succeededOrFailed()
   inputs:
-    testResultsFormat: 'JUnit'
+    testResultsFormat: 'json'
     testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml'
     searchFolder: '${{parameters.WorkingDirectory}}/TrivyReport'
     testRunTitle: 'Trivy Scan'
