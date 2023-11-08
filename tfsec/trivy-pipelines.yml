@@ -8,18 +8,27 @@ steps:
 - checkout: self
 - script: |
     mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --severity HIGH,CRITICAL --format junit -o ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
-  displayName: 'Run Trivy Vulnerability Scan in JUnit format'
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
+  displayName: 'Run Trivy Vulnerability Scan'
+- script: |
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
+  displayName: 'Generate Trivy JSON Report'
 - task: PublishTestResults@2
-  displayName: Publish Trivy JUnit Test Results
+  displayName: Publish Trivy Test Results
   inputs:
     testResultsFormat: 'JUnit'
-    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml'
+    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json'
     searchFolder: '${{parameters.WorkingDirectory}}/TrivyReport'
     testRunTitle: 'Trivy Scan'
-    mergeTestResults: false
-    failTaskOnFailedTests: true
-    publishRunAttachments: true
+- task: PublishCodeCoverageResults@1
+  displayName: Publish Trivy Code Coverage
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Build.SourcesDirectory)/${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json'
+
+
+
+
 
 ###WORKING###
 #parameters:
