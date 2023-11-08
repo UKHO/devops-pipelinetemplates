@@ -18,7 +18,7 @@ steps:
   displayName: Publish Trivy JUnit Test Results
   condition: succeededOrFailed()
   inputs:
-    testResultsFormat: 'json'
+    testResultsFormat: 'JUnit'
     testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml'
     searchFolder: '${{parameters.WorkingDirectory}}/TrivyReport'
     testRunTitle: 'Trivy Scan'
