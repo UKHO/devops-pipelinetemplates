@@ -2,23 +2,18 @@ parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
 - name: Exclusions
-  default: AVD-AZU-0047,azure-network-no-public-egress
+  default: azure-network-no-public-ingress,azure-network-no-public-egress
 
 steps:
 - checkout: self
-- bash: mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-  displayName: 'Create Trivy output folder'
-- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --severity HIGH,CRITICAL
-  displayName: 'Run Trivy Vulnerability Scan'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format junit > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
-  displayName: 'Generate Trivy JUnit Report & Filter Trivy Results (HIGH and CRITICAL)'
-  condition: always()
+    mkdir ${{parameters.WorkingDirectory}}/TrivyReport
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy --severity HIGH,CRITICAL --format junit -o ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
+  displayName: 'Run Trivy Vulnerability Scan in JUnit format'
 - task: PublishTestResults@2
   displayName: Publish Trivy JUnit Test Results
-  condition: succeededOrFailed()
   inputs:
-    testResultsFormat: 'junit'
+    testResultsFormat: 'JUnit'
     testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml'
     searchFolder: '${{parameters.WorkingDirectory}}/TrivyReport'
     testRunTitle: 'Trivy Scan'
@@ -26,12 +21,6 @@ steps:
     failTaskOnFailedTests: true
     publishRunAttachments: true
 
-
-
-
-
-
-    
 ###WORKING###
 #parameters:
 #- name: WorkingDirectory
@@ -77,6 +66,35 @@ steps:
 #    testResultsFormat: 'json'
 #    searchFolder: '${{parameters.WorkingDirectory}}/TrivyReport'
 #    testRunTitle: Trivy Scan
+#    mergeTestResults: false
+#    failTaskOnFailedTests: true
+#    publishRunAttachments: true
+
+###Junit format
+#parameters:
+#- name: WorkingDirectory
+#  default: $(System.DefaultWorkingDirectory)
+#- name: Exclusions
+#  default: AVD-AZU-0047,azure-network-no-public-egress
+
+#steps:
+#- checkout: self
+#- bash: mkdir ${{parameters.WorkingDirectory}}/TrivyReport
+#  displayName: 'Create Trivy output folder'
+#- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --severity HIGH,CRITICAL
+#  displayName: 'Run Trivy Vulnerability Scan'
+#- script: |
+#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format junit > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
+#  displayName: 'Generate Trivy JUnit Report & Filter Trivy Results (HIGH and CRITICAL)'
+#  condition: always()
+#- task: PublishTestResults@2
+#  displayName: Publish Trivy JUnit Test Results
+#  condition: succeededOrFailed()
+#  inputs:
+#    testResultsFormat: 'junit'
+#    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml'
+#    searchFolder: '${{parameters.WorkingDirectory}}/TrivyReport'
+#    testRunTitle: 'Trivy Scan'
 #    mergeTestResults: false
 #    failTaskOnFailedTests: true
 #    publishRunAttachments: true
