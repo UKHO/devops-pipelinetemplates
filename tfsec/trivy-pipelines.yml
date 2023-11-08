@@ -8,7 +8,7 @@ steps:
 - checkout: self
 - script: |
     mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy --severity HIGH,CRITICAL --format junit -o ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --severity HIGH,CRITICAL --format junit -o ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
   displayName: 'Run Trivy Vulnerability Scan in JUnit format'
 - task: PublishTestResults@2
   displayName: Publish Trivy JUnit Test Results
