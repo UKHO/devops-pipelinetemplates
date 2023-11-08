@@ -11,7 +11,7 @@ steps:
 - bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --severity HIGH,CRITICAL
   displayName: 'Run Trivy Vulnerability Scan'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format JUnit > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format junit > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
   displayName: 'Generate Trivy JUnit Report & Filter Trivy Results (HIGH and CRITICAL)'
   condition: always()
 - task: PublishTestResults@2
