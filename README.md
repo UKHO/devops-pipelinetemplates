@@ -4,12 +4,13 @@ This repository contains template files that can be used in Azure DevOps Pipelin
 
 Below is a summary of the templates we have available
 
-## Security
+## Templates
 
-| Name                   | Description                                                                                     |
-|------------------------|-------------------------------------------------------------------------------------------------|
-| [`Checkov`](./checkov) | Terraform scanning to ensure that there is no security misconfiguration in your terraform files |
-| [`Github Tag`](./github-tag) | Github tags to your commits for marking significant points in a project's development  |
-| [`Retain pipeline run`](./retain-pipelinerun) | Retaining a pipeline run for longer than the default configured 30 days after production release |
-| [`SAST`](./sast) | SAST scan of the dotnet projects  |
-| [`tfsec`](./tfsec) | Static analysis security scanner against your Terraform   |
+| Name                                                         | Description                                                                                                                                        |
+|--------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
+| [Checkov](./checkov)                                         | Terraform scanning to ensure that there is no security misconfiguration in your terraform files                                                    |
+| [Github Tag](./github-tag)                                   | Github tags to your commits for marking significant points in a project's development                                                              |
+| [Retain pipeline run](./retain-pipelinerun)                  | Retaining a pipeline run for longer than the default configured 30 days after production release                                                   |
+| [SAST](./sast)                                               | SAST scan of the dotnet projects                                                                                                                   |
+| [tfsec](./tfsec)                                             | Static analysis security scanner against your Terraform                                                                                            |
+| [Gated Infrastructure Deploy](./gated-infrastructure-deploy) | Will trigger manual validation if terraform plan detects destroyed resources, if approved or no resources are being destroyed will terraform apply |
