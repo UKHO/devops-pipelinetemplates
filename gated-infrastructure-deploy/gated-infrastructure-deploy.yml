@@ -28,6 +28,8 @@ jobs:
       runOnce:
         deploy:
           steps:
+            - checkout: self
+
             - download: current
               artifact: "${{ parameters.TerraformArtifact }}"
               retryCountOnTaskFailure: '2'
@@ -76,6 +78,8 @@ jobs:
       runOnce:
         deploy:
           steps:
+            - checkout: self
+
             - download: current
               artifact: "${{ parameters.TerraformArtifact }}"
               retryCountOnTaskFailure: '2'
