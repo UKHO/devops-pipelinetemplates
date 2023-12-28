@@ -76,7 +76,7 @@ jobs:
               displayName: "terraform ${{ lower(parameters.Environment) }}deploy"
               inputs:
                 targetType: filePath
-                filePath: "$(Pipeline.Workspace)/devops-pipelinetemplates/devops-pipelinetemplates/gated-infrastructure-deploy/terraform-plan.ps1"
+                filePath: "$(Pipeline.Workspace)/devops-pipelinetemplates/gated-infrastructure-deploy/terraform-plan.ps1"
                 arguments: >
                   -deploymentResourceGroupName ${{ parameters.DeploymentResourceGroupName }}
                   -deploymentStorageAccountName ${{ parameters.DeploymentStorageAccountName }}
