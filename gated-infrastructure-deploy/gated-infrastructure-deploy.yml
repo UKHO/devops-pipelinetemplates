@@ -28,7 +28,7 @@ jobs:
       runOnce:
         deploy:
           steps:
-            - checkout: self
+            - checkout: UKHOTemplates
               persistCredentials: true
 
             - pwsh: |
@@ -84,7 +84,7 @@ jobs:
       runOnce:
         deploy:
           steps:
-            - checkout: self
+            - checkout: UKHOTemplates
               persistCredentials: true
 
             - download: current
