@@ -32,40 +32,6 @@ jobs:
               persistCredentials: true
               path: devops-pipelinetemplates
 
-            - pwsh: |
-                Write-Host "Current Directory: $( Get-Location )"
-                Write-Host "Directory Content:"
-                Get-ChildItem | ForEach-Object { Write-Host $_ }
-                
-                $variables = @{
-                  'Build.SourceBranch' = "$(Build.SourceBranch)"
-                  'Build.SourceBranchName' = "$(Build.SourceBranchName)"
-                  'Build.SourceVersion' = "$(Build.SourceVersion)"
-                  'Build.BuildId' = "$(Build.BuildId)"
-                  'Build.BuildNumber' = "$(Build.BuildNumber)"
-                  'Build.DefinitionName' = "$(Build.DefinitionName)"
-                  'Build.Repository.Name' = "$(Build.Repository.Name)"
-                  'Build.Repository.Uri' = "$(Build.Repository.Uri)"
-                  'Build.Repository.LocalPath' = "$(Build.Repository.LocalPath)"
-                  'Build.Reason' = "$(Build.Reason)"
-                  'System.ArtifactsDirectory' = "$(System.ArtifactsDirectory)"
-                  'System.DefaultWorkingDirectory' = "$(System.DefaultWorkingDirectory)"
-                  'System.StageDisplayName' = "$(System.StageDisplayName)"
-                  'System.JobDisplayName' = "$(System.JobDisplayName)"
-                  'Agent.Name' = "$(Agent.Name)"
-                  'Agent.OS' = "$(Agent.OS)"
-                  'Agent.HomeDirectory' = "$(Agent.HomeDirectory)"
-                  'Agent.WorkFolder' = "$(Agent.WorkFolder)"
-                  'Agent.TempDirectory' = "$(Agent.TempDirectory)"
-                  'Agent.BuildDirectory' = "$(Agent.BuildDirectory)"
-                  'Agent.JobStatus' = "$(Agent.JobStatus)"
-                  'Agent.JobName' = "$(Agent.JobName)"
-                }
-                  
-                foreach ($variable in $variables.GetEnumerator()) {
-                  Write-Host "$($variable.Key): $($variable.Value)"
-                }
-
             - download: current
               artifact: "${{ parameters.TerraformArtifact }}"
               retryCountOnTaskFailure: '2'
