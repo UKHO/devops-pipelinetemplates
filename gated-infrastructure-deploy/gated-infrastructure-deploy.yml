@@ -28,6 +28,7 @@ jobs:
       runOnce:
         deploy:
           steps:
+            - checkout: self
             - checkout: UKHOTemplates
               persistCredentials: true
               path: devops-pipelinetemplates
@@ -114,6 +115,7 @@ jobs:
       runOnce:
         deploy:
           steps:
+            - checkout: self
             - checkout: UKHOTemplates
               persistCredentials: true
               path: devops-pipelinetemplates
