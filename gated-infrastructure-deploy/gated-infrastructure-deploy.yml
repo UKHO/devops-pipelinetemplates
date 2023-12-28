@@ -30,6 +30,7 @@ jobs:
           steps:
             - checkout: UKHOTemplates
               persistCredentials: true
+              path: $(Pipeline.Workspace)/devops-pipelinetemplates
 
             - pwsh: |
                 Write-Host "Current Directory: $( Get-Location )"
@@ -75,7 +76,7 @@ jobs:
               displayName: "terraform ${{ lower(parameters.Environment) }}deploy"
               inputs:
                 targetType: filePath
-                filePath: "./devops-pipelinetemplates/gated-infrastructure-deploy/terraform-plan.ps1"
+                filePath: "$(Pipeline.Workspace)/devops-pipelinetemplates/devops-pipelinetemplates/gated-infrastructure-deploy/terraform-plan.ps1"
                 arguments: >
                   -deploymentResourceGroupName ${{ parameters.DeploymentResourceGroupName }}
                   -deploymentStorageAccountName ${{ parameters.DeploymentStorageAccountName }}
@@ -115,6 +116,7 @@ jobs:
           steps:
             - checkout: UKHOTemplates
               persistCredentials: true
+              path: $(Pipeline.Workspace)/devops-pipelinetemplates
 
             - download: current
               artifact: "${{ parameters.TerraformArtifact }}"
@@ -126,7 +128,7 @@ jobs:
               name: deployment
               inputs:
                 targetType: filePath
-                filePath: "./devops-pipelinetemplates/gated-infrastructure-deploy/terraform-apply.ps1"
+                filePath: "$(Pipeline.Workspace)/devops-pipelinetemplates/gated-infrastructure-deploy/terraform-apply.ps1"
                 arguments: >
                   -deploymentResourceGroupName ${{ parameters.DeploymentResourceGroupName }}
                   -deploymentStorageAccountName ${{ parameters.DeploymentStorageAccountName }}
