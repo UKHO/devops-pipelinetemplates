@@ -31,6 +31,11 @@ jobs:
             - checkout: self
               persistCredentials: true
 
+            - pwsh: |
+                Write-Host "Current Directory: $( Get-Location )"
+                Write-Host "Directory Content:"
+                Get-ChildItem -File | ForEach-Object { Write-Host $_ }
+
             - download: current
               artifact: "${{ parameters.TerraformArtifact }}"
               retryCountOnTaskFailure: '2'
