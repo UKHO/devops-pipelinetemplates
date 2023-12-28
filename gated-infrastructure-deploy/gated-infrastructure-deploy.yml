@@ -34,7 +34,7 @@ jobs:
             - pwsh: |
                 Write-Host "Current Directory: $( Get-Location )"
                 Write-Host "Directory Content:"
-                Get-ChildItem -File | ForEach-Object { Write-Host $_ }
+                Get-ChildItem | ForEach-Object { Write-Host $_ }
 
             - download: current
               artifact: "${{ parameters.TerraformArtifact }}"
@@ -46,7 +46,7 @@ jobs:
               displayName: "terraform ${{ lower(parameters.Environment) }}deploy"
               inputs:
                 targetType: filePath
-                filePath: "$(Pipeline.Workspace)/devops-pipelinetemplates/gated-infrastructure-deploy/terraform-plan.ps1"
+                filePath: "./devops-pipelinetemplates/gated-infrastructure-deploy/terraform-plan.ps1"
                 arguments: >
                   -deploymentResourceGroupName ${{ parameters.DeploymentResourceGroupName }}
                   -deploymentStorageAccountName ${{ parameters.DeploymentStorageAccountName }}
@@ -97,7 +97,7 @@ jobs:
               name: deployment
               inputs:
                 targetType: filePath
-                filePath: "$(Pipeline.Workspace)/devops-pipelinetemplates/gated-infrastructure-deploy/terraform-apply.ps1"
+                filePath: "./devops-pipelinetemplates/gated-infrastructure-deploy/terraform-apply.ps1"
                 arguments: >
                   -deploymentResourceGroupName ${{ parameters.DeploymentResourceGroupName }}
                   -deploymentStorageAccountName ${{ parameters.DeploymentStorageAccountName }}
