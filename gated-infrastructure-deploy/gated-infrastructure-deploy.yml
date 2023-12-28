@@ -30,7 +30,7 @@ jobs:
           steps:
             - checkout: UKHOTemplates
               persistCredentials: true
-              path: $(Pipeline.Workspace)/devops-pipelinetemplates
+              path: devops-pipelinetemplates
 
             - pwsh: |
                 Write-Host "Current Directory: $( Get-Location )"
@@ -116,7 +116,7 @@ jobs:
           steps:
             - checkout: UKHOTemplates
               persistCredentials: true
-              path: $(Pipeline.Workspace)/devops-pipelinetemplates
+              path: devops-pipelinetemplates
 
             - download: current
               artifact: "${{ parameters.TerraformArtifact }}"
