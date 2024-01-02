@@ -17,12 +17,16 @@
     type: object
   - name: TerraformOutputVariables
     type: object
+  - name: VariablesTemplate
+    type: string
 
 jobs:
   - deployment: planInfrastructure
     displayName: "Plan Infrastructure"
     workspace:
       clean: all
+    variables:
+      - template: ${{ parameters.VariablesTemplate }}
     environment: "${{ parameters.AzDOEnvironment }}"
     strategy:
       runOnce:
@@ -76,6 +80,8 @@ jobs:
     environment: "${{ parameters.AzDOEnvironment }}"
     workspace:
       clean: all
+    variables:
+      - template: ${{ parameters.VariablesTemplate }}
     strategy:
       runOnce:
         deploy:
