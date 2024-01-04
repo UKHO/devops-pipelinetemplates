@@ -11,7 +11,7 @@
     type: string
   - name: TerraformWorkspace
     type: string
-  - name: TerraformDirectory
+  - name: TerraformConfigDirectorySubPath
     type: string
   - name: TerraformArtifact
     type: string
@@ -54,7 +54,7 @@ jobs:
                   -TFStateStorageAccountName ${{ parameters.TFStateStorageAccountName }}
                   -TFStateContainerName ${{ parameters.TFStateContainerName }}
                   -TFStateBlobName ${{ parameters.TFStateBlobName }}
-                  -TerraformFilesDirectory ${{ parameters.TerraformDirectory }}
+                  -TerraformFilesDirectory "$(Pipeline.Workspace)/${{ parameters.TerraformArtifact }}${{ parameters.TerraformConfigDirectorySubPath }}"
                   -Workspace ${{ lower(parameters.TerraformWorkspace) }}
               env:
                 ${{ each TerraformVariableMappings in parameters.TerraformVariableMappings }}:
@@ -108,7 +108,7 @@ jobs:
                   -TFStateStorageAccountName ${{ parameters.TFStateStorageAccountName }}
                   -TFStateContainerName ${{ parameters.TFStateContainerName }}
                   -TFStateBlobName ${{ parameters.TFStateBlobName }}
-                  -TerraformFilesDirectory ${{ parameters.TerraformDirectory }}
+                  -TerraformFilesDirectory "$(Pipeline.Workspace)/${{ parameters.TerraformArtifact }}${{ parameters.TerraformConfigDirectorySubPath }}"
                   -Workspace ${{ lower(parameters.TerraformWorkspace) }}
                   -TerraformOutputVariables ${{ convertToJson(parameters.TerraformOutputVariables) }}
               env:
