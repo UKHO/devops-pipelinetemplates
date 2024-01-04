@@ -1,6 +1,8 @@
 ﻿parameters:
   - name: Environment
     type: string
+  - name: AzDOEnvironmentName
+    type: string
   - name: TFStateResourceGroupName
     type: string
   - name: TFStateStorageAccountName
@@ -13,14 +15,12 @@
     type: string
   - name: TerraformArtifact
     type: string
-  - name: AzDOEnvironmentName
+  - name: VariablesTemplateFullPath
     type: string
   - name: TerraformVariableMappings
     type: object
   - name: TerraformOutputVariables
     type: object
-  - name: VariablesTemplateFullPath
-    type: string
 
 jobs:
   - deployment: planInfrastructure
