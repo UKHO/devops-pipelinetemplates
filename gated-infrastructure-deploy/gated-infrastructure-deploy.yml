@@ -1,9 +1,9 @@
 ﻿parameters:
   - name: Environment
     type: string
-  - name: DeploymentResourceGroupName
+  - name: TFStateResourceGroupName
     type: string
-  - name: DeploymentStorageAccountName
+  - name: TFStateStorageAccountName
     type: string
   - name: TerraformDirectory
     type: string
@@ -11,13 +11,13 @@
     type: string
   - name: PlanName
     type: string
-  - name: AzDOEnvironment
+  - name: AzDOEnvironmentName
     type: string
   - name: TerraformVariableMappings
     type: object
   - name: TerraformOutputVariables
     type: object
-  - name: VariablesTemplate
+  - name: VariablesTemplateFullPath
     type: string
 
 jobs:
@@ -26,8 +26,8 @@ jobs:
     workspace:
       clean: all
     variables:
-      - template: ${{ parameters.VariablesTemplate }}
-    environment: "${{ parameters.AzDOEnvironment }}"
+      - template: ${{ parameters.VariablesTemplateFullPath }}
+    environment: "${{ parameters.AzDOEnvironmentName }}"
     strategy:
       runOnce:
         deploy:
@@ -48,8 +48,8 @@ jobs:
                 targetType: filePath
                 filePath: "$(Pipeline.Workspace)/devops-pipelinetemplates/gated-infrastructure-deploy/terraform-plan.ps1"
                 arguments: >
-                  -deploymentResourceGroupName ${{ parameters.DeploymentResourceGroupName }}
-                  -deploymentStorageAccountName ${{ parameters.DeploymentStorageAccountName }}
+                  -deploymentResourceGroupName ${{ parameters.TFStateResourceGroupName }}
+                  -deploymentStorageAccountName ${{ parameters.TFStateStorageAccountName }}
                   -terraformStorageKeyName ${{ parameters.PlanName }}
                   -terraformFilesDirectory ${{ parameters.TerraformDirectory }}
                   -workSpace ${{ lower(parameters.Environment) }}
@@ -77,11 +77,11 @@ jobs:
       - manual_verification
       - planInfrastructure
     condition: or(succeeded('manual_verification'), and(succeeded('planInfrastructure'), ne(dependencies.planInfrastructure.outputs['planInfrastructure.plan.needsVerification'], 'true')))
-    environment: "${{ parameters.AzDOEnvironment }}"
+    environment: "${{ parameters.AzDOEnvironmentName }}"
     workspace:
       clean: all
     variables:
-      - template: ${{ parameters.VariablesTemplate }}
+      - template: ${{ parameters.VariablesTemplateFullPath }}
     strategy:
       runOnce:
         deploy:
@@ -102,8 +102,8 @@ jobs:
                 targetType: filePath
                 filePath: "$(Pipeline.Workspace)/devops-pipelinetemplates/gated-infrastructure-deploy/terraform-apply.ps1"
                 arguments: >
-                  -deploymentResourceGroupName ${{ parameters.DeploymentResourceGroupName }}
-                  -deploymentStorageAccountName ${{ parameters.DeploymentStorageAccountName }}
+                  -deploymentResourceGroupName ${{ parameters.TFStateResourceGroupName }}
+                  -deploymentStorageAccountName ${{ parameters.TFStateStorageAccountName }}
                   -terraformStorageKeyName ${{ parameters.PlanName}}
                   -terraformFilesDirectory ${{ parameters.TerraformDirectory }}
                   -workSpace ${{ lower(parameters.Environment) }}
