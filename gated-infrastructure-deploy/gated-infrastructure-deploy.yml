@@ -48,12 +48,12 @@ jobs:
                 targetType: filePath
                 filePath: "$(Pipeline.Workspace)/devops-pipelinetemplates/gated-infrastructure-deploy/terraform-plan.ps1"
                 arguments: >
-                  -deploymentResourceGroupName ${{ parameters.TFStateResourceGroupName }}
-                  -deploymentStorageAccountName ${{ parameters.TFStateStorageAccountName }}
-                  -terraformStorageKeyName ${{ parameters.PlanName }}
-                  -terraformFilesDirectory ${{ parameters.TerraformDirectory }}
-                  -workSpace ${{ lower(parameters.Environment) }}
-                  -terraformPlanName ${{ parameters.PlanName }}
+                  -TFStateResourceGroupName ${{ parameters.TFStateResourceGroupName }}
+                  -TFStateStorageAccountName ${{ parameters.TFStateStorageAccountName }}
+                  -TFStateStorageKeyName ${{ parameters.PlanName }}
+                  -TerraformFilesDirectory ${{ parameters.TerraformDirectory }}
+                  -Workspace ${{ lower(parameters.Environment) }}
+                  -TerraformPlanName ${{ parameters.PlanName }}
               env:
                 ${{ each TerraformVariableMappings in parameters.TerraformVariableMappings }}:
                   ${{ TerraformVariableMappings.Key }}: ${{ TerraformVariableMappings.Value }}
@@ -102,12 +102,12 @@ jobs:
                 targetType: filePath
                 filePath: "$(Pipeline.Workspace)/devops-pipelinetemplates/gated-infrastructure-deploy/terraform-apply.ps1"
                 arguments: >
-                  -deploymentResourceGroupName ${{ parameters.TFStateResourceGroupName }}
-                  -deploymentStorageAccountName ${{ parameters.TFStateStorageAccountName }}
-                  -terraformStorageKeyName ${{ parameters.PlanName}}
-                  -terraformFilesDirectory ${{ parameters.TerraformDirectory }}
-                  -workSpace ${{ lower(parameters.Environment) }}
-                  -terraformOutputVariables ${{ convertToJson(parameters.TerraformOutputVariables) }}
+                  -TFStateResourceGroupName ${{ parameters.TFStateResourceGroupName }}
+                  -TFStateStorageAccountName ${{ parameters.TFStateStorageAccountName }}
+                  -TFStateStorageKeyName ${{ parameters.PlanName}}
+                  -TerraformFilesDirectory ${{ parameters.TerraformDirectory }}
+                  -Workspace ${{ lower(parameters.Environment) }}
+                  -TerraformOutputVariables ${{ convertToJson(parameters.TerraformOutputVariables) }}
               env:
                 ${{ each TerraformVariableMappings in parameters.TerraformVariableMappings }}:
                   ${{ TerraformVariableMappings.Key }}: ${{ TerraformVariableMappings.Value }}

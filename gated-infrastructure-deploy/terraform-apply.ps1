@@ -6,26 +6,26 @@ param (
       }
       $true
     })]
-  [string] $terraformFilesDirectory,
+  [string] $TerraformFilesDirectory,
   [Parameter(Mandatory)]
   [ValidateNotNullOrEmpty()]
-  [string] $terraformStorageKeyName,
+  [string] $TFStateStorageKeyName,
   [Parameter(Mandatory)]
   [ValidateNotNullOrEmpty()]
-  [string] $deploymentResourceGroupName,
+  [string] $TFStateResourceGroupName,
   [Parameter(Mandatory)]
   [ValidateNotNullOrEmpty()]
-  [string] $deploymentStorageAccountName,
+  [string] $TFStateStorageAccountName,
   [Parameter(Mandatory)]
   [ValidateNotNullOrEmpty()]
-  [string] $workSpace,
-  [string] $terraformOutputVariables
+  [string] $Workspace,
+  [string] $TerraformOutputVariables
 )
 
 . $(Join-Path $PSScriptRoot "terraform-cmdlets.ps1")
 
-SetLocationAndOutputInformation -Directory $terraformFilesDirectory
-Terraform-Init -DeploymentResourceGroupName $deploymentResourceGroupName -DeploymentStorageAccountName $deploymentStorageAccountName -TerraformStorageKeyName $terraformStorageKeyName
-Terraform-Workspace -WorkSpace $workSpace
+SetLocationAndOutputInformation -Directory $TerraformFilesDirectory
+Terraform-Init -TFStateResourceGroupName $TFStateResourceGroupName -TFStateStorageAccountName $TFStateStorageAccountName -TFStateStorageKeyName $TFStateStorageKeyName
+Terraform-Workspace -Workspace $Workspace
 Terraform-Apply
-ExportRequiredTerraformOutputVariables -TerraformOutputVariables $terraformOutputVariables
+ExportRequiredTerraformOutputVariables -TerraformOutputVariables $TerraformOutputVariables

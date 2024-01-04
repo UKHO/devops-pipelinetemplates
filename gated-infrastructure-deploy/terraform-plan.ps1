@@ -6,36 +6,36 @@ param (
             }
             $true
         })]
-    [string] $terraformFilesDirectory,
+    [string] $TerraformFilesDirectory,
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $terraformPlanName,
+    [string] $TerraformPlanName,
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $terraformStorageKeyName,
+    [string] $TFStateStorageKeyName,
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $deploymentResourceGroupName,
+    [string] $TFStateResourceGroupName,
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $deploymentStorageAccountName,
+    [string] $TFStateStorageAccountName,
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $workSpace
+    [string] $Workspace
 )
 
 . $(Join-Path $PSScriptRoot "terraform-cmdlets.ps1")
 
 $terraformOutputFileName = "terraform_output.txt"
 
-SetLocationAndOutputInformation -Directory $terraformFilesDirectory
-Terraform-Init -DeploymentResourceGroupName $deploymentResourceGroupName -DeploymentStorageAccountName $deploymentStorageAccountName -TerraformStorageKeyName $terraformStorageKeyName
-Terraform-Workspace -WorkSpace $workSpace
+SetLocationAndOutputInformation -Directory $TerraformFilesDirectory
+Terraform-Init -TFStateResourceGroupName $TFStateResourceGroupName -TFStateStorageAccountName $TFStateStorageAccountName -TFStateStorageKeyName $TFStateStorageKeyName
+Terraform-Workspace -Workspace $Workspace
 Terraform-Validate
-Terraform-Plan -TerraformPlanName $terraformPlanName -TerraformOutputFileName $terraformOutputFileName
+Terraform-Plan -TerraformPlanName $TerraformPlanName -TerraformOutputFileName $terraformOutputFileName
 SetNeedsVerificationIfTerraformPlanWillDestroyResources -TerraformOutputFileName $terraformOutputFileName

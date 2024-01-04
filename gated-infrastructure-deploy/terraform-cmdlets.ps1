@@ -3,21 +3,21 @@ function Terraform-Init {
   param (
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $DeploymentResourceGroupName,
+    [string] $TFStateResourceGroupName,
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $DeploymentStorageAccountName,
+    [string] $TFStateStorageAccountName,
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $TerraformStorageKeyName
+    [string] $TFStateStorageKeyName
   )
 
   $activity = "terraform init command execution"
   Write-Output "Starting $activity"
 
-  terraform init -migrate-state -backend-config="resource_group_name=$DeploymentResourceGroupName" `
-    -backend-config="storage_account_name=$DeploymentStorageAccountName" `
-    -backend-config="key=$TerraformStorageKeyName"
+  terraform init -migrate-state -backend-config="resource_group_name=$TFStateResourceGroupName" `
+    -backend-config="storage_account_name=$TFStateStorageAccountName" `
+    -backend-config="key=$TFStateStorageKeyName"
 
   ThrowErrorIfCommandHadError -Activity $activity
   Write-Output "Finished $activity"
@@ -56,15 +56,15 @@ function Terraform-Workspace {
   param (
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $WorkSpace
+    [string] $Workspace
   )
-  $activity = "terraform workspace '$WorkSpace' command execution"
+  $activity = "terraform Workspace '$Workspace' command execution"
   Write-Output "Starting $activity"
 
   $ErrorActionPreference = 'SilentlyContinue'     # new workspace command files if workspace already exist
-  terraform workspace new $WorkSpace 2>&1 > $null # if error thrown, just means workspace exists for usage
+  terraform workspace new $Workspace 2>&1 > $null # if error thrown, just means workspace exists for usage
   $ErrorActionPreference = 'Continue'             # if no workspace exists, then it will get created
-  terraform workspace select $WorkSpace
+  terraform workspace select $Workspace
 
   ThrowErrorIfCommandHadError -Activity $activity
   Write-Output "Finished $activity"
