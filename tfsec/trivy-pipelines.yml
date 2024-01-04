@@ -1,63 +1,24 @@
+###WORKING###
 parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
-#- name: Exclusions
-  #default: AVD-AZU-0047
+- name: Exclusions
+  default: AVD-AZU-0047
 
 steps:
 - checkout: self
 - script: |
     mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --exclude {{parameters.Exclusions}}
   displayName: 'Run Trivy Vulnerability Scan'
 - script: |
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
   displayName: 'Generate Trivy JSON Report'
-- script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy --format junit -o ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml
-  displayName: 'Generate Trivy JUnit Report'
-- task: PublishTestResults@2
-  displayName: 'Publish Trivy JUnit Report'
-  inputs:
-    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.xml'
-    testRunTitle: 'Trivy Vulnerability Scan'
-    testResultsFormat: 'JUnit'
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Trivy JSON Report'
+  displayName: Publish Trivy JSON Report
   inputs:
     PathtoPublish: '${{parameters.WorkingDirectory}}/TrivyReport'
     ArtifactName: 'TrivyReport'
-
-
-
-
-
-
-
-
-
-
-###WORKING###
-#parameters:
-#- name: WorkingDirectory
-#  default: $(System.DefaultWorkingDirectory)
-#- name: Exclusions
-#  default: AVD-AZU-0047
-#
-#steps:
-#- checkout: self
-#- script: |
-#    mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --exclude {{parameters.Exclusions}}
-#  displayName: 'Run Trivy Vulnerability Scan'
-#- script: |
-#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
-#  displayName: 'Generate Trivy JSON Report'
-#- task: PublishBuildArtifacts@1
-#  displayName: Publish Trivy JSON Report
-#  inputs:
-#    PathtoPublish: '${{parameters.WorkingDirectory}}/TrivyReport'
-#    ArtifactName: 'TrivyReport'
 
 
 ###ORIGINAL####
