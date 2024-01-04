@@ -1,6 +1,4 @@
 ﻿parameters:
-  - name: Workspace
-    type: string
   - name: AzDOEnvironmentName
     type: string
   - name: TFStateResourceGroupName
@@ -10,6 +8,8 @@
   - name: TFStateContainerName
     type: string
   - name: TFStateBlobName
+    type: string
+  - name: Workspace
     type: string
   - name: TerraformDirectory
     type: string
