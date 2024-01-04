@@ -26,18 +26,18 @@ This template makes use of `terraform plan` and `terraform apply`.
     jobs:
       - template: gated-infrastructure-deploy/gated-infrastructure-deploy.yml@UKHOTemplates
         parameters:
-          Environment: "string"
           AzDOEnvironmentName: "string"
           TFStateResourceGroupName: "string"
           TFStateStorageAccountName: "string"
           TFStateContainerName: "string"
           TFStateBlobName: "string"
-          TerraformDirectory: "string"
+          TerraformWorkspace: "string"
+          TerraformArtifactConfigRelativePath: "string"
           TerraformArtifact: "string"
-          VariablesTemplateFullPath: "string"
+          VariablesTemplateRelativePath: "string"
           TerraformVariableMappings:
             TERRAFORM_VARIABLE: "VALUE" 
-          TerraformOutputVariables: # optional
+          TerraformOutputVariables:
             POSSIBLE_TERRAFORM_OUTPUT_VARIABLE
     ```
 
