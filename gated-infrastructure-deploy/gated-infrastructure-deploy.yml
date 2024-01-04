@@ -9,7 +9,7 @@
     type: string
   - name: TFStateBlobName
     type: string
-  - name: Workspace
+  - name: TerraformWorkspace
     type: string
   - name: TerraformDirectory
     type: string
@@ -55,7 +55,7 @@ jobs:
                   -TFStateContainerName ${{ parameters.TFStateContainerName }}
                   -TFStateBlobName ${{ parameters.TFStateBlobName }}
                   -TerraformFilesDirectory ${{ parameters.TerraformDirectory }}
-                  -Workspace ${{ lower(parameters.Workspace) }}
+                  -Workspace ${{ lower(parameters.TerraformWorkspace) }}
               env:
                 ${{ each TerraformVariableMappings in parameters.TerraformVariableMappings }}:
                   ${{ TerraformVariableMappings.Key }}: ${{ TerraformVariableMappings.Value }}
@@ -109,7 +109,7 @@ jobs:
                   -TFStateContainerName ${{ parameters.TFStateContainerName }}
                   -TFStateBlobName ${{ parameters.TFStateBlobName }}
                   -TerraformFilesDirectory ${{ parameters.TerraformDirectory }}
-                  -Workspace ${{ lower(parameters.Workspace) }}
+                  -Workspace ${{ lower(parameters.TerraformWorkspace) }}
                   -TerraformOutputVariables ${{ convertToJson(parameters.TerraformOutputVariables) }}
               env:
                 ${{ each TerraformVariableMappings in parameters.TerraformVariableMappings }}:
