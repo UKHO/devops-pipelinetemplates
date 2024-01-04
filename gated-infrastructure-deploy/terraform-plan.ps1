@@ -10,10 +10,6 @@ param (
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $TerraformPlanName,
-
-    [Parameter(Mandatory)]
-    [ValidateNotNullOrEmpty()]
     [string] $TFStateResourceGroupName,
 
     [Parameter(Mandatory)]
