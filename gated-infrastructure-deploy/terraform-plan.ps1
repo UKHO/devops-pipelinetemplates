@@ -14,15 +14,19 @@ param (
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $TFStateBlobName,
-
-    [Parameter(Mandatory)]
-    [ValidateNotNullOrEmpty()]
     [string] $TFStateResourceGroupName,
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
     [string] $TFStateStorageAccountName,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string] $TFStateBlobName,
+
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
+    [string] $TFStateBlobName,
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
@@ -34,7 +38,7 @@ param (
 $terraformOutputFileName = "terraform_output.txt"
 
 SetLocationAndOutputInformation -Directory $TerraformFilesDirectory
-Terraform-Init -TFStateResourceGroupName $TFStateResourceGroupName -TFStateStorageAccountName $TFStateStorageAccountName -TFStateBlobName $TFStateBlobName
+Terraform-Init -TFStateResourceGroupName $TFStateResourceGroupName -TFStateStorageAccountName $TFStateStorageAccountName -TFStateContainerName $TFStateContainerName -TFStateBlobName $TFStateBlobName
 Terraform-Workspace -Workspace $Workspace
 Terraform-Validate
 Terraform-Plan -TerraformPlanName $TerraformPlanName -TerraformOutputFileName $terraformOutputFileName

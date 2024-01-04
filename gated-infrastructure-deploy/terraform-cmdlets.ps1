@@ -9,6 +9,9 @@ function Terraform-Init {
     [string] $TFStateStorageAccountName,
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
+    [string] $TFStateContainerName,
+    [Parameter(Mandatory)]
+    [ValidateNotNullOrEmpty()]
     [string] $TFStateBlobName
   )
 
@@ -17,6 +20,7 @@ function Terraform-Init {
 
   terraform init -migrate-state -backend-config="resource_group_name=$TFStateResourceGroupName" `
     -backend-config="storage_account_name=$TFStateStorageAccountName" `
+    -backend-config="container_name=$TFStateContainerName" `
     -backend-config="key=$TFStateBlobName"
 
   ThrowErrorIfCommandHadError -Activity $activity
