@@ -22,7 +22,7 @@ param (
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $TFStateBlobName,
+    [string] $TFStateContainerName,
 
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
