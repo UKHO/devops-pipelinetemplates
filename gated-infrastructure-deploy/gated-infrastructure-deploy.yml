@@ -7,6 +7,8 @@
     type: string
   - name: TFStateContainerName
     type: string
+  - name: TFStateBlobName
+    type: string
   - name: TerraformDirectory
     type: string
   - name: TerraformArtifact
@@ -53,7 +55,7 @@ jobs:
                   -TFStateResourceGroupName ${{ parameters.TFStateResourceGroupName }}
                   -TFStateStorageAccountName ${{ parameters.TFStateStorageAccountName }}
                   -TFStateContainerName ${{ parameters.TFStateContainerName }}
-                  -TFStateBlobName ${{ parameters.PlanName }}
+                  -TFStateBlobName ${{ parameters.TFStateBlobName }}
                   -TerraformFilesDirectory ${{ parameters.TerraformDirectory }}
                   -Workspace ${{ lower(parameters.Environment) }}
                   -TerraformPlanName ${{ parameters.PlanName }}
@@ -108,7 +110,7 @@ jobs:
                   -TFStateResourceGroupName ${{ parameters.TFStateResourceGroupName }}
                   -TFStateStorageAccountName ${{ parameters.TFStateStorageAccountName }}
                   -TFStateContainerName ${{ parameters.TFStateContainerName }}
-                  -TFStateBlobName ${{ parameters.PlanName}}
+                  -TFStateBlobName ${{ parameters.TFStateBlobName}}
                   -TerraformFilesDirectory ${{ parameters.TerraformDirectory }}
                   -Workspace ${{ lower(parameters.Environment) }}
                   -TerraformOutputVariables ${{ convertToJson(parameters.TerraformOutputVariables) }}
