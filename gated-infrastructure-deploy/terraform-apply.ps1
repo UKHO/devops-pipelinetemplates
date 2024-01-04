@@ -9,7 +9,7 @@ param (
   [string] $TerraformFilesDirectory,
   [Parameter(Mandatory)]
   [ValidateNotNullOrEmpty()]
-  [string] $TFStateStorageKeyName,
+  [string] $TFStateBlobName,
   [Parameter(Mandatory)]
   [ValidateNotNullOrEmpty()]
   [string] $TFStateResourceGroupName,
@@ -25,7 +25,7 @@ param (
 . $(Join-Path $PSScriptRoot "terraform-cmdlets.ps1")
 
 SetLocationAndOutputInformation -Directory $TerraformFilesDirectory
-Terraform-Init -TFStateResourceGroupName $TFStateResourceGroupName -TFStateStorageAccountName $TFStateStorageAccountName -TFStateStorageKeyName $TFStateStorageKeyName
+Terraform-Init -TFStateResourceGroupName $TFStateResourceGroupName -TFStateStorageAccountName $TFStateStorageAccountName -TFStateBlobName $TFStateBlobName
 Terraform-Workspace -Workspace $Workspace
 Terraform-Apply
 ExportRequiredTerraformOutputVariables -TerraformOutputVariables $TerraformOutputVariables
