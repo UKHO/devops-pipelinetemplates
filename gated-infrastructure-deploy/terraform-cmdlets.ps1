@@ -89,19 +89,18 @@ function Terraform-Plan {
   param (
     [Parameter(Mandatory)]
     [ValidateNotNullOrEmpty()]
-    [string] $TerraformPlanName,
-    [Parameter(Mandatory)]
-    [ValidateNotNullOrEmpty()]
     [string] $TerraformOutputFileName
   )
 
   $activity = "terraform plan command execution"
   Write-Output "Starting $activity"
 
-  terraform plan -out $TerraformPlanName | Tee-Object $TerraformOutputFileName
+  $planName = "tfplan"
 
-  if ($( Test-Path $TerraformPlanName ) -eq $false) {
-    Write-Host -ForegroundColor Red "Terraform Plan '$TerraformPlanName' was not created. See directory content:"
+  terraform plan -out $planName | Tee-Object $TerraformOutputFileName
+
+  if ($( Test-Path $planName ) -eq $false) {
+    Write-Host -ForegroundColor Red "Terraform Plan '$planName' was not created. See directory content:"
     Get-ChildItem -File | ForEach-Object { Write-Host $_ }
   }
 

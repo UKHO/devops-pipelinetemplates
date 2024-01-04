@@ -13,8 +13,6 @@
     type: string
   - name: TerraformArtifact
     type: string
-  - name: PlanName
-    type: string
   - name: AzDOEnvironmentName
     type: string
   - name: TerraformVariableMappings
@@ -58,7 +56,6 @@ jobs:
                   -TFStateBlobName ${{ parameters.TFStateBlobName }}
                   -TerraformFilesDirectory ${{ parameters.TerraformDirectory }}
                   -Workspace ${{ lower(parameters.Environment) }}
-                  -TerraformPlanName ${{ parameters.PlanName }}
               env:
                 ${{ each TerraformVariableMappings in parameters.TerraformVariableMappings }}:
                   ${{ TerraformVariableMappings.Key }}: ${{ TerraformVariableMappings.Value }}
@@ -110,7 +107,7 @@ jobs:
                   -TFStateResourceGroupName ${{ parameters.TFStateResourceGroupName }}
                   -TFStateStorageAccountName ${{ parameters.TFStateStorageAccountName }}
                   -TFStateContainerName ${{ parameters.TFStateContainerName }}
-                  -TFStateBlobName ${{ parameters.TFStateBlobName}}
+                  -TFStateBlobName ${{ parameters.TFStateBlobName }}
                   -TerraformFilesDirectory ${{ parameters.TerraformDirectory }}
                   -Workspace ${{ lower(parameters.Environment) }}
                   -TerraformOutputVariables ${{ convertToJson(parameters.TerraformOutputVariables) }}
