@@ -129,15 +129,15 @@ function ExportRequiredTerraformOutputVariables {
   if (![string]::IsNullOrEmpty($TerraformOutputVariables)) {
     Write-Output "Exporting required variables for deployment"
     foreach ($terraformOutputVariable in $TerraformOutputVariables -split " ") {
-      Write-Host "Exporting '$terraformOutputVariable' variable from terraform output."
-      try {
-        $output = terraform output -raw $terraformOutputVariable
-        Write-Host "##vso[task.setvariable variable=$terraformOutputVariable;isoutput=true]$output"
-        Write-Host "Exported."
-      }
-      catch {
-        throw
-      }
+      $activity = "Exporting '$terraformOutputVariable' variable from terraform output."
+
+      Write-Host $activity
+
+      $output = terraform output -raw $terraformOutputVariable
+      ThrowErrorIfCommandHadError -Activity $activity
+
+      Write-Host "##vso[task.setvariable variable=$terraformOutputVariable;isoutput=true]$output"
+      Write-Host "Exported."
     }
     Write-Output "Required variables exported"
   }
