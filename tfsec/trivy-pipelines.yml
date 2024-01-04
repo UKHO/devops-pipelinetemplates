@@ -1,7 +1,7 @@
 parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
-- name: Exclusions
+#- name: Exclusions
   #default: AVD-AZU-0047
 
 steps:
