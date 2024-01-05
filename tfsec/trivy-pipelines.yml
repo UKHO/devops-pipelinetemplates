@@ -7,10 +7,11 @@ steps:
 - checkout: self
 - script: |
     mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy --ignore-unfixed --ignore AVD-AZU-0047
+    echo "AVD-AZU-0047" > ${{parameters.WorkingDirectory}}/TrivyIgnore.txt
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy --ignorefile /src/TrivyIgnore.txt
   displayName: 'Run Trivy Vulnerability Scan'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy --ignore-unfixed --ignore AVD-AZU-0047 --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy --ignorefile /src/TrivyIgnore.txt --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
   displayName: 'Generate Trivy JSON Report'
 - task: PublishBuildArtifacts@1
   displayName: Publish Trivy JSON Report
@@ -19,6 +20,7 @@ steps:
     ArtifactName: 'TrivyReport'
     failTaskOnFailedTests: true
     publishRunAttachments: true
+
 
 
 ###ORIGINAL####
