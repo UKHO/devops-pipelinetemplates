@@ -75,22 +75,22 @@ For a complete working example, please refer to the [acg-connect](https://github
 
     - *TerraformArtifact*: The files in the artifact will be used without modifying their contents. Your pipeline will need to include jobs to make any required modfications to your supporting files e.g. inserting configuration values, before publishing the artifact.
 
-    - *TerraformArtifactConfigRelativePath*: Inside the template, the full path to the configuration will be `$(Pipeline.Workspace)/[TerraformArtifact][TerraformArtifactConfigRelativePath]`.
+    - *TerraformArtifactConfigRelativePath*: Inside the template, the full path to the configuration will be `$(Pipeline.Workspace)/[TerraformArtifact][TerraformArtifactConfigRelativePath]`. Include the trailing slash in the path.
       
-      Example 1: The artifact is named 'tfartifact' and the .tf files are in the root. `TerraformArtifactConfigRelativePath` would be `/` and the concatenated path would be `$(Pipeline.Workspace)/tfartifact/`.
+      Example 1: The artifact is named `tfartifact` and .tf files are in the root of the artifact. `TerraformArtifactConfigRelativePath` would be `/` and the concatenated path would be `$(Pipeline.Workspace)/tfartifact/`.
 
       ```
-      +-- terraform
-      |   +-- azure.tf
-      |   +-- main.tf
-      |   +-- variables.tf
-      |   +-- output.tf
+      +-- azure.tf
+      +-- main.tf
+      +-- variables.tf
+      +-- output.tf
       ```
 
-      Example 2: The artifact is named 'buildartifact' and the .tf files are in a subfolder. `TerraformArtifactConfigRelativePath` would be `terraform/` and the concatenated path would be `$(Pipeline.Workspace)/buildartifact/terraform/`.
+      Example 2: The artifact is named 'buildartifact' and the .tf files are in a subfolder within the artifact. `TerraformArtifactConfigRelativePath` would be `terraform/` and the concatenated path would be `$(Pipeline.Workspace)/buildartifact/terraform/`.
 
       ```
       +-- src
+      +-- ...
       +-- terraform
       |   +-- azure.tf
       |   +-- main.tf
