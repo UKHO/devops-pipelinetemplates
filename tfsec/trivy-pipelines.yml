@@ -2,14 +2,12 @@
 parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
-#- name: Exclusions
-  #default: AVD-AZU-0047
-
+  
 steps:
 - checkout: self
 - script: |
     mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ #--exclude {{parameters.Exclusions}}
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
   displayName: 'Run Trivy Vulnerability Scan'
 - script: |
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
