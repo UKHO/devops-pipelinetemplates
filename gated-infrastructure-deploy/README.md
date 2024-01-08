@@ -77,7 +77,7 @@ For a complete working example, please refer to the [acg-connect](https://github
 
     - *TerraformArtifactConfigRelativePath*: Inside the template, the full path to the configuration will be `$(Pipeline.Workspace)/[TerraformArtifact][TerraformArtifactConfigRelativePath]`.
       
-      Example 1: The artifact is named 'tfartifact' and the .tf files are in the root. `TerraformArtifactConfigRelativePath` would be `/` and the concatenated path would be `$(Pipeline.Workspace)/terraformartifact/`.
+      Example 1: The artifact is named 'tfartifact' and the .tf files are in the root. `TerraformArtifactConfigRelativePath` would be `/` and the concatenated path would be `$(Pipeline.Workspace)/tfartifact/`.
 
       ```
       +-- terraform
