@@ -32,7 +32,7 @@ dependency-check is added to the environment PATH so can be called by using `dep
 | `scanName`        | The path to the directory containing your terraform files. Default: `$(Build.DefinitionName) - $(Build.SourceBranchName)`     | false     |
 | `scanPath`        | The path to test. Default: `$(Build.SourcesDirectory)\\src`                                                                   | false     |
 | `reportPath`      | The location of the test result file. Default: `$(Build.SourcesDirectory)\\DCReport`                                          | false     |
-| `supressionPath`  | The location of your supression file. Default: `none`                                                                         | false     |
+| `suppressionPath` | The location of your supression file. Default: `none`                                                                         | false     |
 
 #### example with some parameters
 
@@ -64,4 +64,4 @@ steps:
 |-------------------|-------------------------------------------------------------------------------------------------------------------------------|-----------|
 | `scanName`        | The path to the directory containing your terraform files. Default: `$(Build.DefinitionName) - $(Build.SourceBranchName)`     | false     |
 | `scanPath`        | The path to test. Default: `$(Build.SourcesDirectory)`                                                                        | false     |
-| `supressionPath`  | The location of your supression file. Default: `none`                                                                         | false     |
+| `suppressionPath` | The location of your supression file. Default: `none`                                                                         | false     |
