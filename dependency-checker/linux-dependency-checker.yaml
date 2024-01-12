@@ -1,5 +1,11 @@
 parameters:
+  - name: scanName
+    type: string
+    default: "dependency-check scan: $(pwd)"
   - name: scanPath
+    type: string
+    default: "$(Build.SourcesDirectory)"
+  - name: suppressionPath
     type: string
     default: "$(Build.SourcesDirectory)"
 
