@@ -6,13 +6,17 @@ The way to use dependency checker for windows and linux is different.
 
 dependency-check is added to the environment PATH so can be called by using `dependency-check.bat` this has the nvdapikey added so if it wants to run an update the database can relatively quickly during the run.
 
+Provide values for __BUILD__ and __PROJECTDIRECTORY__
+
 ```yaml
 - task: PowerShell@2
   inputs:
     targetType: "inline"
     script: |
       $outPath = "$(Build.SourcesDirectory)\DCReport"
-      dependency-check --project "__BUILDNAME__ - $(Build.SourceBranchName)" --scan '$(Pipeline.Workspace)\\__PROJECTDIRECTORY__\\' --out "$outPath" --suppression "$(Pipeline.Workspace)\\NVD Suppressions\NVDSuppressions.xml"
+      $buildName = "__BUILD__ - $(Build.SourceBranchName)"
+      $scanPath = "$(Pipeline.Workspace)\\__PROJECTDIRECTORY__\\"
+      dependency-check --project "$buildName" --scan $scanPath --out "$outPath" --suppression "$(Pipeline.Workspace)\\NVD Suppressions\NVDSuppressions.xml"
       if ((test-path $outPath) -and (get-childitem $outPath | Measure-Object | select-object -ExpandProperty Count) -gt 0) {
           write-host "Attempt $i successful"
       }
