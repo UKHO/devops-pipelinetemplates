@@ -52,3 +52,8 @@ dependency-check is added to the environment PATH so can be called by using `dep
 ## Linux
 
 linux build would rely on a container
+
+```yaml
+steps:
+  - template: dependency-checker/linux-dependency-checker.yaml@UKHOTemplates
+```
