@@ -6,7 +6,7 @@ The way to use dependency checker for windows and linux is different.
 
 dependency-check is added to the environment PATH so can be called by using `dependency-check.bat` this has the nvdapikey added so if it wants to run an update the database can relatively quickly during the run.
 
-```code
+```yaml
 - task: PowerShell@2
   inputs:
     targetType: "inline"
@@ -38,7 +38,7 @@ The Failure assumes a library is installed called BuildAndDeploy, this is an inh
 
 linux build would rely on a container
 
-```
+```yaml
 - bash: |
     DC_VERSION="latest"
     DC_DIRECTORY=$HOME/OWASP-Dependency-Check
