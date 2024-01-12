@@ -1,0 +1,26 @@
+steps:
+- task: PowerShell@2
+  inputs:
+    targetType: "inline"
+    script: |
+      $outPath = "$(Build.SourcesDirectory)\DCReport"
+      $buildName = "__BUILD__ - $(Build.SourceBranchName)"
+      $scanPath = "$(Pipeline.Workspace)\\__PROJECTDIRECTORY__\\"
+      dependency-check --project "$buildName" --scan $scanPath --out "$outPath" --suppression "$(Pipeline.Workspace)\\NVD Suppressions\NVDSuppressions.xml"
+      if ((test-path $outPath) -and (get-childitem $outPath | Measure-Object | select-object -ExpandProperty Count) -gt 0) {
+          write-host "Attempt $i successful"
+      }
+    pwsh: true
+  displayName: "Run NVD Checker"
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.SourcesDirectory)\DCReport'
+    artifact: "NVD report"
+    publishLocation: "pipeline"
+
+- task: PowerShell@2
+  displayName: "Fail build if dependency checker has vulnerabilities"
+  inputs:
+    targetType: inline
+    script: Invoke-VulnerabilityCheck -ReportLocation $(Build.SourcesDirectory)\DCReport\*
