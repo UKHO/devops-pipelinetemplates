@@ -8,6 +8,8 @@ dependency-check is added to the environment PATH so can be called by using `dep
 
 Provide values for __BUILD__ and __PROJECTDIRECTORY__
 
+Also please be aware that a restore may be needed before the scan takes place.
+
 ```yaml
 - task: PowerShell@2
   inputs:
