@@ -1,12 +1,26 @@
+parameters:
+  - name: buildName
+    type: string
+    default: "$(Build.DefinitionName) - $(Build.SourceBranchName)"
+  - name: scanPath
+    type: string
+    default: "$(Build.SourcesDirectory)\\src\\"
+  - name: outPath
+    type: string
+    default: "$(Build.SourcesDirectory)\DCReport"
+  - name: supressionFile
+    type: string
+    default: "none"
 steps:
 - task: PowerShell@2
   inputs:
     targetType: "inline"
     script: |
-      $outPath = "$(Build.SourcesDirectory)\DCReport"
-      $buildName = "__BUILD__ - $(Build.SourceBranchName)"
-      $scanPath = "$(Pipeline.Workspace)\\__PROJECTDIRECTORY__\\"
-      dependency-check --project "$buildName" --scan $scanPath --out "$outPath" --suppression "$(Pipeline.Workspace)\\NVD Suppressions\NVDSuppressions.xml"
+      if(${{parameters.supressionFile }} -eq "none") { 
+        dependency-check --project "${{ parameters.buildName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.outpath }}"
+      } else {
+        dependency-check --project "${{ parameters.buildName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.outpath }}" --suppression "${{ parameters.supressionFile }}"
+      }
       if ((test-path $outPath) -and (get-childitem $outPath | Measure-Object | select-object -ExpandProperty Count) -gt 0) {
           write-host "Attempt $i successful"
       }
@@ -15,7 +29,7 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Build.SourcesDirectory)\DCReport'
+    targetPath: '${{ parameters.outPath }}'
     artifact: "NVD report"
     publishLocation: "pipeline"
 
@@ -23,4 +37,4 @@ steps:
   displayName: "Fail build if dependency checker has vulnerabilities"
   inputs:
     targetType: inline
-    script: Invoke-VulnerabilityCheck -ReportLocation $(Build.SourcesDirectory)\DCReport\*
+    script: Invoke-VulnerabilityCheck -ReportLocation "${{ parameters.outPath }}\*"
