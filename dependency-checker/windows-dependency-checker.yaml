@@ -1,14 +1,14 @@
 parameters:
-  - name: buildName
+  - name: scanName
     type: string
     default: "$(Build.DefinitionName) - $(Build.SourceBranchName)"
   - name: scanPath
     type: string
     default: "$(Build.SourcesDirectory)\\src\\"
-  - name: outPath
+  - name: reportPath
     type: string
     default: "$(Build.SourcesDirectory)\DCReport"
-  - name: supressionFile
+  - name: supressionPath
     type: string
     default: "none"
 steps:
@@ -17,11 +17,11 @@ steps:
     targetType: "inline"
     script: |
       if(${{parameters.supressionFile }} -eq "none") { 
-        dependency-check --project "${{ parameters.buildName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.outpath }}"
+        dependency-check --project "${{ parameters.scanName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}"
       } else {
-        dependency-check --project "${{ parameters.buildName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.outpath }}" --suppression "${{ parameters.supressionFile }}"
+        dependency-check --project "${{ parameters.scanName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}" --suppression "${{ parameters.supressionPath }}"
       }
-      if ((test-path $outPath) -and (get-childitem $outPath | Measure-Object | select-object -ExpandProperty Count) -gt 0) {
+      if ((test-path ${{ parameters.reportPath }}) -and (get-childitem ${{ parameters.reportPath }} | Measure-Object | select-object -ExpandProperty Count) -gt 0) {
           write-host "Attempt $i successful"
       }
     pwsh: true
