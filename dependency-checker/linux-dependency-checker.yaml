@@ -1,3 +1,8 @@
+parameters:
+  - name: scanPath
+    type: string
+    default: "$(Build.SourcesDirectory)"
+
 steps:
 - bash: |
     DC_VERSION="latest"
@@ -39,6 +44,6 @@ steps:
         --format "ALL" \
         --project "$DC_PROJECT" \
         --out /reports
-  workingDirectory: $(Build.SourcesDirectory)
+  workingDirectory: ${{ parameters.workingDirecory }}
   displayName: nvd check
-- publish: $(Build.SourcesDirectory)/odc-reports
+- publish: ${{ parameters.workingDirecory }}/odc-reports
