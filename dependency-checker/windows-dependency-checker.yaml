@@ -8,7 +8,7 @@ parameters:
   - name: reportPath
     type: string
     default: "$(Build.SourcesDirectory)\DCReport"
-  - name: supressionPath
+  - name: suppressionPath
     type: string
     default: "none"
 steps:
@@ -19,7 +19,7 @@ steps:
       if(${{parameters.supressionFile }} -eq "none") { 
         dependency-check --project "${{ parameters.scanName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}"
       } else {
-        dependency-check --project "${{ parameters.scanName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}" --suppression "${{ parameters.supressionPath }}"
+        dependency-check --project "${{ parameters.scanName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}" --suppression "${{ parameters.suppressionPath }}"
       }
       if ((test-path ${{ parameters.reportPath }}) -and (get-childitem ${{ parameters.reportPath }} | Measure-Object | select-object -ExpandProperty Count) -gt 0) {
           write-host "Attempt $i successful"
