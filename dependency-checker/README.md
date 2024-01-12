@@ -30,8 +30,8 @@ dependency-check is added to the environment PATH so can be called by using `dep
 | Name              | Description                                                                                                                   | Required? |
 |-------------------|-------------------------------------------------------------------------------------------------------------------------------|-----------|
 | `scanName`        | The path to the directory containing your terraform files. Default: `$(Build.DefinitionName) - $(Build.SourceBranchName)`     | false     |
-| `scanPath`        | The path to output the test result file to. Default: `$(Build.SourcesDirectory)\\src`                                         | false     |
-| `reportPath`      | The name of the test result file. Default: `$(Build.SourcesDirectory)\\DCReport`                                              | false     |
+| `scanPath`        | The path to test. Default: `$(Build.SourcesDirectory)\\src`                                                                   | false     |
+| `reportPath`      | The location of the test result file. Default: `$(Build.SourcesDirectory)\\DCReport`                                          | false     |
 | `supressionPath`  | The location of your supression file. Default: `none`                                                                         | false     |
 
 #### example with some parameters
@@ -57,3 +57,11 @@ linux build would rely on a container
 steps:
   - template: dependency-checker/linux-dependency-checker.yaml@UKHOTemplates
 ```
+
+### Build Parameters
+
+| Name              | Description                                                                                                                   | Required? |
+|-------------------|-------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `scanName`        | The path to the directory containing your terraform files. Default: `$(Build.DefinitionName) - $(Build.SourceBranchName)`     | false     |
+| `scanPath`        | The path to test. Default: `$(Build.SourcesDirectory)`                                                                        | false     |
+| `supressionPath`  | The location of your supression file. Default: `none`                                                                         | false     |
