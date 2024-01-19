@@ -16,7 +16,7 @@ steps:
   inputs:
     targetType: "inline"
     script: |
-      if(${{parameters.supressionFile }} -eq "none") { 
+      if(${{parameters.suppressionPath }} -eq "none") { 
         dependency-check --project "${{ parameters.scanName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}"
       } else {
         dependency-check --project "${{ parameters.scanName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}" --suppression "${{ parameters.suppressionPath }}"
@@ -29,7 +29,7 @@ steps:
 
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '${{ parameters.outPath }}'
+    targetPath: '${{ parameters.reportPath }}'
     artifact: "NVD report"
     publishLocation: "pipeline"
 
@@ -37,4 +37,4 @@ steps:
   displayName: "Fail build if dependency checker has vulnerabilities"
   inputs:
     targetType: inline
-    script: Invoke-VulnerabilityCheck -ReportLocation "${{ parameters.outPath }}\*"
+    script: Invoke-VulnerabilityCheck -ReportLocation "${{ parameters.reportPath }}\*"
