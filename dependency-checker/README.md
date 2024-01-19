@@ -62,6 +62,6 @@ steps:
 
 | Name              | Description                                                                                                                   | Required? |
 |-------------------|-------------------------------------------------------------------------------------------------------------------------------|-----------|
-| `scanName`        | The path to the directory containing your terraform files. Default: `$(Build.DefinitionName) - $(Build.SourceBranchName)`     | false     |
+| `scanName`        | The path to the directory containing your packages. Default: `$(Build.DefinitionName) - $(Build.SourceBranchName)`     | false     |
 | `scanPath`        | The path to test. Default: `$(Build.SourcesDirectory)`                                                                        | false     |
 | `suppressionPath` | The location of your supression file. Default: `none`                                                                         | false     |
