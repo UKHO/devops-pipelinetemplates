@@ -7,7 +7,7 @@ parameters:
     default: "$(Build.SourcesDirectory)\\src\\"
   - name: reportPath
     type: string
-    default: "$(Build.SourcesDirectory)\DCReport"
+    default: "$(Build.SourcesDirectory)\\DCReport"
   - name: suppressionPath
     type: string
     default: "none"
