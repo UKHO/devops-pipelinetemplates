@@ -16,7 +16,7 @@ steps:
   inputs:
     targetType: "inline"
     script: |
-      if(${{parameters.suppressionPath }} -eq "none") { 
+      if("${{parameters.suppressionPath }}" -eq "none") { 
         dependency-check --project "${{ parameters.scanName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}"
       } else {
         dependency-check --project "${{ parameters.scanName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}" --suppression "${{ parameters.suppressionPath }}"
