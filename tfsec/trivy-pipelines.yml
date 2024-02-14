@@ -8,12 +8,10 @@ steps:
 - script: |
     #echo "AVD-AZU-0047" > .trivyignore
     mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-    echo "Before running command"
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ || (echo "Command failed" && exit 1)
-    echo "After running command"
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
   displayName: 'Run Trivy Vulnerability Scan'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json || exit 1
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
   displayName: 'Generate Trivy JSON Report'
 - task: PublishBuildArtifacts@1
   displayName: Publish Trivy JSON Report
