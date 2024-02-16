@@ -1,0 +1,5 @@
+# trivyignore file - Conduct thorough investigative work and obtain approval before making any additions to this file.
+
+AVD-AZU-0047 # Azure Network No Public Ingress - https://avd.aquasec.com/misconfig/avd-azu-0047
+
+
