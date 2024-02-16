@@ -19,11 +19,11 @@ steps:
   displayName: 'Print .trivyignore'
 
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
+    docker run --rm -v ${{parameters.WorkingDirectory}}/.trivyignore:/root/.trivyignore -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore 
   displayName: 'Run Trivy Scan'
 
 - script: |
-    docker run --rm -v /.trivyignore -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json --ignorefile .trivyignore > ${{parameters.WorkingDirectory}}/TrivyReport.json
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json --ignorefile .trivyignore > ${{parameters.WorkingDirectory}}/TrivyReport.json
   displayName: 'Generate Trivy JSON Report'
 
 - task: PublishBuildArtifacts@1
@@ -33,3 +33,45 @@ steps:
     publishLocation: 'Container'
   condition: succeededOrFailed()
   displayName: 'Publish Trivy JSON Report'
+
+
+
+
+
+
+
+#parameters:
+#- name: WorkingDirectory
+#  default: $(System.DefaultWorkingDirectory)
+#
+#steps:
+#- script: echo "Starting Trivy Scan Pipeline"
+#  displayName: 'Initializing Trivy'
+#
+#- script: |
+#    docker pull aquasec/trivy
+#  displayName: 'Pull Trivy Image'
+#
+#- script: |
+#     "AVD-AZU-0047" > ${{parameters.WorkingDirectory}}/.trivyignore
+#  displayName: 'Create .trivyignore'
+#
+#- script: |
+#    cat ${{parameters.WorkingDirectory}}/.trivyignore
+#  displayName: 'Print .trivyignore'
+#
+#- script: |
+#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
+#  displayName: 'Run Trivy Scan'
+#
+#- script: |
+#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json --ignorefile .trivyignore > ${{parameters.WorkingDirectory}}/TrivyReport.json
+#  displayName: 'Generate Trivy JSON Report'
+#
+#- task: PublishBuildArtifacts@1
+#  inputs:
+#    PathtoPublish: '${{parameters.WorkingDirectory}}/TrivyReport.json'
+#    ArtifactName: 'TrivyReport'
+#    publishLocation: 'Container'
+#  condition: succeededOrFailed()
+#  displayName: 'Publish Trivy JSON Report'
