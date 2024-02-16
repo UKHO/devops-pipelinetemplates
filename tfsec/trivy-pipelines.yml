@@ -7,10 +7,10 @@ steps:
 - script: |
     echo "AVD-AZU-0047" > .trivyignore
     mkdir ${{parameters.WorkingDirectory}}/TrivyReport
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL
   displayName: 'Run Trivy Vulnerability Scan'
 - script: |
-    cat ${{parameters.DefaultWorkingDirectory}}/.trivyignore
+    cat ${{parameters.WorkingDirectory}}/.trivyignore
     displayName: 'Print .trivyignore'
 - script: |
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
