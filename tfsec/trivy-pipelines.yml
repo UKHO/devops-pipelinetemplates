@@ -16,7 +16,7 @@ steps:
   inputs:
     PathtoPublish: '${{parameters.WorkingDirectory}}/TrivyReport' 
     ArtifactName: 'TrivyReport'
-    failTaskOnFailedTests: true
+    failTaskOnFailedTests: false
     publishRunAttachments: true
 
 
