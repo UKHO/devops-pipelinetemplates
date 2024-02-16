@@ -6,10 +6,10 @@ steps:
 - script: echo "Starting Trivy Scan Pipeline"
   displayName: 'Initializing Trivy'
 
-- task: DockerInstaller@0
-  inputs:
-    dockerVersion: '17.09.0-ce'
-  displayName: 'Install Docker'
+#- task: DockerInstaller@0
+#  inputs:
+#    dockerVersion: '17.09.0-ce'
+#  displayName: 'Install Docker'
 
 - script: |
     docker pull aquasec/trivy
