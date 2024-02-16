@@ -5,7 +5,6 @@ parameters:
 steps:
 - checkout: self
 - script: |
-    echo "AVD-AZU-0047" > .trivyignore
     mkdir ${{parameters.WorkingDirectory}}/TrivyReport
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL
   displayName: 'Run Trivy Vulnerability Scan'
