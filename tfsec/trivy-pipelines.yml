@@ -10,7 +10,7 @@ steps:
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./
   displayName: 'Run Trivy Vulnerability Scan'
 - script: |
-    cat $(System.DefaultWorkingDirectory)/.trivyignore
+    cat ${{parameters.DefaultWorkingDirectory}}/.trivyignore
     displayName: 'Print .trivyignore'
 - script: |
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/trivy config ./ --format json > ${{parameters.WorkingDirectory}}/TrivyReport/Trivy-Report.json
