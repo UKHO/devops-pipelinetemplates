@@ -11,7 +11,7 @@ steps:
   displayName: 'Pull Trivy Image'
 
 - script: |
-    printf "AVD-AZU-0047" > ${{parameters.WorkingDirectory}}/.trivyignore
+     "AVD-AZU-0047" > ${{parameters.WorkingDirectory}}/.trivyignore
   displayName: 'Create .trivyignore'
 
 - script: |
