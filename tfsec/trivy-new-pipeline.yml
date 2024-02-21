@@ -19,6 +19,9 @@ steps:
     cat ${{parameters.WorkingDirectory}}/.trivyignore
   displayName: 'Print .trivyignore'
 - script: |
+   docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
+  displayName: 'Run Trivy Scan'
+- script: |
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --format json --ignorefile .trivyignore | tee ${{parameters.WorkingDirectory}}/TrivyReport.json
   displayName: 'Trivy JSON Report'
 - task: PublishBuildArtifacts@1
@@ -26,6 +29,7 @@ steps:
     PathtoPublish: '${{parameters.WorkingDirectory}}/TrivyReport.json'
     ArtifactName: 'TrivyReport'
     publishLocation: 'Container'
+    failTaskOnFailedTests: true
   condition: succeededOrFailed()
   displayName: 'Publish Trivy JSON Report'
 
