@@ -26,7 +26,8 @@ steps:
     PathtoPublish: '${{parameters.WorkingDirectory}}/TrivyReport.json'
     ArtifactName: 'TrivyReport'
     publishLocation: 'Container'
-  condition: succeededOrFailed()
+    failTaskOnFailedTests: true
+  #condition: succeededOrFailed()
   displayName: 'Publish Trivy JSON Report'
 
 
