@@ -30,7 +30,7 @@ steps:
     ArtifactName: 'TrivyReport'
     publishLocation: 'Container'
     #failTaskOnFailedTests: true
-  condition: Failed()
+  condition: succeededOrFailed()
   displayName: 'Publish Trivy JSON Report'
 
 
