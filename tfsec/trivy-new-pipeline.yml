@@ -23,7 +23,7 @@ steps:
   displayName: 'Run Trivy Scan'
 - script: |
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --format json --ignorefile .trivyignore > ${{parameters.WorkingDirectory}}/TrivyReport.json
-  displayName: 'Run Trivy Scan'
+  displayName: 'Trivy JSON Report'
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '${{parameters.WorkingDirectory}}/TrivyReport.json'
