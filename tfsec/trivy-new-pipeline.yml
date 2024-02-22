@@ -17,7 +17,7 @@ steps:
   displayName: 'Create .trivyignore'
 - script: |
     echo "Listing files in the working directory"
-    ls -la ${{parameters.WorkingDirectory}}
+    ls -la ${{parameters.WorkingDirectory}}/Terraform
   displayName: 'List Files in Working Directory'
 - script: |
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
