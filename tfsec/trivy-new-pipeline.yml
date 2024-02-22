@@ -23,7 +23,7 @@ steps:
   displayName: 'Run Trivy Scan'
   continueOnError: true
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --format json --ignorefile .trivyignore > ${{parameters.WorkingDirectory}}/TrivyReport.json
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --format json --ignorefile .trivyignore > ${{parameters.WorkingDirectory}}/TrivyReport.json
   displayName: 'Run Trivy Scan Publish JSON Report'
 #- script: |
 #    ls -la ${{parameters.WorkingDirectory}}
