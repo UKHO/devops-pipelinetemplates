@@ -3,8 +3,8 @@ parameters:
   default: $(System.DefaultWorkingDirectory)
 - name: TrivyIgnore
   default: |
-    AVD-AZU-0047
-    AVD-AZU-0011
+    #AVD-AZU-0047
+    #AVD-AZU-0011
 
 steps:
 - script: echo "Starting Trivy Scan Pipeline"
