@@ -35,6 +35,12 @@ steps:
     publishLocation: 'Container'
   condition: succeededOrFailed()
   displayName: 'Publish Trivy JSON Report'
+- script: |
+    if grep -q "HIGH\|CRITICAL" ${{parameters.WorkingDirectory}}/TrivyReport.json; then
+      echo "Misconfigurations found. Failing the pipeline."
+      exit 1
+    fi
+  displayName: 'Fail pipeline if misconfigurations found'
 
 
 #parameters:
