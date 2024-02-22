@@ -22,7 +22,7 @@ steps:
 #    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
 #  displayName: 'Run Trivy Scan'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --format json --ignorefile .trivyignore | tee ${{parameters.WorkingDirectory}}/TrivyReport.json
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --format json --ignorefile .trivyignore > ${{parameters.WorkingDirectory}}/TrivyReport.json
   displayName: 'Run Trivy Scan Publish JSON Report'
   continueOnError: true
 #- script: |
@@ -42,7 +42,7 @@ steps:
     fi
   displayName: 'Fail pipeline if misconfigurations found'
 
-
+#| tee ${{parameters.WorkingDirectory}}/TrivyReport.json
 #parameters:
 #- name: WorkingDirectory
 #  default: $(System.DefaultWorkingDirectory)
