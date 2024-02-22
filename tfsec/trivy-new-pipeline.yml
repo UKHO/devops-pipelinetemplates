@@ -18,9 +18,9 @@ steps:
 #- script: |
 #    cat ${{parameters.WorkingDirectory}}/.trivyignore
 #  displayName: 'Print .trivyignore'
-#- script: |
-#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
-#  displayName: 'Run Trivy Scan'
+- script: |
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
+  displayName: 'Run Trivy Scan'
 - script: |
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --format json --ignorefile .trivyignore > ${{parameters.WorkingDirectory}}/TrivyReport.json
   displayName: 'Run Trivy Scan Publish JSON Report'
