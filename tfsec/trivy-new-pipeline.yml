@@ -40,15 +40,13 @@ steps:
     fi
   displayName: 'Fail pipeline if misconfigurations found'
 
-#| tee ${{parameters.WorkingDirectory}}/TrivyReport.json
 #parameters:
 #- name: WorkingDirectory
 #  default: $(System.DefaultWorkingDirectory)
 #- name: TrivyIgnore
 #  default: |
-#    #AVD-AZU-0047
-#    #AVD-AZU-0011
-#
+#    AVD-AZU-0047
+#    
 #steps:
 #- script: echo "Starting Trivy Scan Pipeline"
 #  displayName: 'Initialising Trivy'
@@ -61,18 +59,23 @@ steps:
 #- script: |
 #    cat ${{parameters.WorkingDirectory}}/.trivyignore
 #  displayName: 'Print .trivyignore'
-##- script: |
-##    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
-##  displayName: 'Run Trivy Scan'
 #- script: |
-#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --format json --ignorefile .trivyignore > ${{parameters.WorkingDirectory}}/TrivyReport.json
-#  displayName: 'Trivy JSON Report'
-#- task: PublishBuildArtifacts@1
+#    wget -O ${{parameters.WorkingDirectory}}/junit.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/junit.tpl
+#  displayName: 'Download junit.tpl'
+#- script: |
+#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
+#  displayName: 'Run Trivy Scan'
+#  continueOnError: true
+#- script: |
+#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --severity HIGH,CRITICAL --ignorefile .trivyignore --format template --template "@/src/junit.tpl" -o /src/TrivyReport.xml
+#  displayName: 'Run Trivy Scan Publish Tests'
+#- task: PublishTestResults@2
 #  inputs:
-#    PathtoPublish: '${{parameters.WorkingDirectory}}/TrivyReport.json'
-#    ArtifactName: 'TrivyReport'
-#    publishLocation: 'Container'
-#    #failTaskOnFailedTests: true
-#  condition: succeededOrFailed()
-#  displayName: 'Publish Trivy JSON Report'
-
+#    testResultsFormat: 'JUnit'
+#    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport.xml'
+#    searchFolder: '${{parameters.WorkingDirectory}}/'
+#    testRunTitle: 'Trivy Scan'
+#    mergeTestResults: true
+#    failTaskOnFailedTests: true
+#    #publishRunAttachments: true
+#  condition: 'always()'
