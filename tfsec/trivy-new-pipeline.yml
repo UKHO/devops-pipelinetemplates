@@ -1,11 +1,11 @@
-# JUNIT WORKING
+####JUNIT WORKING### #COPY##
 parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
 - name: TrivyIgnore
   default: |
     #AVD-AZU-0047
-
+    
 steps:
 - script: echo "Starting Trivy Scan Pipeline"
   displayName: 'Initialising Trivy'
@@ -13,20 +13,20 @@ steps:
     docker pull aquasec/trivy
   displayName: 'Pull Trivy Image'
 - script: |
-    echo "${{parameters.TrivyIgnore}}" > ${{parameters.WorkingDirectory}}/.trivyignore
+   echo "${{parameters.TrivyIgnore}}" > ${{parameters.WorkingDirectory}}/.trivyignore
   displayName: 'Create .trivyignore'
 - script: |
     cat ${{parameters.WorkingDirectory}}/.trivyignore
   displayName: 'Print .trivyignore'
 - script: |
-    cp junit.tpl ${{parameters.WorkingDirectory}}/junit.tpl
-  displayName: 'Copy local junit.tpl'
+    wget -O ${{parameters.WorkingDirectory}}/junit.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/junit.tpl
+  displayName: 'Download junit.tpl'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --include-non-failures --severity HIGH,CRITICAL --ignorefile .trivyignore
   displayName: 'Run Trivy Scan'
   continueOnError: true
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --severity HIGH,CRITICAL --ignorefile .trivyignore --format template --template "@/src/junit.tpl" -o /src/TrivyReport.xml
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --include-non-failures --severity HIGH,CRITICAL --ignorefile .trivyignore --format template --template "@/src/junit.tpl" -o /src/TrivyReport.xml
   displayName: 'Run Trivy Scan Publish Tests'
 - task: PublishTestResults@2
   inputs:
@@ -37,18 +37,18 @@ steps:
     mergeTestResults: true
     failTaskOnFailedTests: true
     #publishRunAttachments: true
-  condition: succeededOrFailed()
+  condition: 'always()'
 
-#COPY##
 
-####JUNIT WORKING###
+
+# JUNIT WORKING
 #parameters:
 #- name: WorkingDirectory
 #  default: $(System.DefaultWorkingDirectory)
 #- name: TrivyIgnore
 #  default: |
 #    #AVD-AZU-0047
-#    
+#
 #steps:
 #- script: echo "Starting Trivy Scan Pipeline"
 #  displayName: 'Initialising Trivy'
@@ -56,14 +56,14 @@ steps:
 #    docker pull aquasec/trivy
 #  displayName: 'Pull Trivy Image'
 #- script: |
-#   echo "${{parameters.TrivyIgnore}}" > ${{parameters.WorkingDirectory}}/.trivyignore
+#    echo "${{parameters.TrivyIgnore}}" > ${{parameters.WorkingDirectory}}/.trivyignore
 #  displayName: 'Create .trivyignore'
 #- script: |
 #    cat ${{parameters.WorkingDirectory}}/.trivyignore
 #  displayName: 'Print .trivyignore'
 #- script: |
-#    wget -O ${{parameters.WorkingDirectory}}/junit.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/junit.tpl
-#  displayName: 'Download junit.tpl'
+#    cp junit.tpl ${{parameters.WorkingDirectory}}/junit.tpl
+#  displayName: 'Copy local junit.tpl'
 #- script: |
 #    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
 #  displayName: 'Run Trivy Scan'
@@ -80,7 +80,8 @@ steps:
 #    mergeTestResults: true
 #    failTaskOnFailedTests: true
 #    #publishRunAttachments: true
-#  condition: 'always()'
+#  condition: succeededOrFailed()
+
 
 ###WORKING###
 #parameters:
