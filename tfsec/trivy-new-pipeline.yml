@@ -36,7 +36,6 @@ steps:
     testRunTitle: 'Trivy Scan'
     mergeTestResults: true
     failTaskOnFailedTests: true
-    #publishRunAttachments: true
   condition: 'always()'
 
 
