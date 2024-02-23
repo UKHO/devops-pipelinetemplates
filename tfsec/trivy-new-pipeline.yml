@@ -1,4 +1,4 @@
-####JUNIT WORKING### #COPY##
+####JUNIT WORKING####
 parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
@@ -40,7 +40,7 @@ steps:
 
 
 
-# JUNIT WORKING
+### JUNIT WORKING COPY##
 #parameters:
 #- name: WorkingDirectory
 #  default: $(System.DefaultWorkingDirectory)
