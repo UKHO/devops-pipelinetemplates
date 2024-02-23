@@ -16,6 +16,9 @@ steps:
     echo "${{parameters.TrivyIgnore}}" > ${{parameters.WorkingDirectory}}/.trivyignore
   displayName: 'Create .trivyignore'
 - script: |
+    ls -la ${{parameters.WorkingDirectory}}
+  displayName: 'List files in working directory'
+- script: |
     cat ${{parameters.WorkingDirectory}}/.trivyignore
   displayName: 'Print .trivyignore'
 - script: |
