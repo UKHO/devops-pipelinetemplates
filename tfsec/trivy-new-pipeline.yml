@@ -37,7 +37,7 @@ steps:
     testRunTitle: 'Trivy Scan'
     mergeTestResults: true
     failTaskOnFailedTests: true
-  condition: 'always()'
+  condition: succeededOrFailed()
 
 
 
