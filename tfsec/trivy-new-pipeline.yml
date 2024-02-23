@@ -1,4 +1,4 @@
-###JUNIT WORKING###
+### JUNIT WORKING ###
 parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
