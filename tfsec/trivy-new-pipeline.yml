@@ -17,9 +17,6 @@ steps:
    echo "${{parameters.TrivyIgnore}}" > ${{parameters.WorkingDirectory}}/.trivyignore
   displayName: 'Create .trivyignore'
 - script: |
-    cat ${{parameters.WorkingDirectory}}/.trivyignore
-  displayName: 'Print .trivyignore'
-- script: |
     wget -O ${{parameters.WorkingDirectory}}/junit.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/junit.tpl
   displayName: 'Download junit.tpl'
 - script: |
@@ -33,7 +30,7 @@ steps:
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport.xml'
-    searchFolder: '${{parameters.WorkingDirectory}}/'
+    #searchFolder: '${{parameters.WorkingDirectory}}/'
     testRunTitle: 'Trivy Scan'
     mergeTestResults: true
     failTaskOnFailedTests: true
