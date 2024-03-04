@@ -9,7 +9,7 @@ parameters:
     
 steps:
 #- script: echo "Starting Trivy Scan Pipeline"
-  displayName: 'Initialising Trivy'
+#  displayName: 'Initialising Trivy'
 - script: |
     docker pull aquasec/trivy
   displayName: 'Pull Trivy Image'
