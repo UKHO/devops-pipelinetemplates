@@ -1,15 +1,12 @@
-####JUNIT WORKING####
 parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
 - name: TrivyIgnore
   default: |
-    #AVD-AZU-0047
+    AVD-AZU-0047
     AVD-AZU-0051
     
 steps:
-#- script: echo "Starting Trivy Scan Pipeline"
-#  displayName: 'Initialising Trivy'
 - script: |
     docker pull aquasec/trivy
   displayName: 'Pull Trivy Image'
@@ -25,12 +22,11 @@ steps:
   continueOnError: true
 - script: |
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --include-non-failures --severity HIGH,CRITICAL --ignorefile .trivyignore --format template --template "@/src/junit.tpl" -o /src/TrivyReport.xml
-  displayName: 'Run Trivy Scan Publish Tests'
+  displayName: 'Create Trivy Scan Results'
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport.xml'
-    #searchFolder: '${{parameters.WorkingDirectory}}/'
     testRunTitle: 'Trivy Scan'
     mergeTestResults: true
     failTaskOnFailedTests: true
