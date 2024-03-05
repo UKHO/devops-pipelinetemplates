@@ -1,28 +1,35 @@
-parameters: 
+parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
-- name: Exclusions
-  default: azure-network-no-public-ingress,azure-network-no-public-egress   
-  
-
+- name: TrivyIgnore
+  default: |
+    AVD-AZU-0047
+    AVD-AZU-0051
+    
 steps:
-- checkout: self
-- bash: mkdir ${{parameters.WorkingDirectory}}/TFSecReport
-  displayName: 'tfsec - Create output directory'
-- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/tfsec /src --exclude ${{parameters.Exclusions}} --include-passed
-  displayName: 'tfsec - Scan terraform'
-- bash: docker run --rm -v ${{parameters.WorkingDirectory}}:/src aquasec/tfsec /src --exclude ${{parameters.Exclusions}} --include-passed --format JUnit > ${{parameters.WorkingDirectory}}/TFSecReport/TFSec-Report.xml
-  displayName: 'tfsec - Create scan results report'
-  condition: always()
- # Publish the results of the TFSec analysis as Test Results to the pipeline
+#- script: echo "Starting Trivy Scan Pipeline"
+#  displayName: 'Initialising Trivy'
+- script: |
+    docker pull aquasec/trivy
+  displayName: 'Pull Trivy Image'
+- script: |
+   echo "${{parameters.TrivyIgnore}}" > ${{parameters.WorkingDirectory}}/.trivyignore
+  displayName: 'Create .trivyignore'
+- script: |
+    wget -O ${{parameters.WorkingDirectory}}/junit.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/junit.tpl
+  displayName: 'Download junit.tpl'
+- script: |
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
+  displayName: 'Run Trivy Console Scan'
+  continueOnError: true
+- script: |
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --include-non-failures --severity HIGH,CRITICAL --ignorefile .trivyignore --format template --template "@/src/junit.tpl" -o /src/TrivyReport.xml
+  displayName: 'Create Trivy Scan Results'
 - task: PublishTestResults@2
-  displayName: 'tfsec - Publish scan results report'
-  condition: succeededOrFailed()
   inputs:
-    testResultsFormat: 'JUnit' # Options JUnit, NUnit, VSTest, xUnit, cTest
-    testResultsFiles: '${{parameters.WorkingDirectory}}/TFSecReport/TFSec-Report.xml'
-    searchFolder: '${{parameters.WorkingDirectory}}/TFSecReport'
-    testRunTitle: TFSec Scan
-    mergeTestResults: false
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport.xml'
+    testRunTitle: 'Trivy Scan'
+    mergeTestResults: true
     failTaskOnFailedTests: true
-    publishRunAttachments: true
+  condition: succeededOrFailed()
