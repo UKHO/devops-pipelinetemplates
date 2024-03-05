@@ -7,8 +7,6 @@ parameters:
     AVD-AZU-0051
     
 steps:
-#- script: echo "Starting Trivy Scan Pipeline"
-#  displayName: 'Initialising Trivy'
 - script: |
     docker pull aquasec/trivy
   displayName: 'Pull Trivy Image'
