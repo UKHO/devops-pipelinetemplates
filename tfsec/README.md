@@ -31,7 +31,7 @@ Steps to add your job
 
 | Name                 | Description                                                                                    | Required? |
 |----------------------|------------------------------------------------------------------------------------------------|-----------|
-| `ignore`             | Checks that have been ignored                                                                  | False     |
+| `TrivyIgnore`        | Checks that have been ignored                                                                  | False     |
 | `WorkingDirectory`   | Override with desired path - $(System.DefaultWorkingDirectory)                                 | False     |
 
 
