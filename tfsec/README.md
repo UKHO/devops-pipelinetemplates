@@ -31,21 +31,21 @@ Steps to add your job
 
 | Name                 | Description                                                                                    | Required? |
 |----------------------|------------------------------------------------------------------------------------------------|-----------|
-| `ignore`             | Checks that have been excluded                                                                 | False     |
+| `ignore`             | Checks that have been ignored                                                                  | False     |
 | `WorkingDirectory`   | Override with desired path - $(System.DefaultWorkingDirectory)                                 | False     |
 
 
 ## Ignore checks [azure-network-no-public-ingress,azure-network-no-public-egress]
 
 There may be occasions when you wish to exclude certain checks, but it's not required. Please do not exclude checks without properly investigating the errors.
-To do this allow parameters for exclusions. To exclude these options, use a comma separated list. 
+To do this allow parameters for ignores. To ignore these options, use a comma separated list. 
 WorkingDirectory: Sets directory to scan, use this parameter with your own desired path.
 
 
 ## Results
 
-TFSEC will output the published results into the build pipeline under Test and Coverage, from there you can see a detailed summary of failures and passes. 
-Use the filter to switch between the two. In addition, the results are displayed inside the docker console.
+Trivy will output the published results into the build pipeline under Test and Coverage, from there you can see a detailed summary of failures and passes. 
+Use the filter to switch between the two. In addition, the failed scans are displayed inside the docker console.
 
 
 
