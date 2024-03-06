@@ -20,7 +20,7 @@ Steps to add your job
 ```yaml
 - job: tfsec
   steps: 
-    - template: tfsec/tfsec-pipelines.yml@UKHOTemplates
+    - template: tfsec/trivy-pipelines.yml@UKHOTemplates
       parameters: 
         WorkingDirectory: "$(System.DefaultWorkingDirectory)/Terraform_Folder"
 ```
@@ -31,11 +31,11 @@ Steps to add your job
 
 | Name                 | Description                                                                                    | Required? |
 |----------------------|------------------------------------------------------------------------------------------------|-----------|
-| `excluded`           | Checks that have been excluded                                                                 | False     |
+| `ignore`             | Checks that have been excluded                                                                 | False     |
 | `WorkingDirectory`   | Override with desired path - $(System.DefaultWorkingDirectory)                                 | False     |
 
 
-## Exclude checks [azure-network-no-public-ingress,azure-network-no-public-egress]
+## Ignore checks [azure-network-no-public-ingress,azure-network-no-public-egress]
 
 There may be occasions when you wish to exclude certain checks, but it's not required. Please do not exclude checks without properly investigating the errors.
 To do this allow parameters for exclusions. To exclude these options, use a comma separated list. 
