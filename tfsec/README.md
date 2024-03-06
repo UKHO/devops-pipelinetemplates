@@ -1,6 +1,6 @@
-# TfSec Azure Pipelines Build Template
+# Trivy Azure Pipelines Build Template
 
-Azure DevOps Pipeline template for running [TFSec] against your Terraform (https://aquasecurity.github.io/tfsec/v1.26.0/)
+Azure DevOps Pipeline template for running [TFSec] against your Terraform (https://github.com/aquasecurity/trivy)
 
 ## Usage
 
@@ -18,7 +18,7 @@ resources:
 Steps to add your job
 
 ```yaml
-- job: tfsec
+- job: trivy
   steps: 
     - template: tfsec/trivy-pipelines.yml@UKHOTemplates
       parameters: 
