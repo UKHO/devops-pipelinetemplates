@@ -1,6 +1,6 @@
 # Trivy Azure Pipelines Build Template
 
-Azure DevOps Pipeline template for running [TFSec] against your Terraform (https://github.com/aquasecurity/trivy)
+Azure DevOps Pipeline template for running [Trivy] against your Terraform (https://github.com/aquasecurity/trivy)
 
 ## Usage
 
