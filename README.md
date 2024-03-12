@@ -12,5 +12,5 @@ Below is a summary of the templates we have available
 | [Github Tag](./github-tag)                                   | Github tags to your commits for marking significant points in a project's development                                                              |
 | [Retain pipeline run](./retain-pipelinerun)                  | Retaining a pipeline run for longer than the default configured 30 days after production release                                                   |
 | [SAST](./sast)                                               | SAST scan of the dotnet projects                                                                                                                   |
-| [tfsec](./tfsec)                                             | Static analysis security scanner against your Terraform                                                                                            |
+| [trivy](./trivy)                                             | Static analysis security scanner against your Terraform                                                                                            |
 | [Gated Infrastructure Deploy](./gated-infrastructure-deploy) | Will trigger manual validation step if Terraform `plan` detects resource destruction |
