@@ -9,6 +9,9 @@ steps:
     docker pull aquasec/trivy
   displayName: 'Pull Trivy Image'
 - script: |
+    echo "${{parameters.TrivyIgnore}}" > ${{parameters.WorkingDirectory}}/.trivyignore
+  displayName: 'Create .trivyignore'
+- script: |
     wget -O ${{parameters.WorkingDirectory}}/junit.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/junit.tpl
   displayName: 'Download junit.tpl'
 - script: |
