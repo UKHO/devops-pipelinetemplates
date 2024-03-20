@@ -2,26 +2,24 @@ parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
 - name: TrivyIgnore
-  default: |
-    AVD-AZU-0047
-    AVD-AZU-0011
-    
+  default: '.trivyignore' # specify the default value for TrivyIgnore
+
 steps:
 - script: |
     docker pull aquasec/trivy
   displayName: 'Pull Trivy Image'
 - script: |
-   echo "${{parameters.TrivyIgnore}}" > ${{parameters.WorkingDirectory}}/.trivyignore
+    echo "${{parameters.TrivyIgnore}}" > ${{parameters.WorkingDirectory}}/.trivyignore
   displayName: 'Create .trivyignore'
 - script: |
     wget -O ${{parameters.WorkingDirectory}}/junit.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/junit.tpl
   displayName: 'Download junit.tpl'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
-  displayName: 'Run Trivy Scan'
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL,MEDIUM,LOW --ignorefile ${{parameters.TrivyIgnore}}
+  displayName: 'Run Trivy Console Scan'
   continueOnError: true
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --include-non-failures --severity HIGH,CRITICAL --ignorefile .trivyignore --format template --template "@/src/junit.tpl" -o /src/TrivyReport.xml
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --include-non-failures --severity HIGH,CRITICAL,MEDIUM,LOW --format template --template "@/src/junit.tpl" -o /src/TrivyReport.xml --ignorefile ${{parameters.TrivyIgnore}}
   displayName: 'Create Trivy Scan Results'
 - task: PublishTestResults@2
   inputs:
@@ -33,7 +31,39 @@ steps:
   condition: succeededOrFailed()
 
 
-
+#  parameters:
+#- name: WorkingDirectory
+#  default: $(System.DefaultWorkingDirectory)
+#- name: TrivyIgnore
+#  default: |
+#    AVD-AZU-0047
+#    AVD-AZU-0011
+#    
+#steps:
+#- script: |
+#    docker pull aquasec/trivy
+#  displayName: 'Pull Trivy Image'
+#- script: |
+#   echo "${{parameters.TrivyIgnore}}" > ${{parameters.WorkingDirectory}}/.trivyignore
+#  displayName: 'Create .trivyignore'
+#- script: |
+#    wget -O ${{parameters.WorkingDirectory}}/junit.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/junit.tpl
+#  displayName: 'Download junit.tpl'
+#- script: |
+#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity HIGH,CRITICAL --ignorefile .trivyignore
+#  displayName: 'Run Trivy Scan'
+#  continueOnError: true
+#- script: |
+#    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --include-non-failures --severity HIGH,CRITICAL --ignorefile .trivyignore --format template --template "@/src/junit.tpl" -o /src/TrivyReport.xml
+#  displayName: 'Create Trivy Scan Results'
+#- task: PublishTestResults@2
+#  inputs:
+#    testResultsFormat: 'JUnit'
+#    testResultsFiles: '${{parameters.WorkingDirectory}}/TrivyReport.xml'
+#    testRunTitle: 'Trivy Scan'
+#    mergeTestResults: true
+#    failTaskOnFailedTests: true
+#  condition: succeededOrFailed()
 
 ###TFSEC COPY###
 #parameters: 
