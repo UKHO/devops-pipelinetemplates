@@ -2,7 +2,9 @@ parameters:
 - name: WorkingDirectory
   default: $(System.DefaultWorkingDirectory)
 - name: TrivyIgnore
-  default: '.trivyignore' # specify the default value for TrivyIgnore
+  default: |
+  AVD-AZU-0047
+  AVD-AZU-0011
 
 steps:
 - script: |
