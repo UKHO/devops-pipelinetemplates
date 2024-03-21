@@ -35,11 +35,11 @@ Steps to add your job
 | `WorkingDirectory`   | Override with desired path - $(System.DefaultWorkingDirectory)                                 | False     |
 
 
-## Ignore checks [azure-network-no-public-ingress,azure-network-no-public-egress]
+## Ignore checks https://avd.aquasec.com/misconfig/azure/ [ For ExampleID AVD-AZU-0051] 
 
 There may be occasions when you wish to exclude certain checks, but it's not required. Please do not exclude checks without properly investigating the errors.
-To do this allow parameters for ignores. To ignore these options, use a comma separated list. 
-WorkingDirectory: Sets directory to scan, use this parameter with your own desired path.
+To do this create .trivyignore file inside your terraform folder (folder being scanned) with the ID of the resourcer you want to exclude.
+
 
 
 ## Results
