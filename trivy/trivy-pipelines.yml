@@ -1,6 +1,6 @@
 parameters:
 - name: WorkingDirectory
-  default: $(System.DeafultWorkingDirectory)
+  default: $(System.DefaultWorkingDirectory)
      
 steps:
 - script: echo "Starting Trivy Scan Pipeline"
