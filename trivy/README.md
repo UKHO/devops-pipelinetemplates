@@ -35,7 +35,7 @@ Steps to add your job
 | `WorkingDirectory`   | Override with desired path - $(System.DefaultWorkingDirectory)                                 | False     |
 
 
-## Ignore checks https://avd.aquasec.com/misconfig/azure/ [ (For Example) ID AVD-AZU-0051] 
+## Ignore checks https://avd.aquasec.com/misconfig/azure/ [ID AVD-AZU-0051] 
 
 There may be occasions when you wish to exclude certain checks, but it's not required. Please do not exclude checks without properly investigating the errors.
 To do this create .trivyignore file inside your terraform folder (folder being scanned) with the ID of the resourcer you want to exclude.
