@@ -40,7 +40,7 @@ Steps to add your job
 There may be occasions when you wish to exclude certain checks, but it's not required. Please do not exclude checks without properly investigating the errors.
 To do this create .trivyignore file inside your terraform folder (folder being scanned) with the ID of the resourcer you want to exclude.
 
-![image](https://github.com/UKHO/devops-pipelinetemplates/assets/52528924/b4489233-3c56-4005-aa12-b17975cdc7fa)
+![image](https://github.com/UKHO/devops-pipelinetemplates/assets/52528924/733adbd4-2e41-47e7-a58c-130656876e8d)
 
 
 ## Results
