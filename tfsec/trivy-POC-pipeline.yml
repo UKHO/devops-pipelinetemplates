@@ -1,8 +1,7 @@
 parameters:
 - name: WorkingDirectory
   default: $(System.DeafultWorkingDirectory)
-  
-    
+     
 steps:
 - script: echo "Starting Trivy Scan Pipeline"
   displayName: 'Initialising Trivy'
@@ -29,6 +28,10 @@ steps:
     failTaskOnFailedTests: true
     condition: succeededOrFailed()
   condition: 'always()'
+
+
+
+
 
 ###Working one
 #  parameters:
