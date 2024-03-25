@@ -37,16 +37,14 @@ Steps to add your job
 
 ## Ignore checks https://avd.aquasec.com/misconfig/azure
 
-There may be occasions when you wish to exclude certain checks, but it's not required. Please do not exclude checks without properly investigating the errors.
-To do this create .trivyignore file inside your terraform folder (folder being scanned) with the ID of the resource you want to exclude.
+On rare occasions, you might find it necessary to omit specific checks, although it's not mandatory. Please refrain from excluding checks without thoroughly investigating the errors. To achieve this, simply create a .trivyignore file within your Terraform directory (the folder undergoing scanning), specifying the ID of the resource you intend to exclude.
 
 ![image](https://github.com/UKHO/devops-pipelinetemplates/assets/52528924/ee92d2a9-81fc-459b-b99d-f445ecb0804c)
 
 
 ## Results
 
-Trivy will output the published results into the build pipeline under Test and Coverage, from there you can see a detailed summary of failures and passes. 
-Use the filter to switch between the two. In addition, the failed scans are displayed inside the docker console.
+Trivy will generate and publish results in the build pipeline under the Test and Coverage sections, allowing you to access a comprehensive overview of successes and failures. Utilise the filter to seamlessly switch between the two views. Furthermore, any failed scans will be clearly presented within the Docker console for immediate visibility and action.
 
 
 
