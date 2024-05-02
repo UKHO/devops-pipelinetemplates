@@ -23,12 +23,13 @@
     type: object
   - name: TerraformContainer
     type: string
+    default: ''
 
 jobs:
   - deployment: planInfrastructure
     displayName: "Plan Infrastructure"
-  - ${{if parameters.TerraformContainer}}:
-    container: ${{parameters.TerraformContainer}}
+  - ${{ if ne(parameters.TerraformContainer, '') }}:
+        container: ${{parameters.TerraformContainer}}
     workspace:
       clean: all
     variables:
@@ -79,8 +80,8 @@ jobs:
 
   - deployment: deployInfrastructure
     displayName: "Deploy Infrastructure"
-  - ${{if parameters.TerraformContainer}}:
-    container: ${{parameters.TerraformContainer}}
+  - ${{ if ne(parameters.TerraformContainer, '') }}:
+        container: ${{parameters.TerraformContainer}}
     dependsOn:
       - manualVerification
       - planInfrastructure
