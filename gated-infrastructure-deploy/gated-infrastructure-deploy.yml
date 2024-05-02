@@ -22,7 +22,7 @@
   - name: TerraformOutputVariables
     type: object
   - name: TerraformContainer
-    value: string
+    type: string
 
 jobs:
   - deployment: planInfrastructure
