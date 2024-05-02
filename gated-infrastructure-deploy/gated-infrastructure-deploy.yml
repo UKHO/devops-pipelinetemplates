@@ -27,7 +27,8 @@
 jobs:
   - deployment: planInfrastructure
     displayName: "Plan Infrastructure"
-    container: ${{if parameters.TerraformContainer}}
+  - ${{if parameters.TerraformContainer}}:
+    container: ${{parameters.TerraformContainer}}
     workspace:
       clean: all
     variables:
@@ -78,7 +79,8 @@ jobs:
 
   - deployment: deployInfrastructure
     displayName: "Deploy Infrastructure"
-    container: ${{if parameters.TerraformContainer}}
+  - ${{if parameters.TerraformContainer}}:
+    container: ${{parameters.TerraformContainer}}
     dependsOn:
       - manualVerification
       - planInfrastructure
