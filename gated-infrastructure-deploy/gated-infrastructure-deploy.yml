@@ -21,10 +21,13 @@
     type: object
   - name: TerraformOutputVariables
     type: object
+  - name: terraformazurecontainer
+    value: ukhydrographicoffice/terraform-azure:1.3.9
 
 jobs:
   - deployment: planInfrastructure
     displayName: "Plan Infrastructure"
+    container: ${{variables.terraformazurecontainer}}
     workspace:
       clean: all
     variables:
@@ -75,6 +78,7 @@ jobs:
 
   - deployment: deployInfrastructure
     displayName: "Deploy Infrastructure"
+    container: ${{variables.terraformazurecontainer}}
     dependsOn:
       - manualVerification
       - planInfrastructure
