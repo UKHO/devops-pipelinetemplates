@@ -124,7 +124,7 @@ function Terraform-Apply {
 function ExportRequiredTerraformOutputVariables {
   [CmdletBinding()]
   param (
-    [Parameter(Mandatory)]
+    [Parameter()]
     [string] $TerraformOutputVariables
   )
 
