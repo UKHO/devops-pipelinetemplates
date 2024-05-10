@@ -125,7 +125,6 @@ function ExportRequiredTerraformOutputVariables {
   [CmdletBinding()]
   param (
     [Parameter(Mandatory)]
-    [ValidateNotNullOrEmpty()]
     [string] $TerraformOutputVariables
   )
 
