@@ -50,7 +50,7 @@ Trivy will generate and publish results in the build pipeline under the Test and
 
 Trivy can be installed locally on Windows by downloading the [Windows compatible binaries](https://github.com/aquasecurity/trivy/releases/latest/) and adding the location of the files to the Windows PATH environment variable.
 
-Once installed, run a Trivy scan using a command prompt be navigating to your Trivy location and running commands as below:
+Once installed, run a Trivy scan using a command prompt by navigating to your Trivy location and running commands as follows:
 
 - To scan a local project including language-specific files:
 `trivy fs /path/to/your_project_folder`
@@ -58,7 +58,7 @@ Once installed, run a Trivy scan using a command prompt be navigating to your Tr
 - To scan a single file:
 `trivy fs ./trivy-ci-test/single_file`,
 
-Other operating system installation instructions can be found [here].(https://aquasecurity.github.io/trivy/v0.18.3/installation/)
+Other operating system installation instructions can be found [here](https://aquasecurity.github.io/trivy/v0.18.3/installation/).
 
 A [VS Code plugin](https://github.com/aquasecurity/trivy-vscode-extension) for Trivy is available.
 
