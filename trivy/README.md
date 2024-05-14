@@ -46,6 +46,21 @@ On rare occasions, you might find it necessary to omit specific checks, although
 
 Trivy will generate and publish results in the build pipeline under the Test and Coverage sections, allowing you to access a comprehensive overview of successes and failures. Utilise the filter to seamlessly switch between the two views. Furthermore, any failed scans will be clearly presented within the Docker console for immediate visibility and action.
 
+## local setup
+
+Trivy can be installed locally by downloading the windows compatible binaries [from](https://github.com/aquasecurity/trivy/releases/latest/) and updating binary files location at `PATH` system environment variable.
+Running trivy scan at command prompt locally as below:
+
+- To scan a local project including language-specific files:
+`trivy fs /path/to/your_project_folder`
+
+- To scan a single file:
+`trivy fs ./trivy-ci-test/single_file`,
+
+Other operating systems installation instructions can be found [here](https://aquasecurity.github.io/trivy/v0.18.3/installation/)
+
+Instructions to use Trivy in [VS Code plugin](https://github.com/aquasecurity/trivy-vscode-extension)
+
 
 
 
