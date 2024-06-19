@@ -55,19 +55,19 @@ For a complete working example, please refer to the [acg-connect](https://github
 
 3. Consult the table below to fill out each of the parameters with the value that you require.
 
-    | parameter | Required | Type | Description | 
-    | - | - | - | - | 
-    | AzDOEnvironmentName | Yes | string | Environment name as defined in Azure DevOps |
-    | TFStateResourceGroupName | Yes | string | Terraform state resource group |
-    | TFStateStorageAccountName | Yes | string | Terraform state storage account |
-    | TFStateContainerName | Yes | string | Terraform state container |
-    | TFStateBlobName | Yes| string | Terraform state blob |
-    | TerraformWorkspace | Yes | string | Terraform workspace |
-    | TerraformArtifact| Yes | string | Artifact containing your .tf files and any other supporting files for your deployment |
-    | TerraformArtifactConfigRelativePath | Yes | string | Relative path to the .tf files inside your artifact |
-    | VariablesTemplateRelativePath | Yes | string | Relative path to a YAML template containing a variables expression |
-    | TerraformVariableMappings | Yes | object | A key/value map of Terraform variables to be injected into the PowerShell runtime environment for Terraform to use |
-    | TerraformOutputVariables| No | object | An array of Terraform output variables to be retrieved after the Terraform apply has completed |
+    | parameter                           | Required | Type   | Description                                                                                                        | 
+    |-------------------------------------|----------|--------|--------------------------------------------------------------------------------------------------------------------| 
+    | AzDOEnvironmentName                 | Yes      | string | Environment name as defined in Azure DevOps                                                                        |
+    | TFStateResourceGroupName            | Yes      | string | Terraform state resource group                                                                                     |
+    | TFStateStorageAccountName           | Yes      | string | Terraform state storage account                                                                                    |
+    | TFStateContainerName                | Yes      | string | Terraform state container                                                                                          |
+    | TFStateBlobName                     | Yes      | string | Terraform state blob                                                                                               |
+    | TerraformWorkspace                  | Yes      | string | Terraform workspace                                                                                                |
+    | TerraformArtifact                   | Yes      | string | Artifact containing your .tf files and any other supporting files for your deployment                              |
+    | TerraformArtifactConfigRelativePath | Yes      | string | Relative path to the .tf files inside your artifact                                                                |
+    | VariablesTemplateRelativePath       | Yes      | string | Relative path to a YAML template containing a variables expression                                                 |
+    | TerraformVariableMappings           | Yes      | object | A key/value map of Terraform variables to be injected into the PowerShell runtime environment for Terraform to use |
+    | TerraformOutputVariables            | No       | object | An array of Terraform output variables to be retrieved after the Terraform apply has completed                     |
 
     **Notes**:
 
