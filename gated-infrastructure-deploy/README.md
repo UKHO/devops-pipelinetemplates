@@ -49,7 +49,7 @@ For a complete working example, please refer to the [acg-connect](https://github
           VariablesTemplateRelativePath: "string"
           TerraformVariableMappings:
             TERRAFORM_VARIABLE: "VALUE" 
-          TerraformOutputVariables:
+          TerraformOutputVariables: # optional
             POSSIBLE_TERRAFORM_OUTPUT_VARIABLE
     ```
 
