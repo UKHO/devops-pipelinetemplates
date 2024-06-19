@@ -21,6 +21,7 @@
     type: object
   - name: TerraformOutputVariables
     type: object
+    default: {}
   - name: TerraformContainer
     type: string
     default: ''
