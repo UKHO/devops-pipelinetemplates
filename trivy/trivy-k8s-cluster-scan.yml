@@ -10,7 +10,7 @@ steps:
     docker pull aquasec/trivy
   displayName: 'Pull Trivy Image'
 
-- script: echo ${{parameters.kubernetesCluster}}
+- script: echo "${{parameters.kubernetesCluster}}"
 - script: |
     docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy trivy k8s --report=summary ${{parameters.kubernetesCluster}} --exit-code 1 --severity CRITICAL,HIGH
   displayName: 'Run Trivy Scan'
