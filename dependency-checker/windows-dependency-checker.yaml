@@ -17,9 +17,9 @@ steps:
     targetType: "inline"
     script: |
       if("${{parameters.suppressionPath }}" -eq "none") { 
-        dependency-check --project "${{ parameters.scanName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}"
+        dependency-check --project "${{ parameters.scanName }}" --noupdate --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}"
       } else {
-        dependency-check --project "${{ parameters.scanName }}" --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}" --suppression "${{ parameters.suppressionPath }}"
+        dependency-check --project "${{ parameters.scanName }}" --noupdate --scan ${{ parameters.scanPath }} --out "${{ parameters.reportPath }}" --suppression "${{ parameters.suppressionPath }}"
       }
       if ((test-path ${{ parameters.reportPath }}) -and (get-childitem ${{ parameters.reportPath }} | Measure-Object | select-object -ExpandProperty Count) -gt 0) {
           write-host "Attempt $i successful"
