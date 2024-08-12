@@ -8,8 +8,6 @@ parameters:
   - name: suppressionPath
     type: string
     default: "none"
-  - name: workingDirecory
-    type: string
   - name: NvdApiKey
 
 steps:
@@ -53,6 +51,6 @@ steps:
         --format "ALL" \
         --project "$DC_PROJECT" \
         --out /reports
-  workingDirectory: ${{ parameters.workingDirecory }}
+  workingDirectory: ${{ parameters.scanPath }}
   displayName: nvd check
-- publish: ${{ parameters.workingDirecory }}/odc-reports
+- publish: ${{ parameters.scanPath }}/odc-reports
