@@ -46,7 +46,7 @@ steps:
         --volume "$DATA_DIRECTORY":/usr/share/dependency-check/data:z \
         --volume $(pwd)/odc-reports:/reports:z \
         owasp/dependency-check:$DC_VERSION \
-        --nvdApiKey $(NvdApiKey) \
+        --nvdApiKey ${{ parameters.NvdApiKey }} \
         --scan /src \
         --format "ALL" \
         --project "$DC_PROJECT" \
