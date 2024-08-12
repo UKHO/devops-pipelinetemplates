@@ -8,6 +8,9 @@ parameters:
   - name: suppressionPath
     type: string
     default: "none"
+  - name: workingDirecory
+    type: string
+  - name: NvdApiKey
 
 steps:
 - bash: |
