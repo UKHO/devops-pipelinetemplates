@@ -38,7 +38,7 @@ dependency-check is added to the environment PATH so can be called by using `dep
 
 ```yaml
   - template: dependency-checker/windows-dependency-checker.yaml@UKHOTemplates
-    paramerers:
+    parameters:
       scanName: "MyDCCheck"
       scanPath: "$(Build.SourcesDirectory)\\App"
 ```
