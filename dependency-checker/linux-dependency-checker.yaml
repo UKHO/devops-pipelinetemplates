@@ -64,4 +64,5 @@ steps:
             exit 1
         fi
     fi
+  displayName: Fail build if dependency checker has vulnerabilities
 
