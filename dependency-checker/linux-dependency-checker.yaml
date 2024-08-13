@@ -51,6 +51,15 @@ steps:
         --format "ALL" \
         --project "$DC_PROJECT" \
         --out /reports
+
+    # Fail the build if vulnerabilities are found
+    if [ -f "$(pwd)/odc-reports/dependency-check-report.xml" ]; then
+        VULNERABILITIES=$(grep -c '<vulnerability ' "$(pwd)/odc-reports/dependency-check-report.xml")
+        if [ "$VULNERABILITIES" -gt 0 ]; then
+            echo "Vulnerabilities detected! Failing the build."
+            exit 1
+        fi
+    fi
   workingDirectory: ${{ parameters.scanPath }}
   displayName: nvd check
 - publish: ${{ parameters.scanPath }}/odc-reports
