@@ -51,7 +51,11 @@ steps:
         --format "ALL" \
         --project "$DC_PROJECT" \
         --out /reports
+  workingDirectory: ${{ parameters.scanPath }}
+  displayName: nvd check
+- publish: ${{ parameters.scanPath }}/odc-reports
 
+- bash: |
     # Fail the build if vulnerabilities are found
     if [ -f "$(pwd)/odc-reports/dependency-check-report.xml" ]; then
         VULNERABILITIES=$(grep -c '<vulnerability ' "$(pwd)/odc-reports/dependency-check-report.xml")
@@ -60,6 +64,4 @@ steps:
             exit 1
         fi
     fi
-  workingDirectory: ${{ parameters.scanPath }}
-  displayName: nvd check
-- publish: ${{ parameters.scanPath }}/odc-reports
+
