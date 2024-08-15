@@ -54,14 +54,17 @@ dependency-check is added to the environment PATH so can be called by using `dep
 linux build would rely on a container
 
 ```yaml
-steps:
-  - template: dependency-checker/linux-dependency-checker.yaml@UKHOTemplates
+  steps:
+    - template: dependency-checker/linux-dependency-checker.yaml@UKHOTemplates
+      parameters:
+        NvdApiKey: $(NvdApiKey)
 ```
 
 ### Build Parameters
 
 | Name              | Description                                                                                                                   | Required? |
 |-------------------|-------------------------------------------------------------------------------------------------------------------------------|-----------|
+| `NvdApiKey`       | NvdApiKey that must be passed in to connect to the NVD DataBase. This is hosted in the DDC owned `AzDoLive-KV` Key Vault. A AzDo Libary group should be used to request it.       | true     
 | `scanName`        | The path to the directory containing your packages. Default: `$(Build.DefinitionName) - $(Build.SourceBranchName)`     | false     |
 | `scanPath`        | The path to test. Default: `$(Build.SourcesDirectory)`                                                                        | false     |
 | `suppressionPath` | The location of your supression file. Default: `none`                                                                         | false     |
