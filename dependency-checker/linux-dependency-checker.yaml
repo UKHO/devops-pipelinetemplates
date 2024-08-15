@@ -8,6 +8,7 @@ parameters:
   - name: suppressionPath
     type: string
     default: "none"
+  - name: NvdApiKey
 
 steps:
 - bash: |
@@ -45,11 +46,23 @@ steps:
         --volume "$DATA_DIRECTORY":/usr/share/dependency-check/data:z \
         --volume $(pwd)/odc-reports:/reports:z \
         owasp/dependency-check:$DC_VERSION \
-        --nvdApiKey $(NvdApiKey) \
+        --nvdApiKey ${{ parameters.NvdApiKey }} \
         --scan /src \
         --format "ALL" \
         --project "$DC_PROJECT" \
         --out /reports
-  workingDirectory: ${{ parameters.workingDirecory }}
+  workingDirectory: ${{ parameters.scanPath }}
   displayName: nvd check
-- publish: ${{ parameters.workingDirecory }}/odc-reports
+- publish: ${{ parameters.scanPath }}/odc-reports
+
+- bash: |
+    # Fail the build if vulnerabilities are found
+    if [ -f "$(pwd)/odc-reports/dependency-check-report.xml" ]; then
+        VULNERABILITIES=$(grep -c '<vulnerability ' "$(pwd)/odc-reports/dependency-check-report.xml")
+        if [ "$VULNERABILITIES" -gt 0 ]; then
+            echo "Vulnerabilities detected! Failing the build."
+            exit 1
+        fi
+    fi
+  displayName: Fail build if dependency checker has vulnerabilities
+
