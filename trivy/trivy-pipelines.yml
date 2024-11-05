@@ -12,11 +12,11 @@ steps:
     wget -O ${{parameters.WorkingDirectory}}/junit.tpl https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/junit.tpl
   displayName: 'Download junit.tpl'
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity CRITICAL,HIGH
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --exit-code 1 --severity CRITICAL,HIGH --ignorefile /src/.trivyignore
   displayName: 'Run Trivy Scan'
   continueOnError: true
 - script: |
-    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --include-non-failures --severity CRITICAL,HIGH --format template --template "@/src/junit.tpl" -o /src/TrivyReport.xml
+    docker run --rm -v ${{parameters.WorkingDirectory}}:/src -w /src aquasec/trivy config ./ --include-non-failures --severity CRITICAL,HIGH --ignorefile /src/.trivyignore --format template --template "@/src/junit.tpl" -o /src/TrivyReport.xml
   displayName: 'Run Trivy Scan Publish Tests'
 - task: PublishTestResults@2
   inputs:
