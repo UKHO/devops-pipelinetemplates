@@ -9,6 +9,7 @@ parameters:
     type: string
     default: "none"
   - name: NvdApiKey
+    default: ""
 
 steps:
 - bash: |
