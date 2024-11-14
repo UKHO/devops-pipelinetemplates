@@ -26,6 +26,7 @@ steps:
   workingDirectory: ${{ parameters.scanPath }}
   displayName: Setup
 - bash: |
+    DC_VERSION="latest"
     docker run --rm \
         -e user=$USER \
         -u $(id -u ${USER}):$(id -g ${USER}) \
