@@ -28,7 +28,7 @@ steps:
     fi
 
     # Make sure we are using the latest version
-    docker pull owasp/dependency-check:$DC_VERSION
+    docker pull ukhydrographicoffice/dependency-check:$DC_VERSION
   displayName: pull image
 - bash: |
     DC_VERSION="latest"
@@ -46,7 +46,7 @@ steps:
         --volume "$DATA_DIRECTORY":/usr/share/dependency-check/data:z \
         --volume $(pwd)/odc-reports:/reports:z \
         owasp/dependency-check:$DC_VERSION \
-        --nvdApiKey ${{ parameters.NvdApiKey }} \
+        --noupdate \
         --scan /src \
         --format "ALL" \
         --project "$DC_PROJECT" \
