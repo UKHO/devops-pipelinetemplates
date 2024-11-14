@@ -19,9 +19,6 @@ steps:
     docker pull ukhydrographicoffice/dependency-check:$DC_VERSION
   displayName: pull image
 - bash: |
-    DC_VERSION="latest"
-    DC_PROJECT="dependency-check scan: $(pwd)"
-    
     mkdir -p odc-reports
   workingDirectory: ${{ parameters.scanPath }}
   displayName: Setup
@@ -38,6 +35,9 @@ steps:
   workingDirectory: ${{ parameters.scanPath }}
   displayName: check version  
 - bash: |
+    DC_VERSION="latest"
+    DC_PROJECT="dependency-check scan: $(pwd)"
+
     docker run --rm \
         -e user=$USER \
         -u $(id -u ${USER}):$(id -g ${USER}) \
