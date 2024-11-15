@@ -9,7 +9,6 @@ parameters:
     type: string
     default: "none"
   - name: NvdApiKey
-    default: "zero"
 
 steps:
 - bash: |
@@ -44,6 +43,7 @@ steps:
         --volume $(pwd):/src:z \
         --volume $(pwd)/odc-reports:/reports:z \
         ukhydrographicoffice/dependency-check:$DC_VERSION \
+        --nvdApiKey ${{ parameters.NvdApiKey }} \
         --scan /src \
         --format "ALL" \
         --project "$DC_PROJECT" \
