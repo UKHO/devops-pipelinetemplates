@@ -9,6 +9,7 @@ parameters:
     type: string
     default: "none"
   - name: NvdApiKey
+    default: "zero"
 
 steps:
 - bash: |
@@ -28,7 +29,7 @@ steps:
     fi
 
     # Make sure we are using the latest version
-    docker pull owasp/dependency-check:$DC_VERSION
+    docker pull ukhydrographicoffice/dependency-check:$DC_VERSION
   displayName: pull image
 - bash: |
     DC_VERSION="latest"
@@ -40,13 +41,9 @@ steps:
     mkdir -p odc-reports
     
     docker run --rm \
-        -e user=$USER \
-        -u $(id -u ${USER}):$(id -g ${USER}) \
         --volume $(pwd):/src:z \
-        --volume "$DATA_DIRECTORY":/usr/share/dependency-check/data:z \
         --volume $(pwd)/odc-reports:/reports:z \
-        owasp/dependency-check:$DC_VERSION \
-        --nvdApiKey ${{ parameters.NvdApiKey }} \
+        ukhydrographicoffice/dependency-check:$DC_VERSION \
         --scan /src \
         --format "ALL" \
         --project "$DC_PROJECT" \
