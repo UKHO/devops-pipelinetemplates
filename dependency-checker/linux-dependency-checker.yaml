@@ -41,8 +41,6 @@ steps:
     mkdir -p odc-reports
     
     docker run --rm \
-        -e user=$USER \
-        -u $(id -u ${USER}):$(id -g ${USER}) \
         --volume $(pwd):/src:z \
         --volume $(pwd)/odc-reports:/reports:z \
         ukhydrographicoffice/dependency-check:$DC_VERSION \
