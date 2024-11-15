@@ -45,7 +45,7 @@ steps:
         --volume $(pwd):/src:z \
         --volume $(pwd)/odc-reports:/reports:z \
         ukhydrographicoffice/dependency-check:$DC_VERSION \
-        --scan ./
+        --scan /**
         --format "ALL" \
         --project "$DC_PROJECT" \
         --out /reports
