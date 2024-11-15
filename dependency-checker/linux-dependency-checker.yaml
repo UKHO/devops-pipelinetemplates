@@ -32,6 +32,23 @@ steps:
         --volume $(pwd):/src:z \
         --volume $(pwd)/odc-reports:/reports:z \
         ukhydrographicoffice/dependency-check:$DC_VERSION \
+        --version --updateonly
+        --scan /src \
+        --format "ALL" \
+        --project "$DC_PROJECT" \
+        --out /reports
+  workingDirectory: ${{ parameters.scanPath }}
+  displayName: update
+- bash: |
+    DC_VERSION="latest"
+    DC_PROJECT="dependency-check scan: $(pwd)"
+
+    docker run --rm \
+        -e user=$USER \
+        -u $(id -u ${USER}):$(id -g ${USER}) \
+        --volume $(pwd):/src:z \
+        --volume $(pwd)/odc-reports:/reports:z \
+        ukhydrographicoffice/dependency-check:$DC_VERSION \
         --scan /src \
         --format "ALL" \
         --project "$DC_PROJECT" \
