@@ -44,7 +44,6 @@ steps:
         -e user=$USER \
         -u $(id -u ${USER}):$(id -g ${USER}) \
         --volume $(pwd):/src:z \
-        --volume "$DATA_DIRECTORY":/usr/share/dependency-check/data:z \
         --volume $(pwd)/odc-reports:/reports:z \
         ukhydrographicoffice/dependency-check:$DC_VERSION \
         --scan /src \
