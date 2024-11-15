@@ -33,10 +33,6 @@ steps:
         --volume $(pwd)/odc-reports:/reports:z \
         ukhydrographicoffice/dependency-check:$DC_VERSION \
         --version --updateonly
-        --scan /src \
-        --format "ALL" \
-        --project "$DC_PROJECT" \
-        --out /reports
   workingDirectory: ${{ parameters.scanPath }}
   displayName: update
 - bash: |
