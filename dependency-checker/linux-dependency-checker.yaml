@@ -44,6 +44,7 @@ steps:
         --volume $(pwd):/src:z \
         --volume $(pwd)/odc-reports:/reports:z \
         ukhydrographicoffice/dependency-check:$DC_VERSION \
+        --noupdate
         --nvdApiKey ${{ parameters.NvdApiKey }} \
         --scan /src \
         --format "ALL" \
