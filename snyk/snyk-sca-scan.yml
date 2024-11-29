@@ -1,0 +1,33 @@
+parameters:
+  - name: organization
+    displayName: Organization ID in Snyk
+    type: string
+  - name: serviceConnectionToken
+    displayName: Snyk Service Account Token
+    type: string
+  - name: targetFile
+    displayName: Custom path to manifest file to test
+    type: string
+  - name: severityThreshold
+    displayName: Testing severity threshold
+    type: string
+  - name: additionalArguments
+    displayName: Additional command-line args for Snyk CLI 
+    type: string
+
+steps:
+  - script: |
+      SNYK_TOKEN=${{ parameters.serviceConnectionToken }} snyk test \
+      --org=${{ parameters.organization }} \
+      --severity-threshold=${{ parameters.severityThreshold }} \
+      --file=${{ parameters.targetFile }} \
+      --json-file-output=sca-results.json \
+      ${{ parameters.additionalArguments }}
+    displayName: Perform SCA Scan
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: $(System.DefaultWorkingDirectory)/sca-results.json
+      artifact: sca-results.json
+      publishLocation: 'pipeline'
+    displayName: 'Publish artifact: CodeScanningResults'
+    condition: always()
