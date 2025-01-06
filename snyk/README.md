@@ -36,6 +36,20 @@ steps:
 | `codeSeverityThreshold` | The severity threshold of code SAST scanning. Anything below the threshold will be ignored | false     | medium  |
 | `additionalArguments`   | Any additional arguments to run with the command. [Commands can be found here](https://docs.snyk.io/snyk-cli/cli-commands-and-options-summary#options-for-multiple-commands)                                                        | false     | ''      |
 
+## Test Types
+
+### SCA
+This test type will perform a scan of your dependencies and feedback if there are any vulnerabilities found. To do this it performs a dotnet restore using the dotnet cli task with the dotnet version set to 8.x.
+
+### Container
+This test type will perform a scan of the built container and feedback if there are any vulnerabilities found. To do this it builds the container using the image name provided and then performs the scan.
+
+### IAC
+This test type will perform a scan of infrastructure as code and feedback if there are any vulnerabilities found. This can scan the repo or a single file. To specify file you can pass in the file path via the `targetFile` parameter.
+
+### Code
+This test type will perform a scan of the code and feedback if there are any vulnerabilities found. This is similar to the PR scan that is performed however you can stop your pipeline with this check.
+
 ## Results
 
 The template uses the `PublishPipelineArtifact` built in task to output the scan results in a json format. The logs will show a more human readable version for analysis however for reference we will output this file. If there are no issues, there will be no file published. Results from the pipeline are not monitored in the dashboard to allow for engineers to adjust and make changes without affecting overall metrics.
