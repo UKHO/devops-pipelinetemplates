@@ -1,0 +1,29 @@
+parameters:
+  - name: organization
+    displayName: Organization ID in Snyk
+    type: string
+  - name: serviceConnectionToken
+    displayName: Snyk Service Account Token
+    type: string
+  - name: codeSeverityThreshold
+    displayName: Code testing severity threshold
+    type: string
+  - name: additionalArguments
+    displayName: Additional command-line args for Snyk CLI 
+    type: string
+
+steps:
+  - script: |
+      SNYK_TOKEN=${{ parameters.serviceConnectionToken }} snyk code test \
+      --org=${{ parameters.organization }} \
+      --severity-threshold=${{ parameters.codeSeverityThreshold }} \
+      --json-file-output=code-results.json \
+      ${{ parameters.additionalArguments }}
+    displayName: Perform SAST Scan
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: $(System.DefaultWorkingDirectory)/code-results.json
+      artifact: code-results.json
+      publishLocation: 'pipeline'
+    displayName: 'Publish artifact: CodeScanningResults'
+    condition: failed()
