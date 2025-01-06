@@ -6,7 +6,7 @@ parameters:
     displayName: Snyk Service Account Token
     type: string
   - name: targetFile
-    displayName: Custom path to manifest file to test
+    displayName: Custom path to IAC file to test (other scans whole repo)
     type: string
   - name: severityThreshold
     displayName: Testing severity threshold

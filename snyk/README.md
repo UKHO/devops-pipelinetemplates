@@ -16,22 +16,32 @@ resources:
 Add to your jobs steps
 
 ```yaml
-steps:
+jobs:
   - template: snyk/snyk-pipeline-run.yml@UKHOTemplates
     parameters:
       organization: $(organization)
 ```
 
+or if you wish to just add individual steps to your pipeline
+
+```yaml
+jobs:
+  - template: snyk/snyk-iac-scan.yml@UKHOTemplates
+    parameters:
+      organization: $(organization)
+```
+> The steps do not provide pre-requisite steps to prepare the code for scanning so only import steps if you just need to scan.
+
 ## Parameters
 
 | Name                    | Description                                                                                | Required? | Default |
 |-------------------------|--------------------------------------------------------------------------------------------|-----------|---------|
-| `organization`          | The GUID of the organization for which the scan is to be run                               | true      | ''      |
-| `serviceConnectionToken`| A Service Account token to which can be authenticated to the organization                  | true      | ''      |
-| `testType`              | The type of test to run. Available values are `sca|code|iac|container`                     | false     | sca     |
+| `organization`          | The GUID of the organization for which the scan is to be run. This is found in your Snyk org settings                               | true      | ''      |
+| `serviceConnectionToken`| A Service Account token to which can be authenticated to the organization. This can be created in Snyk                  | true      | ''      |
+| `testType`              | The type of test to run. Available values are `sca\|code\|iac\|container`                     | false     | sca     |
 | `dockerImageName`       | The name of the docker image to be built and scanned                                       | false     | ''      |
 | `dockerfilePath`        | The path to dockerfile that is being scanned                                               | false     | ''      |
-| `targetFile`            | The name of the sln to be used in the SCA scanning                                         | false     | ''      |
+| `targetFile`            | The name of the sln to be used in the SCA scanning or the IAC file to be scanned                                         | false     | ''      |
 | `severityThreshold`     | The severity threshold of vuln scanning. Anything below the threshold will be ignored      | false     | medium  |
 | `codeSeverityThreshold` | The severity threshold of code SAST scanning. Anything below the threshold will be ignored | false     | medium  |
 | `additionalArguments`   | Any additional arguments to run with the command. [Commands can be found here](https://docs.snyk.io/snyk-cli/cli-commands-and-options-summary#options-for-multiple-commands)                                                        | false     | ''      |
