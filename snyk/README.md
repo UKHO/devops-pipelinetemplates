@@ -25,7 +25,7 @@ jobs:
 or if you wish to just add individual steps to your pipeline
 
 ```yaml
-jobs:
+steps:
   - template: snyk/snyk-iac-scan.yml@UKHOTemplates
     parameters:
       organization: $(organization)
