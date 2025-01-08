@@ -25,7 +25,7 @@ parameters:
     type: string
     default: ''
   - name: targetFile
-    displayName: Custom path to manifest file to test
+    displayName: Custom path to file to test
     type: string
     default: ''
   - name: severityThreshold
