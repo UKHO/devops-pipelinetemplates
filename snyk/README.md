@@ -52,7 +52,7 @@ This test type will perform a scan of the code and feedback if there are any vul
 
 ## Results
 
-The template uses the `PublishPipelineArtifact` built in task to output the scan results in a json format. The logs will show a more human readable version for analysis however for reference we will output this file. If there are no issues, there will be no file published. Results from the pipeline are not monitored in the dashboard to allow for engineers to adjust and make changes without affecting overall metrics.
+The template uses the `PublishPipelineArtifact` built in task to output the scan results in a html format. The logs will show a more human readable version for analysis however for reference we will output this file. If there are no issues, there will be no file published. Results from the pipeline are not monitored in the dashboard to allow for engineers to adjust and make changes without affecting overall metrics.
 
 ## Suppressions
 

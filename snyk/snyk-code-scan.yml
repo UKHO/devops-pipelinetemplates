@@ -17,13 +17,14 @@ steps:
       SNYK_TOKEN=${{ parameters.serviceConnectionToken }} snyk code test \
       --org=${{ parameters.organization }} \
       --severity-threshold=${{ parameters.codeSeverityThreshold }} \
-      --json-file-output=code-results.json \
-      ${{ parameters.additionalArguments }}
+      --json \
+      ${{ parameters.additionalArguments }} \
+      | snyk-to-html -o snyk_code_results.html
     displayName: Perform SAST Scan
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: $(System.DefaultWorkingDirectory)/code-results.json
-      artifact: code-results.json
+      targetPath: $(System.DefaultWorkingDirectory)/snyk_code_results.html
+      artifact: snyk_code_results.html
       publishLocation: 'pipeline'
     displayName: 'Publish artifact: CodeScanningResults'
     condition: failed()

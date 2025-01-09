@@ -59,15 +59,11 @@ jobs:
       displayName: 'Install .NET Core SDK'
       inputs:
         version: 8.x
-        performMultiLevelLookup: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'custom'
-        custom: 'workload'
-        arguments: 'restore'
+        performMultiLevelLookup: true        
     - task: DotNetCoreCLI@2
       inputs:
         command: 'restore'
+        projects: '**/*.csproj'
     - template: snyk-cli-download.yml
     - template: snyk-sca-scan.yml
       parameters:
