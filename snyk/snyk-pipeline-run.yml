@@ -53,6 +53,7 @@ parameters:
 jobs:
 - ${{ if contains(parameters.testType, 'sca')}}:
   - job: sca
+    pool: Mare Nectaris
     displayName: Snyk SCA Scan
     steps:
     - task: UseDotNet@2
@@ -79,6 +80,7 @@ jobs:
 
 - ${{ if contains(parameters.testType, 'container')}}:
   - job: container
+    pool: Mare Nectaris
     displayName: Snyk Container Scan
     steps:
     - task: Docker@2
@@ -99,6 +101,7 @@ jobs:
 
 - ${{ if contains(parameters.testType, 'code')}}:
   - job: code
+    pool: Mare Nectaris
     displayName: Snyk SAST Scan
     steps:
     - template: snyk-cli-download.yml
@@ -111,6 +114,7 @@ jobs:
 
 - ${{ if contains(parameters.testType, 'iac')}}:
   - job: iac
+    pool: Mare Nectaris 
     displayName: Snyk Infrastructure-As-Code Scan
     steps:
     - template: snyk-cli-download.yml
