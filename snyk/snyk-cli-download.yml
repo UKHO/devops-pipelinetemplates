@@ -1,5 +1,6 @@
 steps:
   - script: |
+      node -v
       npm install -g snyk
       npm install -g snyk-to-html
     displayName: Download Snyk CLI
