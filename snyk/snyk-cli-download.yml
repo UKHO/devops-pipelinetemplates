@@ -1,8 +1,9 @@
 steps:
   - script: |
-      node -v
-      npm install -g snyk
-      npm install -g snyk-to-html
+      curl --compressed https://downloads.snyk.io/cli/stable/snyk-linux -o snyk
+      chmod +x ./snyk
+      mv ./snyk $(Agent.ToolsDirectory)
+      echo "##vso[task.setvariable variable=PATH;]${PATH}:$(Agent.ToolsDirectory)"
     displayName: Download Snyk CLI
   - script: |
       snyk --version

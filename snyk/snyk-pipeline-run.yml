@@ -55,15 +55,6 @@ jobs:
   - job: sca
     displayName: Snyk SCA Scan
     steps:
-    - task: UseDotNet@2
-      displayName: 'Install .NET Core SDK'
-      inputs:
-        version: 8.x
-        performMultiLevelLookup: true        
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'restore'
-        projects: '**/*.csproj'
     - template: snyk-cli-download.yml
     - template: snyk-sca-scan.yml
       parameters:
