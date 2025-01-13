@@ -24,15 +24,14 @@ steps:
       --org=${{ parameters.organization }} \
       --file=${{ parameters.dockerfilePath }} \
       --severity-threshold=${{ parameters.severityThreshold }} \
-      --json \
+      --json-file-output=container-results.json \
       --app-vulns \
-      ${{ parameters.additionalArguments }} \
-      | snyk-to-html -o snyk_container_results.html
+      ${{ parameters.additionalArguments }}
     displayName: Perform Container Scan
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: $(System.DefaultWorkingDirectory)/snyk_container_results.html
-      artifact: snyk_container_results.html
+      targetPath: $(System.DefaultWorkingDirectory)/container-results.json
+      artifact: container-results.json
       publishLocation: 'pipeline'
     displayName: 'Publish artifact: CodeScanningResults'
     condition: always()

@@ -6,7 +6,7 @@ parameters:
     displayName: Snyk Service Account Token
     type: string
   - name: targetFile
-    displayName: Custom path to manifest file to test
+    displayName: Custom path to IAC file to test (other scans whole repo)
     type: string
   - name: severityThreshold
     displayName: Testing severity threshold
@@ -20,14 +20,13 @@ steps:
       SNYK_TOKEN=${{ parameters.serviceConnectionToken }} snyk iac test ${{ parameters.targetFile }} \
       --org=${{ parameters.organization }} \
       --severity-threshold=${{ parameters.severityThreshold }} \
-      --json \
-      ${{ parameters.additionalArguments }} \
-      | snyk-to-html -o snyk_iac_results.html
+      --json-file-output=iac-results.json \
+      ${{ parameters.additionalArguments }}
     displayName: Perform IAC Scan
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: $(System.DefaultWorkingDirectory)/snyk_iac_results.html
-      artifact: snyk_iac_results.html
+      targetPath: $(System.DefaultWorkingDirectory)/iac-results.json
+      artifact: iac-results.json
       publishLocation: 'pipeline'
     displayName: 'Publish artifact: CodeScanningResults'
     condition: always()

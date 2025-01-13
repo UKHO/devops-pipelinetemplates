@@ -21,14 +21,13 @@ steps:
       --org=${{ parameters.organization }} \
       --severity-threshold=${{ parameters.severityThreshold }} \
       --file=${{ parameters.targetFile }} \
-      --json \
-      ${{ parameters.additionalArguments }} \
-      | snyk-to-html -o snyk_sca_results.html
+      --json-file-output=sca-results.json \
+      ${{ parameters.additionalArguments }}
     displayName: Perform SCA Scan
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: $(System.DefaultWorkingDirectory)/snyk_sca_results.html
-      artifact: snyk_sca_results.html
+      targetPath: $(System.DefaultWorkingDirectory)/sca-results.json
+      artifact: sca-results.json
       publishLocation: 'pipeline'
     displayName: 'Publish artifact: CodeScanningResults'
     condition: always()
