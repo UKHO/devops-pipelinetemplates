@@ -7,7 +7,7 @@ parameters:
     default: "$(Build.SourcesDirectory)"
   - name: suppressionPath
     type: string
-    default:
+    default: "dependencycheck-base-suppression.xml"
   - name: NvdApiKey
     default: "none"
 
