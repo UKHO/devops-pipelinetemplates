@@ -7,7 +7,7 @@ parameters:
     default: "$(Build.SourcesDirectory)"
   - name: suppressionPath
     type: string
-    default: ""
+    default:
   - name: NvdApiKey
     default: "none"
 
@@ -51,6 +51,7 @@ steps:
         --project "$DC_PROJECT" \
         --suppression "${{ parameters.suppressionPath }}" \
         --out /reports
+
   workingDirectory: ${{ parameters.scanPath }}
   displayName: nvd check
 - publish: ${{ parameters.scanPath }}/odc-reports
