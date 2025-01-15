@@ -7,7 +7,7 @@ parameters:
     default: "$(Build.SourcesDirectory)"
   - name: suppressionPath
     type: string
-    default: "none"
+    default: ""
   - name: NvdApiKey
     default: "none"
 
