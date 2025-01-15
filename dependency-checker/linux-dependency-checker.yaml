@@ -49,6 +49,7 @@ steps:
         --scan /src \
         --format "ALL" \
         --project "$DC_PROJECT" \
+        --suppression "${{ parameters.suppressionPath }}" \
         --out /reports
   workingDirectory: ${{ parameters.scanPath }}
   displayName: nvd check
