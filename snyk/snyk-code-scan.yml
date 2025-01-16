@@ -8,9 +8,15 @@ parameters:
   - name: codeSeverityThreshold
     displayName: Code testing severity threshold
     type: string
+    default: medium
+    values:
+    - low
+    - medium
+    - high
   - name: additionalArguments
     displayName: Additional command-line args for Snyk CLI 
     type: string
+    default: ''
 
 steps:
   - script: |

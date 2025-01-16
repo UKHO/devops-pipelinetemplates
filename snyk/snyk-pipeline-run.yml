@@ -2,11 +2,9 @@ parameters:
   - name: organization
     displayName: Organization ID in Snyk
     type: string
-    default: ''
   - name: serviceConnectionToken
     displayName: Snyk Service Account Token
     type: string
-    default: ''
   - name: testType
     displayName: Scan Type
     type: string
@@ -56,19 +54,6 @@ jobs:
     pool: Mare Nectaris
     displayName: Snyk SCA Scan
     steps:
-    - task: UseDotNet@2
-      displayName: 'Install .NET Core SDK'
-      inputs:
-        version: 8.x
-        performMultiLevelLookup: true
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'custom'
-        custom: 'workload'
-        arguments: 'restore'
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'restore'
     - template: snyk-cli-download.yml
     - template: snyk-sca-scan.yml
       parameters:

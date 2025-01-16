@@ -8,12 +8,20 @@ parameters:
   - name: targetFile
     displayName: Custom path to IAC file to test (other scans whole repo)
     type: string
+    default: ''
   - name: severityThreshold
     displayName: Testing severity threshold
     type: string
+    default: medium
+    values:
+    - low
+    - medium
+    - high
+    - critical
   - name: additionalArguments
     displayName: Additional command-line args for Snyk CLI 
     type: string
+    default: ''
 
 steps:
   - script: |
