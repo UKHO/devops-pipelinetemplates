@@ -5,14 +5,12 @@ steps:
       mv ./snyk $(Agent.ToolsDirectory)
       echo "##vso[task.setvariable variable=PATH;]${PATH}:$(Agent.ToolsDirectory)"
     condition: eq( variables['Agent.OS'], 'Linux' )
-    enabled: $[eq( variables['Agent.OS'], 'Linux' )]
     displayName: Download Snyk CLI
   - pwsh: |
       curl --compressed https://downloads.snyk.io/cli/stable/snyk-win.exe -o snyk.exe
       Move-Item -Path ./snyk.exe -Destination $(Agent.ToolsDirectory) -force
       Write-Host "##vso[task.prependpath]$(Agent.ToolsDirectory)"
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
-    enabled: $[eq( variables['Agent.OS'], 'Windows_NT' )]
     displayName: Download Snyk CLI
   - script: |
       snyk --version
