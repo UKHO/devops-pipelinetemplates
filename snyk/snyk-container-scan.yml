@@ -27,7 +27,6 @@ parameters:
     default: ''
 
 steps:
-- ${{ if eq( variables['Agent.OS'], 'Linux' )}}
   - bash: |
       snyk container test ${{ parameters.dockerImageName}} \
       --org=${{ parameters.organization }} \
@@ -37,9 +36,10 @@ steps:
       --app-vulns \
       ${{ parameters.additionalArguments }}
     displayName: Perform Container Scan
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    enabled: eq( variables['Agent.OS'], 'Linux' )
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
-- ${{ if eq( variables['Agent.OS'], 'Windows_NT' )}}
   - pwsh: |
       snyk container test ${{ parameters.dockerImageName}} `
       --org=${{ parameters.organization }} `
@@ -49,6 +49,8 @@ steps:
       --app-vulns `
       ${{ parameters.additionalArguments }}
     displayName: Perform Container Scan
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    enabled: eq( variables['Agent.OS'], 'Windows_NT' )
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - task: PublishPipelineArtifact@1

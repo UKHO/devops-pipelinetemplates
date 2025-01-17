@@ -19,7 +19,6 @@ parameters:
     default: ''
 
 steps:
-- ${{ if eq( variables['Agent.OS'], 'Linux' )}}
   - bash: |
       snyk code test \
       --org=${{ parameters.organization }} \
@@ -27,9 +26,10 @@ steps:
       --json-file-output=code-results.json \
       ${{ parameters.additionalArguments }}
     displayName: Perform SAST Scan
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    enabled: eq( variables['Agent.OS'], 'Linux' )
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
-- ${{ if eq( variables['Agent.OS'], 'Windows_NT' )}}
   - pwsh: |
       snyk code test `
       --org=${{ parameters.organization }} `
@@ -37,6 +37,8 @@ steps:
       --json-file-output=code-results.json `
       ${{ parameters.additionalArguments }}
     displayName: Perform SAST Scan
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    enabled: eq( variables['Agent.OS'], 'Windows_NT' )
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - task: PublishPipelineArtifact@1

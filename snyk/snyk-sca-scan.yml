@@ -24,7 +24,6 @@ parameters:
     default: ''
 
 steps:
-- ${{ if eq( variables['Agent.OS'], 'Linux' )}}
   - bash: |
       snyk test \
       --org=${{ parameters.organization }} \
@@ -33,9 +32,10 @@ steps:
       --json-file-output=sca-results.json \
       ${{ parameters.additionalArguments }}
     displayName: Perform SCA Scan
+    condition: eq( variables['Agent.OS'], 'Linux' )
+    enabled: eq( variables['Agent.OS'], 'Linux' )
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
-- ${{ if eq( variables['Agent.OS'], 'Windows_NT' )}}
   - pwsh: |
       snyk test `
       --org=${{ parameters.organization }} `
@@ -44,6 +44,8 @@ steps:
       --json-file-output=sca-results.json `
       ${{ parameters.additionalArguments }}
     displayName: Perform SCA Scan
+    condition: eq( variables['Agent.OS'], 'Windows_NT' )
+    enabled: eq( variables['Agent.OS'], 'Windows_NT' )
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - task: PublishPipelineArtifact@1
