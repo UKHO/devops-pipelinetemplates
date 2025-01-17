@@ -8,22 +8,32 @@ parameters:
   - name: targetFile
     displayName: Custom path to manifest file to test
     type: string
+    default: ''
   - name: severityThreshold
     displayName: Testing severity threshold
     type: string
+    default: medium
+    values:
+    - low
+    - medium
+    - high
+    - critical
   - name: additionalArguments
     displayName: Additional command-line args for Snyk CLI 
     type: string
+    default: ''
 
 steps:
-  - script: |
-      SNYK_TOKEN=${{ parameters.serviceConnectionToken }} snyk test \
-      --org=${{ parameters.organization }} \
-      --severity-threshold=${{ parameters.severityThreshold }} \
-      --file=${{ parameters.targetFile }} \
-      --json-file-output=sca-results.json \
+  - script: >
+      snyk test
+      --org=${{ parameters.organization }}
+      --severity-threshold=${{ parameters.severityThreshold }}
+      --file=${{ parameters.targetFile }}
+      --json-file-output=sca-results.json
       ${{ parameters.additionalArguments }}
     displayName: Perform SCA Scan
+    env:
+      SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: $(System.DefaultWorkingDirectory)/sca-results.json

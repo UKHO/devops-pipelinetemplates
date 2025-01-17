@@ -8,21 +8,31 @@ parameters:
   - name: targetFile
     displayName: Custom path to IAC file to test (other scans whole repo)
     type: string
+    default: ''
   - name: severityThreshold
     displayName: Testing severity threshold
     type: string
+    default: medium
+    values:
+    - low
+    - medium
+    - high
+    - critical
   - name: additionalArguments
     displayName: Additional command-line args for Snyk CLI 
     type: string
+    default: ''
 
 steps:
-  - script: |
-      SNYK_TOKEN=${{ parameters.serviceConnectionToken }} snyk iac test ${{ parameters.targetFile }} \
-      --org=${{ parameters.organization }} \
-      --severity-threshold=${{ parameters.severityThreshold }} \
-      --json-file-output=iac-results.json \
+  - script: >
+      snyk iac test ${{ parameters.targetFile }}
+      --org=${{ parameters.organization }}
+      --severity-threshold=${{ parameters.severityThreshold }}
+      --json-file-output=iac-results.json
       ${{ parameters.additionalArguments }}
     displayName: Perform IAC Scan
+    env:
+      SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: $(System.DefaultWorkingDirectory)/iac-results.json

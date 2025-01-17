@@ -13,7 +13,7 @@ resources:
       name: UKHO/devops-pipelinetemplates
 ```
 
-Add to your jobs steps
+The snyk-pipeline-run template is an all in one template to show how jobs are setup to run. This can be added to your pipeline to run the test you wish to run as below. Please note that additional steps may need to be undertaken to be able to successfully scan your project as described in the scan types below.
 
 ```yaml
 jobs:
@@ -22,7 +22,7 @@ jobs:
       organization: $(organization)
 ```
 
-or if you wish to just add individual steps to your pipeline
+or if you wish to just add individual scan steps to your pipeline you can add them as follows. Please note that you will need to import the `snyk-cli-download.yml` template before importing any scan templates. This does not require any parameters. 
 
 ```yaml
 steps:
@@ -49,16 +49,16 @@ steps:
 ## Test Types
 
 ### SCA
-This test type will perform a scan of your dependencies and feedback if there are any vulnerabilities found. To do this it performs a dotnet restore using the dotnet cli task with the dotnet version set to 8.x.
+To be able to perform this type of scan you will first need to restore your project dependencies so that the scanning tool can navigate the manifest to look for vulnerabilities within your dependencies and licenses. Please refer to your projects documentation on how to do this before performing this scan. Any vulnerabilities found will be published to the pipeline in a json format for viewing.
 
 ### Container
-This test type will perform a scan of the built container and feedback if there are any vulnerabilities found. To do this it builds the container using the image name provided and then performs the scan.
+To be able to perform this type of scan you will first need to build your docker container as this is what the tool will be analyzing. Once built you can provide the docker image name and for information/remediation on your dockerfile you can provide its path. Any vulnerabilities found will be published to the pipeline in a json format for viewing.
 
 ### IAC
-This test type will perform a scan of infrastructure as code and feedback if there are any vulnerabilities found. This can scan the repo or a single file. To specify file you can pass in the file path via the `targetFile` parameter.
+This test type will perform a scan of infrastructure as code and feedback if there are any vulnerabilities found. This can scan the repo or a single file. To specify file you can pass in the file path via the `targetFile` parameter. Nothing needs to be built/restored to be able to run this type of scan. Any vulnerabilities found will be published to the pipeline in a json format for viewing.
 
 ### Code
-This test type will perform a scan of the code and feedback if there are any vulnerabilities found. This is similar to the PR scan that is performed however you can stop your pipeline with this check.
+This test type will perform a scan of the code and feedback if there are any vulnerabilities found. This is similar to the PR scan that is performed however you can stop your pipeline with this check. Nothing needs to be built/restored to be able to run this type of scan. Any vulnerabilities found will be published to the pipeline in a json format for viewing.
 
 ## Results
 
