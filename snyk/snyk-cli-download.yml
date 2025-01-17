@@ -8,7 +8,7 @@ steps:
     displayName: Download Snyk CLI
   - pwsh: |
       curl --compressed https://downloads.snyk.io/cli/stable/snyk-win.exe -o snyk.exe
-      Move-Item -Path ./snyk.exe -Destination $(Agent.ToolsDirectory)
+      Move-Item -Path ./snyk.exe -Destination $(Agent.ToolsDirectory) -force
       Write-Host "##vso[task.setvariable variable=PATH;]${PATH}:$(Agent.ToolsDirectory)"
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     displayName: Download Snyk CLI
