@@ -36,12 +36,12 @@ steps:
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - pwsh: |
-      snyk test `
+      &"snyk test `
       --org=${{ parameters.organization }} `
       --severity-threshold=${{ parameters.severityThreshold }} `
       --file=${{ parameters.targetFile }} `
       --json-file-output=sca-results.json `
-      ${{ parameters.additionalArguments }}
+      ${{ parameters.additionalArguments }}"
     displayName: Perform SCA Scan
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     env:

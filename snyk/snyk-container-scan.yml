@@ -40,13 +40,13 @@ steps:
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - pwsh: |
-      snyk container test ${{ parameters.dockerImageName}} `
+      &"snyk container test ${{ parameters.dockerImageName}} `
       --org=${{ parameters.organization }} `
       --file=${{ parameters.dockerfilePath }} `
       --severity-threshold=${{ parameters.severityThreshold }} `
       --json-file-output=container-results.json `
       --app-vulns `
-      ${{ parameters.additionalArguments }}
+      ${{ parameters.additionalArguments }}"
     displayName: Perform Container Scan
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     env:

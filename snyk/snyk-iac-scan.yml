@@ -35,11 +35,11 @@ steps:
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - pwsh: |
-      snyk iac test ${{ parameters.targetFile }} `
+      &"snyk iac test ${{ parameters.targetFile }} `
       --org=${{ parameters.organization }} `
       --severity-threshold=${{ parameters.severityThreshold }} `
       --json-file-output=iac-results.json `
-      ${{ parameters.additionalArguments }}
+      ${{ parameters.additionalArguments }}"
     displayName: Perform IAC Scan
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
     env:
