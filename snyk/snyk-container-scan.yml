@@ -27,28 +27,15 @@ parameters:
     default: ''
 
 steps:
-  - bash: |
-      snyk container test ${{ parameters.dockerImageName}} \
-      --org=${{ parameters.organization }} \
-      --file=${{ parameters.dockerfilePath }} \
-      --severity-threshold=${{ parameters.severityThreshold }} \
-      --json-file-output=container-results.json \
-      --app-vulns \
+  - script: >
+      snyk container test ${{ parameters.dockerImageName}}
+      --org=${{ parameters.organization }}
+      --file=${{ parameters.dockerfilePath }}
+      --severity-threshold=${{ parameters.severityThreshold }}
+      --json-file-output=container-results.json
+      --app-vulns
       ${{ parameters.additionalArguments }}
     displayName: Perform Container Scan
-    condition: eq( variables['Agent.OS'], 'Linux' )
-    env:
-      SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
-  - pwsh: |
-      &"snyk container test ${{ parameters.dockerImageName}} `
-      --org=${{ parameters.organization }} `
-      --file=${{ parameters.dockerfilePath }} `
-      --severity-threshold=${{ parameters.severityThreshold }} `
-      --json-file-output=container-results.json `
-      --app-vulns `
-      ${{ parameters.additionalArguments }}"
-    displayName: Perform Container Scan
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - task: PublishPipelineArtifact@1

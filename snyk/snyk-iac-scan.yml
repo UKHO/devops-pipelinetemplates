@@ -24,24 +24,13 @@ parameters:
     default: ''
 
 steps:
-  - bash: |
+  - script: >
       snyk iac test ${{ parameters.targetFile }} \
       --org=${{ parameters.organization }} \
       --severity-threshold=${{ parameters.severityThreshold }} \
       --json-file-output=iac-results.json \
       ${{ parameters.additionalArguments }}
     displayName: Perform IAC Scan
-    condition: eq( variables['Agent.OS'], 'Linux' )
-    env:
-      SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
-  - pwsh: |
-      &"snyk iac test ${{ parameters.targetFile }} `
-      --org=${{ parameters.organization }} `
-      --severity-threshold=${{ parameters.severityThreshold }} `
-      --json-file-output=iac-results.json `
-      ${{ parameters.additionalArguments }}"
-    displayName: Perform IAC Scan
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - task: PublishPipelineArtifact@1

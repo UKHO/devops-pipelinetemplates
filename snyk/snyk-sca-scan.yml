@@ -24,26 +24,14 @@ parameters:
     default: ''
 
 steps:
-  - bash: |
-      snyk test \
-      --org=${{ parameters.organization }} \
-      --severity-threshold=${{ parameters.severityThreshold }} \
-      --file=${{ parameters.targetFile }} \
-      --json-file-output=sca-results.json \
+  - script: >
+      snyk test
+      --org=${{ parameters.organization }}
+      --severity-threshold=${{ parameters.severityThreshold }}
+      --file=${{ parameters.targetFile }}
+      --json-file-output=sca-results.json
       ${{ parameters.additionalArguments }}
     displayName: Perform SCA Scan
-    condition: eq( variables['Agent.OS'], 'Linux' )
-    env:
-      SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
-  - pwsh: |
-      &"snyk test `
-      --org=${{ parameters.organization }} `
-      --severity-threshold=${{ parameters.severityThreshold }} `
-      --file=${{ parameters.targetFile }} `
-      --json-file-output=sca-results.json `
-      ${{ parameters.additionalArguments }}"
-    displayName: Perform SCA Scan
-    condition: eq( variables['Agent.OS'], 'Windows_NT' )
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - task: PublishPipelineArtifact@1
