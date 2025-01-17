@@ -24,13 +24,26 @@ parameters:
     default: ''
 
 steps:
-  - script: |
-      SNYK_TOKEN=${{ parameters.serviceConnectionToken }} snyk iac test ${{ parameters.targetFile }} \
+- ${{ if eq( variables['Agent.OS'], 'Linux' )}}
+  - bash: |
+      snyk iac test ${{ parameters.targetFile }} \
       --org=${{ parameters.organization }} \
       --severity-threshold=${{ parameters.severityThreshold }} \
       --json-file-output=iac-results.json \
       ${{ parameters.additionalArguments }}
     displayName: Perform IAC Scan
+    env:
+      SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
+- ${{ if eq( variables['Agent.OS'], 'Windows_NT' )}}
+  - pwsh: |
+      snyk iac test ${{ parameters.targetFile }} `
+      --org=${{ parameters.organization }} `
+      --severity-threshold=${{ parameters.severityThreshold }} `
+      --json-file-output=iac-results.json `
+      ${{ parameters.additionalArguments }}
+    displayName: Perform IAC Scan
+    env:
+      SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: $(System.DefaultWorkingDirectory)/iac-results.json

@@ -19,13 +19,26 @@ parameters:
     default: ''
 
 steps:
-  - script: |
-      SNYK_TOKEN=${{ parameters.serviceConnectionToken }} snyk code test \
+- ${{ if eq( variables['Agent.OS'], 'Linux' )}}
+  - bash: |
+      snyk code test \
       --org=${{ parameters.organization }} \
       --severity-threshold=${{ parameters.codeSeverityThreshold }} \
       --json-file-output=code-results.json \
       ${{ parameters.additionalArguments }}
     displayName: Perform SAST Scan
+    env:
+      SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
+- ${{ if eq( variables['Agent.OS'], 'Windows_NT' )}}
+  - pwsh: |
+      snyk code test `
+      --org=${{ parameters.organization }} `
+      --severity-threshold=${{ parameters.codeSeverityThreshold }} `
+      --json-file-output=code-results.json `
+      ${{ parameters.additionalArguments }}
+    displayName: Perform SAST Scan
+    env:
+      SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - task: PublishPipelineArtifact@1
     inputs:
       targetPath: $(System.DefaultWorkingDirectory)/code-results.json
