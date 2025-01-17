@@ -37,7 +37,7 @@ steps:
       ${{ parameters.additionalArguments }}
     displayName: Perform Container Scan
     condition: eq( variables['Agent.OS'], 'Linux' )
-    enabled: eq( variables['Agent.OS'], 'Linux' )
+    enabled: $[eq( variables['Agent.OS'], 'Linux' )]
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - pwsh: |
@@ -50,7 +50,7 @@ steps:
       ${{ parameters.additionalArguments }}
     displayName: Perform Container Scan
     condition: eq( variables['Agent.OS'], 'Windows_NT' )
-    enabled: eq( variables['Agent.OS'], 'Windows_NT' )
+    enabled: $[eq( variables['Agent.OS'], 'Windows_NT' )]
     env:
       SNYK_TOKEN: ${{ parameters.serviceConnectionToken }}
   - task: PublishPipelineArtifact@1
