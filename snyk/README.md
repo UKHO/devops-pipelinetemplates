@@ -13,24 +13,16 @@ resources:
       name: UKHO/devops-pipelinetemplates
 ```
 
-The snyk-pipeline-run template is an all in one template to show how jobs are setup to run. This can be added to your pipeline to run the test you wish to run as below. Please note that additional steps may need to be undertaken to be able to successfully scan your project as described in the scan types below.
-
-```yaml
-jobs:
-  - template: snyk/snyk-pipeline-run.yml@UKHOTemplates
-    parameters:
-      organization: $(organization)
-```
-
-or if you wish to just add individual scan steps to your pipeline you can add them as follows. Please note that you will need to import the `snyk-cli-download.yml` template before importing any scan templates. This does not require any parameters. 
+Adding the individual scan steps to your pipeline looks as follows. Please note that you will need to import the `snyk-cli-download.yml` template **once** before importing any scan templates. This does not require any parameters. 
 
 ```yaml
 steps:
+  - template: snyk/snyk-cli-download@UKHOTemplates
   - template: snyk/snyk-iac-scan.yml@UKHOTemplates
     parameters:
       organization: $(organization)
 ```
-> The steps do not provide pre-requisite steps to prepare the code for scanning so only import steps if you just need to scan.
+> The steps do not provide pre-requisite steps to prepare the code for scanning so only import steps if you just need to scan. If using the docker task to build a container image ensure you provide the registry name in the image name,
 
 ## Parameters
 
