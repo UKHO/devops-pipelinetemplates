@@ -1,0 +1,3 @@
+[submodule "devops-gated-infrastructure-deploy"]
+	path = devops-gated-infrastructure-deploy
+	url = git@github.com:UKHO/devops-gated-infrastructure-deploy.git
