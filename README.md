@@ -14,3 +14,7 @@ Below is a summary of the templates we have available
 | [Snyk](./snyk)                                               | Snyk pipeline runs for SAST, SCA, IAC and Container scanning projects                                                                                                                   |
 | [Trivy](./trivy)                                             | Static analysis security scanner against your Terraform                                                                                            |
 | [Gated Infrastructure Deploy](./gated-infrastructure-deploy) | Will trigger manual validation step if Terraform `plan` detects resource destruction |
+
+## Versioning Templates
+
+For dedicated repositories containing a single template, see this versioning guide [How to version](how-to-version.md).
