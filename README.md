@@ -13,4 +13,3 @@ Below is a summary of the templates we have available
 | [Retain pipeline run](./retain-pipelinerun)                  | Retaining a pipeline run for longer than the default configured 30 days after production release                                                   |
 | [Snyk](./snyk)                                               | Snyk pipeline runs for SAST, SCA, IAC and Container scanning projects                                                                                                                   |
 | [Trivy](./trivy)                                             | Static analysis security scanner against your Terraform                                                                                            |
-| [Gated Infrastructure Deploy](./gated-infrastructure-deploy) | Will trigger manual validation step if Terraform `plan` detects resource destruction |
