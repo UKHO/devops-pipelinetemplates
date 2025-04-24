@@ -17,3 +17,7 @@ Below is a summary of the templates we have available
 | [Infrastructure Pipeline](https://github.com/UKHO/devops-infrastructure-pipeline-template) | Infrastructure (terraform) pipeline template that implements the 'Gated Infrastructure Deploy' template in 3 environments (dev/qa/live) along with build & checks stages. |
 | [Web Service Pipeline](https://github.com/UKHO/devops-web-service-pipeline-template) | Pipeline template that builds & checks a dotnet web app and deploys into a web app (slot & swap) in azure in 3 environments (dev/qa/live). |
 | [Trigger ADDS AutoTests Pipeline](https://github.com/UKHO/devops-trigger-adds-autotest-pipeline) | Job template that with service connection to an app config+key vault is able to trigger target pipelines from another pipeline and wait for results. |
+
+## Versioning Templates
+
+For dedicated repositories containing a single template, see this versioning guide [How to version](how-to-version.md).
