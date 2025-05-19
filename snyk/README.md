@@ -17,7 +17,7 @@ Adding the individual scan steps to your pipeline looks as follows. Please note 
 
 ```yaml
 steps:
-  - template: snyk/snyk-cli-download@UKHOTemplates
+  - template: snyk/snyk-cli-download.yml@UKHOTemplates
   - template: snyk/snyk-iac-scan.yml@UKHOTemplates
     parameters:
       organization: $(organization)
