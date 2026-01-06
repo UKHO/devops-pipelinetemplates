@@ -29,9 +29,9 @@ stages:
               CommitId: "$(Build.SourceVersion)"
 
       - job:
-        displayName: "Retain Pipeline Run1"
+        displayName: "Retain Pipeline Run"
         steps:
-          - checkout: self
+          - checkout: UKHOTemplates
           - template: ../retain-pipelinerun/retain-pipelinerun.yml
             parameters:
               DaysValid: 365
