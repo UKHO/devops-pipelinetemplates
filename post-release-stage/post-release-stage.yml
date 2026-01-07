@@ -28,7 +28,7 @@ stages:
               TagName: "$(friendlyBuildName)-$(Build.BuildId)-$(timeStamp)"
               CommitId: "$(Build.SourceVersion)"
 
-      - job:
+      - job: retainPipelineRun
         displayName: "Retain Pipeline Run"
         steps:
           - checkout: UKHOTemplates
