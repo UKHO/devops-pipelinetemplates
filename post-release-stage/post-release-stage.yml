@@ -1,0 +1,36 @@
+parameters:
+  - name: condition
+    type: string
+    default: succeeded()
+  - name: dependsOn
+    type: object
+
+stages:
+  - stage: post_release
+    displayName: "Post Release"
+    condition:  ${{ parameters.condition }}
+    dependsOn: ${{ parameters.dependsOn }}
+    jobs:
+      - job: tagGithubCommit
+        displayName: "Tagging Github Commit"       
+        steps:
+          - pwsh: |
+              $currentDateTime = (Get-Date).tostring("yyyyMMddTHHmmss")                    
+              Write-Host "##vso[task.setvariable variable=timeStamp;]$currentDateTime"
+            displayName: "Set TimeStamp Variable"
+          - pwsh: |
+              $friendlyBuildName = "$(Build.DefinitionName)".Split('.')[-1]
+              Write-Host "##vso[task.setvariable variable=friendlyBuildName;]$friendlyBuildName"
+            displayName: "Set FriendlyBuildName Variable"
+          - template: ../github-tag/github-tag.yml
+            parameters:
+              TagName: "$(friendlyBuildName)-$(Build.BuildId)-$(timeStamp)"
+              CommitId: "$(Build.SourceVersion)"
+
+      - job: retainPipelineRun
+        displayName: "Retain Pipeline Run"
+        steps:
+          - checkout: UKHOTemplates
+          - template: ../retain-pipelinerun/retain-pipelinerun.yml
+            parameters:
+              DaysValid: 365
