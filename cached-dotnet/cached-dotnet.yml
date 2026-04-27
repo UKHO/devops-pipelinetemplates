@@ -1,0 +1,78 @@
+parameters:
+  - name: solutionOrProject
+    type: string
+    default: "$(Build.SourcesDirectory)"
+  - name: buildConfiguration
+    type: string
+    default: "Release"
+  - name: publishProject
+    type: string
+    default: "$(Build.SourcesDirectory)"
+  - name: publishOutput
+    type: string
+    default: "$(Build.ArtifactStagingDirectory)/publish"
+  - name: nugetPackagesPath
+    type: string
+    default: "$(Pipeline.Workspace)/.nuget/packages"
+  - name: buildOutputPath
+    type: string
+    default: "$(Pipeline.Workspace)/.dotnet/build"
+  - name: runtime
+    type: string
+    default: ""
+  - name: buildProject
+    type: boolean
+    default: false
+  - name: testProject
+    type: boolean
+    default: false
+  - name: publishProject
+    type: boolean
+    default: false
+  - name: overwriteCache
+    type: boolean
+    default: false
+
+steps:
+  - task: Cache@2
+    displayName: "Cache nuget packages"
+    inputs:
+      key: 'nuget | "$(Agent.OS)" | **/packages.lock.json,!**/bin/**,!**/obj/**'
+      restoreKeys: |
+        nuget | "$(Agent.OS)"
+        nuget
+      path: "${{ parameters.nugetPackagesPath }}"
+      cacheHitVar: 'CACHE_RESTORED'
+
+  - task: DotNetCoreCLI@2
+    displayName: "Restore"
+    condition: or(ne(variables.CACHE_RESTORED, true), eq(variables.overwriteCache, true))
+    inputs:
+      command: 'restore'
+      projects: '${{ parameters.solutionOrProject }}'
+      feedsToUse: 'config'
+      nugetConfigPath: '$(Build.SourcesDirectory)/NuGet.config'
+      packagesDirectory: '${{ parameters.nugetPackagesPath }}'
+
+  - task: DotNetCoreCLI@2
+    displayName: "Build"
+    condition: eq(parameters.buildProject, true)
+    inputs:
+      command: 'build'
+      projects: '${{ parameters.solutionOrProject }}'
+      arguments: '--no-restore -o ${{ parameters.buildOutputPath }} -r ${{ parameters.runtime }} -c ${{ parameters.buildConfiguration }}'
+
+  - task: DotNetCoreCLI@2
+    displayName: "Test"
+    condition: eq(parameters.testProject, true)
+    inputs:
+      command: 'test'
+      projects: '${{ parameters.solutionOrProject }}'
+      arguments: '--no-restore -o ${{ parameters.buildOutputPath }} -r ${{ parameters.runtime }} -c ${{ parameters.buildConfiguration }}'
+
+  - task: DotNetCoreCLI@2
+    displayName: "Publish"
+    inputs:
+      command: 'publish'
+      projects: '${{ parameters.publishProject }}'
+      arguments: '--no-restore -o ${{ parameters.publishOutput }} -r ${{ parameters.runtime }} -c ${{ parameters.buildConfiguration }}'
